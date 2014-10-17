@@ -1,0 +1,24 @@
+{
+    "name": "french-frogs/core",
+    "description": "Usefull class for FrenchFrogs",
+    "authors": [
+        {
+            "name": "Julien Houvion",
+            "email": "cotcotquedec@gmail.com"
+        },
+        {
+            "name": "David Patiashvili",
+            "email": "stratagem.david@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "FrenchFrogs\\Core\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
