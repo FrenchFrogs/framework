@@ -37,7 +37,6 @@ Trait HtmlTag
      */
     protected $attribute = [];
 
-
     /**
      * Set de l'attrribut class
      *
@@ -50,7 +49,7 @@ Trait HtmlTag
     }
 
     /**
-     *
+     * Add class
      *
      * @param $class
      * @return $this
@@ -62,7 +61,7 @@ Trait HtmlTag
             $attr = $this->getAttribute('class');
             $attr = explode(' ', $attr);
             $attr[] = $class;
-            $this->setAttribute('class', implode(' ', $attr));
+            $this->setClass($attr);
         }
 
         return $this;
@@ -79,7 +78,9 @@ Trait HtmlTag
 
         $attr = $this->getAttribute('class');
         $attr = explode(' ', $attr);
-        if (($i = array_search($class, $attr)) !== false) {unset($attr[$i]);}
+        if (($i = array_search($class, $attr)) !== false) {
+            unset($attr[$i]);
+        }
 
         return $this->setClass($attr);
     }
@@ -174,8 +175,6 @@ Trait HtmlTag
         return $this->setStyle($style);
     }
 
-
-
     /**
      *  Clear l'attribut style
      *
@@ -185,7 +184,6 @@ Trait HtmlTag
     {
         return $this->removeAttribute('style');
     }
-
 
     /**
      * Set l'intégralité des attributs du formulaire
@@ -213,7 +211,6 @@ Trait HtmlTag
         return $this;
     }
 
-
     /**
      * Renvoie la valeur d'un attribut par rapport a son nom
      *
@@ -240,7 +237,6 @@ Trait HtmlTag
         return $this;
     }
 
-
     /**
      * supprime tous les attributs
      *
@@ -251,6 +247,7 @@ Trait HtmlTag
         return $this->setAttribute([]);
     }
     /**
+     * Get content
      *
      * @return string
      */
@@ -260,8 +257,9 @@ Trait HtmlTag
     }
 
     /**
-     * @param string $content
+     * Set content
      *
+     * @param string $content
      * @return $this
      */
     public function setContent($content)
@@ -295,7 +293,7 @@ Trait HtmlTag
     }
 
     /**
-     *
+     * Clear content
      *
      * @return $this
      */
@@ -306,6 +304,7 @@ Trait HtmlTag
     }
 
     /**
+     * Get tag
      * @return string
      */
     public function getTag()
