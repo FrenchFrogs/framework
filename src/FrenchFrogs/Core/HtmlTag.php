@@ -339,7 +339,15 @@ Trait HtmlTag
      */
     public function render()
     {
-
+        $attr = [];
+        foreach ($this->attrribute as $key => $value) {
+            $attr[] = $key . '="' . $value . '"';
+        }
+        return sprintf('<%1$s %2$s>%3$s</%1$>',
+            $this->tag,
+            implode(' ', $attr),
+            $this->content
+        );
     }
 
 }
