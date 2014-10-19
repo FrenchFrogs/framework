@@ -40,48 +40,46 @@ Trait HtmlTag
     /**
      * Set de l'attrribut class
      *
-     * @param array $class
+     * @param $class
      * @return $this
      */
-    public function setClass(array $class)
+    public function setClass($class)
     {
-        return $this->setAttribute('class', implode(' ', $class));
+        $class = implode(' ', (array)$class);
+        $class = explode(' ', $class);
+        $class = array_unique($class);
+        $class = array_filter($class);
+        return $this->addAttribute('class', implode(' ', $class));
     }
 
     /**
-     * Add class
+     * Add une/des classe(s) à l'objet
      *
      * @param $class
      * @return $this
      */
     public function addClass($class)
     {
-
-        if(!$this->hasClass($class)) {
-            $attr = $this->getAttribute('class');
-            $attr = explode(' ', $attr);
-            $attr[] = $class;
-            $this->setClass($attr);
-        }
-
-        return $this;
+        $attr = $this->getClass();
+        $attr = explode(' ', $attr);
+        $attr = array_merge($attr, (array)$class);
+        return $this->setClass($attr);
     }
 
     /**
-     * Remove une classe de l'objet formuaire
+     * Remove une/des classe(s) de l'objet formuaire
      *
      * @param $class
      * @return $this
      */
     public function removeClass($class)
     {
+        $class = implode(' ', (array)$class);
+        $class = explode(' ', $class);
 
-        $attr = $this->getAttribute('class');
+        $attr = $this->getClass();
         $attr = explode(' ', $attr);
-        if (($i = array_search($class, $attr)) !== false) {
-            unset($attr[$i]);
-        }
-
+        $attr = array_diff($attr, $class);
         return $this->setClass($attr);
     }
 
@@ -96,7 +94,7 @@ Trait HtmlTag
     }
 
     /**
-     * Renvoie true si la classe est associé au formulaire
+     * Renvoie true si la classe est associé à l'élément
      *
      * @param $class
      * @return bool
@@ -121,39 +119,45 @@ Trait HtmlTag
     /**
      * Set de l'attribut style
      *
-     * @param array $style
+     * @param $style
      * @return $this
      */
-    public function setStyle(array $style)
+    public function setStyle($style)
     {
-        $result = [];
-
-        // formatage du css
-        foreach($style as $k => $v) {
-            $result[] = $k . ': ' .$v;
+        if (is_array($style)) {
+            array_walk($style, function(&$value, $key) {
+                $value = $key . ': ' . $value;
+            });
+            $style = implode('; ', $style);
         }
 
-        return $this->addAttribute('style', implode(';', $result));
+        $result = [];
+        $style = explode(';', $style);
+        $style = array_filter($style);
+        foreach($style as $data) {
+            $data = explode(':', $data, 2);
+            $data = array_map('trim', $data);
+            $data[0] = strtolower($data[0]);
+            $result[$data[0]] = $data[0] . ': ' . $data[1];
+        }
+        return $this->addAttribute('style', implode('; ', $result));
     }
 
     /**
      * Add $name : $value à l'attribut style
      *
-     * @param $name
+     * @param string $name
      * @param $value
+     * @return $this
      */
-    public function addStyle($name, $value)
+    public function addStyle($name, $value = false)
     {
-
-        $style = [];
-        foreach(explode(';', (string) $this->getAttribute('style')) as $data) {
-            list($k, $v) = explode(':', $data, 2);
-            $style[$k] = $v;
+        if ($value === false) {
+            list($name, $value) = explode(':', $name, 2);
         }
-
-        // Set de la valeur
-        $style[$name] = $value;
-        $this->setStyle($style);
+        $style = (string)$this->getAttribute('style');
+        $style .= ';' . $name . ': ' . $value;
+        return $this->setStyle($style);
     }
 
     /**
@@ -164,14 +168,16 @@ Trait HtmlTag
      */
     public function removeStyle($name)
     {
-
         $style = [];
+        $name = trim($name);
+        $name = strtolower($name);
         foreach(explode(';', (string) $this->getAttribute('style')) as $data) {
             list($k, $v) = explode(':', $data, 2);
-            if ($k == $name) {continue;}
+            if (trim($k) == $name) {
+                continue;
+            }
             $style[$k] = $v;
         }
-
         return $this->setStyle($style);
     }
 
@@ -183,6 +189,15 @@ Trait HtmlTag
     public function clearStyle()
     {
         return $this->removeAttribute('style');
+    }
+
+    /**
+     * Get l'attribut style
+     * @return string
+     */
+    public function getStyle()
+    {
+        return $this->getAttribute('style');
     }
 
     /**
@@ -259,12 +274,12 @@ Trait HtmlTag
     /**
      * Set content
      *
-     * @param string $content
+     * @param $content
      * @return $this
      */
     public function setContent($content)
     {
-        $this->content = $content;
+        $this->content = strval($content);
         return $this;
     }
 
@@ -333,17 +348,17 @@ Trait HtmlTag
     }
 
     /**
-     * Render the html attrribute
+     * Render the html attribute
      *
      * @return string
      */
     public function render()
     {
         $attr = [];
-        foreach ($this->attrribute as $key => $value) {
+        foreach ($this->attribute as $key => $value) {
             $attr[] = $key . '="' . $value . '"';
         }
-        return sprintf('<%1$s %2$s>%3$s</%1$>',
+        return sprintf('<%1$s %2$s>%3$s</%1$s>',
             $this->tag,
             implode(' ', $attr),
             $this->content
