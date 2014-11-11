@@ -1,14 +1,22 @@
 {
-    "name": "french-frogs/core",
+    "name": "french-frogs/framework",
     "description": "Usefull class for FrenchFrogs",
+    "type": "library",
+    "version": "0.0.6",
+    "keywords": ["laravel", "french", "frogs", "datagrid", "form", "plugins"],
+    "homepage": "https://github.com/FrenchFrogs/Framework",
+    "licence": "GPL-3.0+",
     "authors": [
         {
             "name": "Julien Houvion",
-            "email": "cotcotquedec@gmail.com"
+            "email": "cotcotquedec@gmail.com",
+            "role": "Developer"
         },
         {
             "name": "David Patiashvili",
-            "email": "stratagem.david@gmail.com"
+            "email": "stratagem.david@gmail.com",
+            "homepage": "https://www.patiashvili.fr",
+            "role": "Developer"
         }
     ],
     "require": {
