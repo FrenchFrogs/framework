@@ -1,5 +1,5 @@
-# Core
+# FrenchFrogs Framework
 
-[![Build Status](https://travis-ci.org/FrenchFrogs/Core.svg?branch=master)](https://travis-ci.org/FrenchFrogs/Core)
+[![Build Status](https://travis-ci.org/FrenchFrogs/Framework.svg?branch=master)](https://travis-ci.org/FrenchFrogs/Framework)
 
-Core - classe utilitaires pour le fonctionnement des modules FrenchFrogs
+Framework - Classes de FrenchFrogs
