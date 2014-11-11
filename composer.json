@@ -22,7 +22,8 @@
         "psr-4": {
             "FrenchFrogs\\Core\\": "src/",
             "FrenchFrogs\\Datagrid\\": "src/",
-            "FrenchFrogs\\Form\\": "src/"
+            "FrenchFrogs\\Form\\": "src/",
+            "FrenchFrogs\\Jquery\\": "src/"
         }
     },
     "minimum-stability": "stable"
