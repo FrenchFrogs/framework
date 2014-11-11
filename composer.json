@@ -21,7 +21,8 @@
     "autoload": {
         "psr-4": {
             "FrenchFrogs\\Core\\": "src/",
-            "FrenchFrogs\\Datagrid\\": "src/"
+            "FrenchFrogs\\Datagrid\\": "src/",
+            "FrenchFrogs\\Form\\": "src/"
         }
     },
     "minimum-stability": "stable"
