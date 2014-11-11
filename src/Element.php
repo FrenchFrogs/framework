@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jhouvion
- * Date: 16/10/14
- * Time: 16:33
- */
 
 namespace FrenchFrogs\Form;
 
@@ -24,8 +18,7 @@ abstract class Element
      */
     public function setName($name)
     {
-        $this->addAttribute('name', $name);
-        return $this;
+        return $this->addAttribute('name', $name);
     }
 
     /**
