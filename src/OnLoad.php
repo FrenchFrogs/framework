@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jhouvion
- * Date: 20/10/14
- * Time: 12:59
- */
 
 namespace FrenchFrogs\Jquery;
 
@@ -13,23 +7,34 @@ class OnLoad {
 
     /**
      *
-     * Contenu JS du onload;
+     * Contenu JS
      *
-     * @var string
+     * @var array
      */
-    protected $onload = '';
-
+    protected $script = array();
 
     /**
-     * Ajoute du contenu a la stack onload
-     *
+     * Ajoute du contenu a la stack
      *
      * @param $content
      * @return $this
      */
-    public function add($content)
+    public function add($key, $content)
     {
-        $this->onload .= $content;
+        $this->script[$key] = $content;
+        return $this;
+    }
+
+    /**
+     * Supprime le script de la stack
+     *
+     * @return $this
+    **/
+    public function remove($key)
+    {
+        if (isset($this->script[$key])) {
+            unset($this->script[$key]);
+        }
         return $this;
     }
 
@@ -38,8 +43,15 @@ class OnLoad {
      */
     public function clear()
     {
-        $this->onload = '';
+        $this->script = array();
         return $this;
+    }
+
+    public function getFormattedScript()
+    {
+        $result = implode("\n", array_values($this->script));
+        $result = preg_replace('/<script(.*?)>|<\/script>/', '', $result);
+        return $result;
     }
 
     /**
@@ -53,7 +65,7 @@ class OnLoad {
 <script type="text/javascript">
 <!--
     \$(function() {
-        '.$this->onload.'
+        '.$this->getFormattedScript().'
     });
 
 -->
