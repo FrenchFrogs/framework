@@ -95,7 +95,7 @@ class Form
     {
 
         if (!isset($this->element[$name])) {
-            throw new InvalidArgumentException("L'élément $name n'existe pas.");
+            throw new InvalidArgumentException("L'élément {$name} n'existe pas.");
         }
 
         return $this->element[$name];
@@ -164,7 +164,7 @@ class Form
     {
 
         if (!isset($this->action[$name])) {
-            throw new InvalidArgumentException("L'action $name n'existe pas.");
+            throw new InvalidArgumentException("L'action {$name} n'existe pas.");
         }
 
         return $this->action[$name];
@@ -190,8 +190,7 @@ class Form
      */
     static public function create($url = '', $method = 'POST')
     {
-        /** @var Form $form */
-        $form = new static::$class();
+        $form = new static();
         $form->setUrl($url);
         $form->setMethod($method);
 
@@ -206,8 +205,7 @@ class Form
      */
     public function setMethod($method)
     {
-        $this->attribute['method'] = $method;
-        return $this;
+        return $this->addAttribute('method', $method);
     }
 
 
@@ -218,7 +216,7 @@ class Form
      */
     public function getMethod()
     {
-        return $this->attribute['method'];
+        return $this->getAttribute('method');
     }
 
     /**
@@ -229,8 +227,7 @@ class Form
      */
     public function setUrl($action)
     {
-        $this->attribute['action'] = $action;
-        return $this;
+        return $this->addAttribute('action', $action);
     }
 
     /**
@@ -241,7 +238,7 @@ class Form
      */
     public function getUrl()
     {
-        return $this->attribute['action'];
+        return $this->getAttribute('action');
     }
 
 
