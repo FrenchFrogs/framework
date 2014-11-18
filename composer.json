@@ -3,7 +3,7 @@
     "description": "Usefull class for FrenchFrogs",
     "type": "library",
     "version": "master",
-    "dist": {
+    "source": {
         "url": "git@github.com:FrenchFrogs/Framework.git",
         "type": "git",
         "reference": "origin/master"
