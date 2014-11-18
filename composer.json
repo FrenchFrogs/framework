@@ -1,8 +1,8 @@
 {
-    "name": "french-frogs/framework",
+    "name": "frenchfrogs/framework",
     "description": "Usefull class for FrenchFrogs",
     "type": "library",
-    "version": "0.0.6",
+    "version": "master",
     "keywords": ["laravel", "french", "frogs", "datagrid", "form", "plugins"],
     "homepage": "https://github.com/FrenchFrogs/Framework",
     "licence": "GPL-3.0+",
