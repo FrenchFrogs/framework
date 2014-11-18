@@ -3,9 +3,10 @@
     "description": "Usefull class for FrenchFrogs",
     "type": "library",
     "version": "master",
-    "source": {
+    "dist": {
         "url": "git@github.com:FrenchFrogs/Framework.git",
-        "type": "git"
+        "type": "git",
+        "reference": "origin/master"
     },
     "keywords": ["laravel", "french", "frogs", "datagrid", "form", "plugins"],
     "homepage": "https://github.com/FrenchFrogs/Framework",
