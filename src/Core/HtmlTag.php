@@ -40,46 +40,48 @@ Trait HtmlTag
     /**
      * Set de l'attrribut class
      *
-     * @param $class
+     * @param array $class
      * @return $this
      */
-    public function setClass($class)
+    public function setClass(array $class)
     {
-        $class = implode(' ', (array)$class);
-        $class = explode(' ', $class);
-        $class = array_unique($class);
-        $class = array_filter($class);
         return $this->addAttribute('class', implode(' ', $class));
     }
 
     /**
-     * Add une/des classe(s) à l'objet
+     * Add class
      *
      * @param $class
      * @return $this
      */
     public function addClass($class)
     {
-        $attr = $this->getClass();
-        $attr = explode(' ', $attr);
-        $attr = array_merge($attr, (array)$class);
-        return $this->setClass($attr);
+
+        if(!$this->hasClass($class)) {
+            $attr = $this->getAttribute('class');
+            $attr = explode(' ', $attr);
+            $attr[] = $class;
+            $this->setClass($attr);
+        }
+
+        return $this;
     }
 
     /**
-     * Remove une/des classe(s) de l'objet formuaire
+     * Remove une classe de l'objet formuaire
      *
      * @param $class
      * @return $this
      */
     public function removeClass($class)
     {
-        $class = implode(' ', (array)$class);
-        $class = explode(' ', $class);
 
-        $attr = $this->getClass();
+        $attr = $this->getAttribute('class');
         $attr = explode(' ', $attr);
-        $attr = array_diff($attr, $class);
+        if (($i = array_search($class, $attr)) !== false) {
+            unset($attr[$i]);
+        }
+
         return $this->setClass($attr);
     }
 
@@ -94,7 +96,7 @@ Trait HtmlTag
     }
 
     /**
-     * Renvoie true si la classe est associé à l'élément
+     * Renvoie true si la classe est associé au formulaire
      *
      * @param $class
      * @return bool
@@ -119,45 +121,39 @@ Trait HtmlTag
     /**
      * Set de l'attribut style
      *
-     * @param $style
+     * @param array $style
      * @return $this
      */
-    public function setStyle($style)
+    public function setStyle(array $style)
     {
-        if (is_array($style)) {
-            array_walk($style, function(&$value, $key) {
-                $value = $key . ': ' . $value;
-            });
-            $style = implode('; ', $style);
+        $result = [];
+
+        // formatage du css
+        foreach($style as $k => $v) {
+            $result[] = $k . ': ' .$v;
         }
 
-        $result = [];
-        $style = explode(';', $style);
-        $style = array_filter($style);
-        foreach($style as $data) {
-            $data = explode(':', $data, 2);
-            $data = array_map('trim', $data);
-            $data[0] = strtolower($data[0]);
-            $result[$data[0]] = $data[0] . ': ' . $data[1];
-        }
-        return $this->addAttribute('style', implode('; ', $result));
+        return $this->addAttribute('style', implode(';', $result));
     }
 
     /**
      * Add $name : $value à l'attribut style
      *
-     * @param string $name
+     * @param $name
      * @param $value
-     * @return $this
      */
-    public function addStyle($name, $value = false)
+    public function addStyle($name, $value)
     {
-        if ($value === false) {
-            list($name, $value) = explode(':', $name, 2);
+
+        $style = [];
+        foreach(explode(';', (string) $this->getAttribute('style')) as $data) {
+            list($k, $v) = explode(':', $data, 2);
+            $style[$k] = $v;
         }
-        $style = (string)$this->getAttribute('style');
-        $style .= ';' . $name . ': ' . $value;
-        return $this->setStyle($style);
+
+        // Set de la valeur
+        $style[$name] = $value;
+        $this->setStyle($style);
     }
 
     /**
@@ -168,16 +164,14 @@ Trait HtmlTag
      */
     public function removeStyle($name)
     {
+
         $style = [];
-        $name = trim($name);
-        $name = strtolower($name);
         foreach(explode(';', (string) $this->getAttribute('style')) as $data) {
             list($k, $v) = explode(':', $data, 2);
-            if (trim($k) == $name) {
-                continue;
-            }
+            if ($k == $name) {continue;}
             $style[$k] = $v;
         }
+
         return $this->setStyle($style);
     }
 
@@ -189,15 +183,6 @@ Trait HtmlTag
     public function clearStyle()
     {
         return $this->removeAttribute('style');
-    }
-
-    /**
-     * Get l'attribut style
-     * @return string
-     */
-    public function getStyle()
-    {
-        return $this->getAttribute('style');
     }
 
     /**
@@ -238,6 +223,15 @@ Trait HtmlTag
     }
 
     /**
+     * Renvoie les attributs
+     *
+     * @return array
+     */
+    public function getAllAttribute() {
+        return $this->attribute;
+    }
+
+    /**
      * Supprime un attribut
      *
      * @param $name
@@ -274,12 +268,12 @@ Trait HtmlTag
     /**
      * Set content
      *
-     * @param $content
+     * @param string $content
      * @return $this
      */
     public function setContent($content)
     {
-        $this->content = strval($content);
+        $this->content = $content;
         return $this;
     }
 
@@ -344,7 +338,17 @@ Trait HtmlTag
      */
     function __toString()
     {
-        return $this->render();
+        $output = '';
+
+        try {
+            $attr = [];
+            foreach ($this->attrribute as $key => $value) {
+                $attr[] = htmlentities($key) . '="' . str_replace('"', '\"', $value) . '"';
+            }
+            $output = sprintf('<%1$s %2$s>%3$s</%1$>', $this->tag, implode(' ', $attr), $this->content);
+        } catch (\Exception $e) {}
+
+        return $output;
     }
 
     /**
@@ -354,15 +358,7 @@ Trait HtmlTag
      */
     public function render()
     {
-        $attr = [];
-        foreach ($this->attribute as $key => $value) {
-            $attr[] = $key . '="' . $value . '"';
-        }
-        return sprintf('<%1$s %2$s>%3$s</%1$s>',
-            $this->tag,
-            implode(' ', $attr),
-            $this->content
-        );
+       echo $this;
     }
 
 }

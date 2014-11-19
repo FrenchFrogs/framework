@@ -1,8 +1,9 @@
-<?php namespace FrenchFrogs\Form;
+<?php namespace FrenchFrogs\Jquery;
 
 use Illuminate\Support\ServiceProvider;
+use App;
 
-class FormServiceProvider extends ServiceProvider {
+class JqueryServiceProvider extends ServiceProvider {
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -12,22 +13,17 @@ class FormServiceProvider extends ServiceProvider {
 	protected $defer = false;
 
 	/**
-	 * Bootstrap the application events.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		$this->package('french-frogs/form');
-	}
-
-	/**
 	 * Register the service provider.
 	 *
 	 * @return void
 	 */
 	public function register()
 	{
+
+        App::singleton('jqueryOnload', function()
+        {
+            return new OnLoad();
+        });
 		//
 	}
 

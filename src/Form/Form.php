@@ -16,6 +16,7 @@ class Form
 {
     use Core\HtmlTag;
 
+
     /**
      * Containeur des éléments du formulaire
      *
@@ -76,7 +77,7 @@ class Form
      *
      * @return $this
      */
-    public function clearElement()
+    public function clearElement__toString()
     {
 
         $this->element = [];
@@ -273,25 +274,31 @@ class Form
      */
     public function __toString()
     {
+        $html = '';
 
-        $this->addAttribute('role', 'form');
+        try {
+            $this->addAttribute('role', 'form');
 
-        $html = \Form::open($this->getAllAttribute());
 
-        // Element
-        foreach ($this->element as $e) {
-            $html .= $e->render();
-        }
+            $html = \Form::open($this->getAllAttribute());
 
-        // Action
-        if (count($this->action)) {
-            $html .= '<div class="text-right">';
-            foreach ($this->action as $e) {
+            // Element
+            foreach ($this->element as $e) {
                 $html .= $e->render();
             }
-            $html .= "</div>";
+
+            // Action
+            if (count($this->action)) {
+                $html .= '<div class="text-right">';
+                foreach ($this->action as $e) {
+                    $html .= $e->render();
+                }
+                $html .= "</div>";
+            }
+            $html .= \Form::close();
+        } catch(\Exception $e) {
+            dd('Erreur sur la génération du formulaire : ' . $e->getMessage());
         }
-        $html .= \Form::close();
 
         return $html;
     }

@@ -33,10 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "FrenchFrogs\\Core\\": "src/",
-            "FrenchFrogs\\Datagrid\\": "src/",
-            "FrenchFrogs\\Form\\": "src/",
-            "FrenchFrogs\\Jquery\\": "src/"
+            "FrenchFrogs\\": "src/"
         }
     },
     "minimum-stability": "stable"
