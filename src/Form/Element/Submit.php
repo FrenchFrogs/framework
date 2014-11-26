@@ -30,9 +30,10 @@ class Submit extends \FrenchFrogs\Form\Element
      */
     public function __toString()
     {
-        $html =  '<div class="form-group">';
+
+        $this->addClass('btn btn-default');
+        $html = '';
         $html .= \Form::submit($this->getName(), $this->getAllAttribute());
-        $html .= '</div>';
 
         return $html;
     }

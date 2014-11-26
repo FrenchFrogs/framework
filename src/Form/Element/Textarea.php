@@ -57,6 +57,7 @@ class Textarea extends \FrenchFrogs\Form\Element
      */
     public function __toString()
     {
+        $this->addClass('form-control');
         $html =  '<div class="form-group">';
         $html .= '<label for="'.$this->getName().'">' . $this->getLabel() . '</label>';
         $html .= \Form::textarea($this->getName(), '', $this->getAllAttribute());

@@ -278,14 +278,10 @@ class Form
 
         try {
             $this->addAttribute('role', 'form');
-
-
-            $html = \Form::open($this->getAllAttribute());
+            $html .= \Form::open($this->getAllAttribute());
 
             // Element
-            foreach ($this->element as $e) {
-                $html .= $e->render();
-            }
+            foreach ($this->element as $e) {$html .= $e->render();}
 
             // Action
             if (count($this->action)) {
@@ -296,6 +292,7 @@ class Form
                 $html .= "</div>";
             }
             $html .= \Form::close();
+
         } catch(\Exception $e) {
             dd('Erreur sur la génération du formulaire : ' . $e->getMessage());
         }

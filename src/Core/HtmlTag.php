@@ -358,7 +358,7 @@ Trait HtmlTag
      */
     public function render()
     {
-       echo $this;
+        return strval($this);
     }
 
 }
