@@ -60,7 +60,7 @@ class Text extends \FrenchFrogs\Form\Element
         $this->addClass('form-control');
         $html =  '<div class="form-group">';
         $html .= '<label for="'.$this->getName().'">' . $this->getLabel() . '</label>';
-        $html .= \Form::text($this->getName(), '', $this->getAllAttribute());
+        $html .= \Form::text($this->getName(), $this->getValue(), $this->getAllAttribute());
         $html .= '</div>';
 
         return $html;

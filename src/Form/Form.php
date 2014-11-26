@@ -77,7 +77,7 @@ class Form
      *
      * @return $this
      */
-    public function clearElement__toString()
+    public function clearElement()
     {
 
         $this->element = [];
@@ -298,5 +298,24 @@ class Form
         }
 
         return $html;
+    }
+
+
+    /**
+     * Rempli un formulaire
+     *
+     *
+     *
+     * @param array $row
+     *
+     */
+    public function populate(array $row)
+    {
+        foreach($row as $name => $value) {
+
+            if(!empty($this->element[$name])) {
+                $this->element[$name]->setValue($value);
+            }
+        }
     }
 }
