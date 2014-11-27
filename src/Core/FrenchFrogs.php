@@ -16,13 +16,17 @@ class FrenchFrogs extends Facade {
     /**
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'frenchfrogs'; }
+    protected static function getFacadeAccessor()
+    {
+        return 'FrenchFrogs';
+    }
 
     /**
      *
      * @param string $url
      * @param string $method
      * @return \FrenchFrogs\Form\Form
+     *
      */
     static public function form($url = '', $method = 'POST')
     {

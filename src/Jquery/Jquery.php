@@ -17,7 +17,10 @@ class Jquery  extends Facade {
     /**
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'jquery'; }
+    protected static function getFacadeAccessor()
+    {
+        return 'Jquery';
+    }
 
     /**
      *
