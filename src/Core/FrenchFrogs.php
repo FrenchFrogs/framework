@@ -1,12 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: jhouvion
- * Date: 17/10/14
- * Time: 15:11
- */
-
-namespace FrenchFrogs\Core;
+<?php namespace FrenchFrogs\Core;
 use Illuminate\Support\Facades\Facade;
 
 

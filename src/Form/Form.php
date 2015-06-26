@@ -1,12 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: jhouvion
- * Date: 15/10/14
- * Time: 13:28
- */
-
-namespace FrenchFrogs\Form;
+<?php namespace FrenchFrogs\Form;
 
 use FrenchFrogs\Core;
 use InvalidArgumentException;
@@ -35,22 +27,25 @@ class Form
     protected $action = [];
 
 
+
+
     /**
      * constructeur
      *
      */
-    public function __construct()
+    public function __construct($url = '', $method = 'POST')
     {
-
+        $this->setUrl($url);
+        $this->setMethod($method);
     }
 
     /**
      * Add un élément à la pile
      *
-     * @param Element $element
+     * @param Element\Element $element
      * @return $this
      */
-    public function addElement(Element $element)
+    public function addElement(Element\Element $element)
     {
         $this->element[$element->getName()] = $element;
         return $this;
@@ -90,7 +85,7 @@ class Form
      *
      * @param $name
      * @throws InvalidArgumentException
-     * @return Element
+     * @return Element\Element
      */
     public function getElement($name)
     {
@@ -116,10 +111,10 @@ class Form
     /**
      * Add une action à la pile
      *
-     * @param Element $element
+     * @param Element\Element $element
      * @return $this
      */
-    public function addAction(Element $element)
+    public function addAction(Element\Element $element)
     {
         $this->action[$element->getName()] = $element;
         return $this;
@@ -159,7 +154,7 @@ class Form
      *
      * @param $name
      * @throws InvalidArgumentException
-     * @return Element
+     * @return Element\Element
      */
     public function getAction($name)
     {
@@ -191,10 +186,7 @@ class Form
      */
     static public function create($url = '', $method = 'POST')
     {
-        $form = new static();
-        $form->setUrl($url);
-        $form->setMethod($method);
-
+        $form = new static($url, $method);
         return $form;
     }
 
@@ -228,7 +220,8 @@ class Form
      */
     public function setUrl($action)
     {
-        return $this->addAttribute('action', $action);
+        $this->addAttribute('action', $action);
+        return $this->addAttribute('url', $action);
     }
 
     /**
@@ -239,7 +232,7 @@ class Form
      */
     public function getUrl()
     {
-        return $this->getAttribute('action');
+        return $this->getAttribute('url');
     }
 
 
@@ -277,6 +270,7 @@ class Form
         $html = '';
 
         try {
+
             $this->addAttribute('role', 'form');
             $html .= \Form::open($this->getAllAttribute());
 
@@ -318,4 +312,61 @@ class Form
             }
         }
     }
+
+
+
+    /*
+     * ***********************************
+     *
+     * ELEMENTS
+     *
+     * ***********************************
+     */
+
+
+    /**
+     * Ajout d'un champs text
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Text
+     */
+    public function addText($name, $label = '', $attr = [] )
+    {
+        $e = new Element\Text($name, $label, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+    /**
+     * Ajout d'un champs textarea
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Textarea
+     */
+    public function addTextarea($name, $label = '', $attr = [] )
+    {
+        $e = new Element\Textarea($name, $label, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+    
+    /**
+     * Ajout d'un bouton en fin de formulaire
+     *
+     * @param $name
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Submit
+     */
+    public function addSubmit($name, $attr = [])
+    {
+        $e = new Element\Submit($name, $attr);
+        $this->addAction($e);
+        return $e;
+    }
+
+
 }

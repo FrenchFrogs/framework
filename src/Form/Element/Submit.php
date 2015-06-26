@@ -1,15 +1,7 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: jhouvion
- * Date: 16/10/14
- * Time: 16:40
- */
-
-namespace FrenchFrogs\Form\Element;
+<?php namespace FrenchFrogs\Form\Element;
 
 
-class Submit extends \FrenchFrogs\Form\Element
+class Submit extends Element
 {
 
     /**

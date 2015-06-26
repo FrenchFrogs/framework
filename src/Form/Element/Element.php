@@ -1,6 +1,4 @@
-<?php
-
-namespace FrenchFrogs\Form;
+<?php namespace FrenchFrogs\Form\Element;
 
 use FrenchFrogs\Core;
 
@@ -35,8 +33,6 @@ abstract class Element
         return $this;
     }
 
-
-
     /**
      *
      * Set le nom de l'élément
@@ -57,5 +53,17 @@ abstract class Element
     public function getName()
     {
         return $this->getAttribute('name');
+    }
+
+
+    public function placeholder($value = false)
+    {
+
+        // par default on met la valeur du champs
+        if ($value === false) {
+            $value = $this->getName();
+        }
+
+        return $this->addAttribute('placeholder', $value);
     }
 }

@@ -1,12 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: jhouvion
- * Date: 17/10/14
- * Time: 08:47
- */
-
-namespace FrenchFrogs\Core;
+<?php namespace FrenchFrogs\Core;
 
 /**
  *  Gestion des tags Html
@@ -141,10 +133,10 @@ Trait HtmlTag
      *
      * @param $name
      * @param $value
+     * @return $this
      */
     public function addStyle($name, $value)
     {
-
         $style = [];
         foreach(explode(';', (string) $this->getAttribute('style')) as $data) {
             list($k, $v) = explode(':', $data, 2);
@@ -153,7 +145,7 @@ Trait HtmlTag
 
         // Set de la valeur
         $style[$name] = $value;
-        $this->setStyle($style);
+        return $this->setStyle($style);
     }
 
     /**
