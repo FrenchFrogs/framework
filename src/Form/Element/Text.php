@@ -5,13 +5,6 @@ class Text extends Element
 {
 
     /**
-     * Label du champs text
-     *
-     * @var string
-     */
-    protected $label = '';
-
-    /**
      * Constructeur
      *
      * @param $name
@@ -23,38 +16,43 @@ class Text extends Element
         $this->setAttribute($attr);
         $this->setName($name);
         $this->setLabel($label);
+        $this->addAttribute('type', 'text');
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getLabel()
+    public function getValue()
     {
-        return $this->label;
+        return $this->value;
     }
 
     /**
-     * @param string $label
-     * @return $this
+     *
+     * @param mixed $value
      */
-    public function setLabel($label)
+    public function setValue($value)
     {
-        $this->label = $label;
+        $this->value = $value;
+        $this->addAttribute('value', $value);
+
+
+
         return $this;
     }
-
 
     /**
      * @return string
      */
     public function __toString()
     {
-        $this->addClass('form-control');
-        $html =  '<div class="form-group">';
-        $html .= '<label for="'.$this->getName().'">' . $this->getLabel() . '</label>';
-        $html .= \Form::text($this->getName(), $this->getValue(), $this->getAllAttribute());
-        $html .= '</div>';
+        $render = '';
+        try {
+            $render = $this->getRenderer()->render('form.text', $this);
+        } catch(\Exception $e){
+            dd($e->getMessage());
+        }
 
-        return $html;
+        return $render;
     }
 }

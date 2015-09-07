@@ -1,19 +1,11 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: jhouvion
- * Date: 20/10/14
- * Time: 16:24
- */
-
-namespace FrenchFrogs\Datagrid;
-use FrenchFrogs\Core\HtmlTag;
+<?php namespace FrenchFrogs\Datagrid;
+use FrenchFrogs\Core\Html;
 use Illuminate\Pagination\Paginator;
 
 class Datagrid
 {
 
-    use HtmlTag;
+    use Html;
 
     /**
      *

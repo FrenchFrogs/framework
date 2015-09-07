@@ -1,9 +1,8 @@
 <?php namespace FrenchFrogs\Form\Element;
 
 
-class Submit extends Element
+class Hidden extends Text
 {
-
     /**
      * Constructeur
      *
@@ -15,8 +14,9 @@ class Submit extends Element
     {
         $this->setAttribute($attr);
         $this->setName($name);
-        $this->addAttribute('type', 'submit');
+        $this->addAttribute('type', 'hidden');
     }
+
 
     /**
      * @return string
@@ -26,12 +26,11 @@ class Submit extends Element
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.submit', $this);
+            $render = $this->getRenderer()->render('form.hidden', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }
 
         return $render;
-
     }
 }

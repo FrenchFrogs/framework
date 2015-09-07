@@ -5,13 +5,6 @@ class Textarea extends Element
 {
 
     /**
-     * Label du champs text
-     *
-     * @var string
-     */
-    protected $label = '';
-
-    /**
      * Constructeur
      *
      * @param $name
@@ -28,33 +21,16 @@ class Textarea extends Element
     /**
      * @return string
      */
-    public function getLabel()
-    {
-        return $this->label;
-    }
-
-    /**
-     * @param string $label
-     * @return $this
-     */
-    public function setLabel($label)
-    {
-        $this->label = $label;
-        return $this;
-    }
-
-
-    /**
-     * @return string
-     */
     public function __toString()
     {
-        $this->addClass('form-control');
-        $html =  '<div class="form-group">';
-        $html .= '<label for="'.$this->getName().'">' . $this->getLabel() . '</label>';
-        $html .= \Form::textarea($this->getName(), $this->getValue(), $this->getAllAttribute());
-        $html .= '</div>';
 
-        return $html;
+        $render = '';
+        try {
+            $render = $this->getRenderer()->render('form.textarea', $this);
+        } catch(\Exception $e){
+            dd($e->getMessage());
+        }
+
+        return $render;
     }
 }

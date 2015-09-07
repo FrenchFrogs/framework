@@ -2,12 +2,19 @@
 
 use FrenchFrogs\Core;
 use InvalidArgumentException;
+use FrenchFrogs;
 
-
+/**
+ * Class de gesiton de formulaire de FrenchFrogs
+ *
+ * Class Form
+ * @package FrenchFrogs\Form
+ */
 class Form
 {
-    use Core\HtmlTag;
-
+    use Core\Html;
+    use Core\Renderer;
+    use Core\Validator;
 
     /**
      * Containeur des éléments du formulaire
@@ -27,8 +34,6 @@ class Form
     protected $action = [];
 
 
-
-
     /**
      * constructeur
      *
@@ -45,9 +50,23 @@ class Form
      * @param Element\Element $element
      * @return $this
      */
-    public function addElement(Element\Element $element)
+    public function addElement(Element\Element $element, Renderer\FormAbstract $renderer = null)
     {
+        // attribution du form a l'element pour ne pas qu'il soit orphelin
+        $element->setForm($this);
+
+        // si l'element n'a pas de rendu on lui applique celui du formulaire)
+        if (!$element->hasRenderer() || !is_null($renderer)) {
+            $element->setRenderer($this->getRenderer());
+        }
+
+        // si l'element n'a pas de validator on lui applique le model de celui du formulaire
+        if (!$element->hasValidator()){
+            $element->setValidator(clone $this->getValidator());
+        }
+
         $this->element[$element->getName()] = $element;
+
         return $this;
     }
 
@@ -116,6 +135,7 @@ class Form
      */
     public function addAction(Element\Element $element)
     {
+        $element->setRenderer($this->getRenderer());
         $this->action[$element->getName()] = $element;
         return $this;
     }
@@ -143,9 +163,7 @@ class Form
      */
     public function clearAction()
     {
-
         $this->action = [];
-
         return $this;
     }
 
@@ -264,35 +282,27 @@ class Form
     /**
      * Overload parent method for form specification
      *
+     * @return string
+     *
      */
     public function __toString()
     {
-        $html = '';
-
+        $render = '';
         try {
-
-            $this->addAttribute('role', 'form');
-            $html .= \Form::open($this->getAllAttribute());
-
-            // Element
-            foreach ($this->element as $e) {$html .= $e->render();}
-
-            // Action
-            if (count($this->action)) {
-                $html .= '<div class="text-right">';
-                foreach ($this->action as $e) {
-                    $html .= $e->render();
-                }
-                $html .= "</div>";
-            }
-            $html .= \Form::close();
-
-        } catch(\Exception $e) {
-            dd('Erreur sur la génération du formulaire : ' . $e->getMessage());
+            $render = $this->getRenderer()->render('form', $this);
+        } catch(\Exception $e){
+            dd($e->getMessage());
         }
 
-        return $html;
+        return $render;
     }
+
+
+    public function render()
+    {
+        return strval($this);
+    }
+
 
 
     /**
@@ -306,7 +316,6 @@ class Form
     public function populate(array $row)
     {
         foreach($row as $name => $value) {
-
             if(!empty($this->element[$name])) {
                 $this->element[$name]->setValue($value);
             }
@@ -335,6 +344,21 @@ class Form
     public function addText($name, $label = '', $attr = [] )
     {
         $e = new Element\Text($name, $label, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+    /**
+     * Ajout d'un champs password
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Password
+     */
+    public function addPassword($name, $label = '', $attr = [] )
+    {
+        $e = new Element\Password($name, $label, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -369,4 +393,245 @@ class Form
     }
 
 
+    /**
+     * Ajout d'un champs checkbox
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Checkbox
+     */
+    public function addCheckbox($name, $label = '', $multi  = [], $attr = [] )
+    {
+        $e = new Element\Checkbox($name, $label, $multi, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+
+    /**
+     * Ajout d'un champs tel
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Tel
+     */
+    public function addTel($name, $label = '', $attr = [] )
+    {
+        $e = new Element\Tel($name, $label, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+    /**
+     * Ajout d'un champs Email
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Email
+     */
+    public function addEmail($name, $label = '', $attr = [] )
+    {
+        $e = new Element\Email($name, $label, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+
+    /**
+     * Ajout d'un champs hidden
+     *
+     *
+     * @param $name
+     * @param array $attr
+     * @return  \FrenchFrogs\Form\Element\Hidden
+     */
+    public function addHidden($name, $attr = [])
+    {
+        $e = new Element\Hidden($name, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+    /**
+     * Ajout d'un champs label
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Label
+     */
+    public function addLabel($name, $label = '', $attr = [] )
+    {
+        $e = new Element\Label($name, $label, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+
+    /**
+     * Ajout d'un bouton
+     *
+     * @param $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Button
+     */
+    public function addButton($name, $label, $attr = [] )
+    {
+        $e = new Element\Button($name, $label, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+
+    /**
+     * Ajout d'un ligne de sépration
+     *
+     * @return \FrenchFrogs\Form\Element\Separator
+     */
+    public function addSeparator()
+    {
+        $e = new Element\Separator();
+        $this->addElement($e);
+        return $e;
+    }
+
+
+
+    public function addTitle($name, $attr = [])
+    {
+        $e = new Element\Title($name, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+
+    /**
+     * Ajout d'un bloc de contenu
+     *
+     * @param $label
+     * @param string $content
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Content
+     */
+    public function addContent($label, $value = '', $attr = [])
+    {
+        $e = new Element\Content($label, $value, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+
+    /**
+     * Ajout d'un element nombre
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Number
+     */
+    public function addNumber($name, $label = '', $attr = [] )
+    {
+        $e = new Element\Number($name, $label, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+
+    /**
+     * Ajout d'un element Radio
+     *
+     * @param $name
+     * @param string $label
+     * @param array $multi
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Radio
+     */
+    public function addRadio($name, $label = '', $multi  = [], $attr = [] )
+    {
+        $e = new Element\Radio($name, $label, $multi, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+
+    /**
+     * Ajout d'un champ select
+     *
+     *
+     * @param $name
+     * @param $label
+     * @param array $multi
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Select
+     */
+    public function addSelect($name, $label, $multi = [], $attr = [])
+    {
+        $e = new Element\Select($name, $label, $multi, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+
+    /**
+     * Ajout d'un champ fichier
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\File
+     */
+    public function addFile($name, $label = '', $attr = [])
+    {
+        $e = new Element\File($name, $label, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+
+    /**
+     * *********************
+     *
+     * VALIDATOR
+     *
+     * ********************
+     */
+
+    /**
+     * Validation du formualaire
+     *
+     * @param array $values
+     * @return $this
+     */
+    public function validate(array $values)
+    {
+        // validation des elements
+        foreach($values as $index => $value){
+
+            $element = $this->getElement($index)->validate($value);
+
+            if (!$element->isValid()) {
+                $this->getValidator()->addError($index, $element->getErrorAsString());
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Renvoie les erreur formater en chaine de charactère
+     *
+     *
+     * @return string
+     */
+    public function getErrorAsString()
+    {
+        $errors  = [];
+        foreach($this->getValidator()->getAllError() as $index => $message){
+            $errors[] = sprintf('%s:%s %s', $index, PHP_EOL, $message);
+        }
+        return implode(PHP_EOL, $errors);
+    }
 }

@@ -1,9 +1,8 @@
 <?php namespace FrenchFrogs\Form\Element;
 
 
-class Submit extends Element
+class Button extends Element
 {
-
     /**
      * Constructeur
      *
@@ -11,11 +10,11 @@ class Submit extends Element
      * @param string $label
      * @param array $attr
      */
-    public function __construct($name, $attr = [] )
+    public function __construct($name, $label = '', $attr = [] )
     {
         $this->setAttribute($attr);
         $this->setName($name);
-        $this->addAttribute('type', 'submit');
+        $this->setLabel($label);
     }
 
     /**
@@ -26,12 +25,11 @@ class Submit extends Element
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.submit', $this);
+            $render = $this->getRenderer()->render('form.button', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }
 
         return $render;
-
     }
 }
