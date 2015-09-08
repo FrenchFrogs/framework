@@ -263,12 +263,18 @@ abstract class Element
      *
      * @param $rule
      * @param null $method
+     * @param array $params
      * @param null $message
      * @return $this
      */
-    public function addRule($rule, $method = null, $message = null)
+    public function addRule($rule, $method = null, $params = [], $message = null)
     {
-        $this->getValidator()->addRule($rule, $method);
+
+        // construction des paramètres
+        array_unshift($params, $rule, $method);
+
+        //ajout de la regle
+        call_user_func_array([$this->getValidator(), 'addRule'], $params);
 
         if (!is_null($message)) {
             $this->getValidator()->addMessage($rule, $message);

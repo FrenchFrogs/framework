@@ -344,6 +344,9 @@ class Validator
             // recuperation de la methodd et des paramètre
             list($method, $params) = $rule;
 
+            // si pas de methode, c'est que la methode a le même nom que l'index
+            $method = is_null($method) ? $index : $method;
+
             // on ajoute la valeur aux paramètres
             array_unshift($params, $value);
 
@@ -358,7 +361,7 @@ class Validator
             } else {
 
                 if (!method_exists($this, $method)) {
-                    throw new \Exception('Impossible de trouver la method '. $method .' pour la validation : ' . $index);
+                    throw new \Exception('Impossible de trouver la method "'. $method .'" pour la validation : ' . $index);
                 }
 
                 if (!call_user_func_array([$this, $method], $params)){

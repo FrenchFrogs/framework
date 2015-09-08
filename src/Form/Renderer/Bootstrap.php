@@ -40,19 +40,22 @@ class Bootstrap extends FormAbstract {
 
     public function _text(Form\Element\Text $element)
     {
-        if(!$element->getValidator()->isValid()){
-            $element->addClass('form-error');
+        // Gestion de l'erreur
+        if($hasError = !$element->getValidator()->isValid()){
+
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
             foreach($element->getValidator()->getAllError() as $error){
-                $message .= $error . ' ';
+                $message .= $error . ';';
             }
             $element->addAttribute('data-original-title',$message);
+            $element->addAttribute('data-toggle', 'tooltip');
         }
 
+        // rendu principal
         $element->addClass('form-control');
-        $html =  '<div class="form-group">';
-        $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . '</label>';
+        $html =  '<div class="form-group '. ($hasError ? 'has-error' : '' ).'">';
+        $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
         $html .= html('input', $element->getAllAttribute());
         $html .= '</div>';
 
@@ -135,8 +138,10 @@ class Bootstrap extends FormAbstract {
             $options .= '<label class="checkbox-inline">';
 
             $attr = ['type' => 'checkbox', 'name' => $element->getName() . '[]', 'value' => $value];
+
+
             // value
-            if (in_array($value, $element->getValue())) {
+            if (!is_null( $element->getValue()) && in_array($value, $element->getValue())) {
                 $attr['checked'] = 'checked';
             }
 
@@ -154,43 +159,12 @@ class Bootstrap extends FormAbstract {
 
     public function _tel(Form\Element\Tel $element)
     {
-        if(!$element->getValidator()->isValid()){
-            $element->addClass('form-error');
-            if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
-            $message = '';
-            foreach($element->getValidator()->getAllError() as $error){
-                $message .= $error . ' ';
-            }
-            $element->addAttribute('data-original-title',$message);
-        }
-
-        $element->addClass('form-control');
-        $html =  '<div class="form-group">';
-        $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . '</label>';
-        $html .= html('input', $element->getAllAttribute());
-        $html .= '</div>';
-        return $html;
+        return $this->_text($element);
     }
 
     public function _email(Form\Element\Email $element)
     {
-        if(!$element->getValidator()->isValid()){
-            $element->addClass('form-error');
-            if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
-            $message = '';
-            foreach($element->getValidator()->getAllError() as $error){
-                $message .= $error . ' ';
-            }
-            $element->addAttribute('data-original-title',$message);
-        }
-
-        $element->addClass('form-control');
-        $html =  '<div class="form-group">';
-        $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . '</label>';
-        $html .= html('input', $element->getAllAttribute());
-        $html .= '</div>';
-
-        return $html;
+        return $this->_text($element);
     }
 
     public function _hidden(Form\Element\Hidden $element)
@@ -331,23 +305,7 @@ class Bootstrap extends FormAbstract {
 
     public function _password(Form\Element\Password $element)
     {
-        if(!$element->getValidator()->isValid()){
-            $element->addClass('form-error');
-            if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
-            $message = '';
-            foreach($element->getValidator()->getAllError() as $error){
-                $message .= $error . ' ';
-            }
-            $element->addAttribute('data-original-title',$message);
-        }
-
-        $element->addClass('form-control');
-        $html =  '<div class="form-group">';
-        $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . '</label>';
-        $html .= html('input', $element->getAllAttribute());
-        $html .= '</div>';
-
-        return $html;
+        return $this->_text($element);
     }
 
     public function _file(Form\Element\File $element)

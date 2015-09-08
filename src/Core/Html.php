@@ -138,7 +138,9 @@ Trait Html
     public function addStyle($name, $value)
     {
         $style = [];
+
         foreach(explode(';', (string) $this->getAttribute('style')) as $data) {
+            if (empty($data)) {continue;}
             list($k, $v) = explode(':', $data, 2);
             $style[$k] = $v;
         }

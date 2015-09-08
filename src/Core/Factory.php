@@ -1,17 +1,9 @@
 <?php namespace FrenchFrogs\Core;
-use Illuminate\Support\Facades\Facade;
 
 
+class Factory
+{
 
-class FrenchFrogs extends Facade {
-
-    /**
-     * @return string
-     */
-    protected static function getFacadeAccessor()
-    {
-        return 'FrenchFrogs';
-    }
 
     /**
      *
@@ -32,10 +24,11 @@ class FrenchFrogs extends Facade {
 
         //On défini le validator
         if (is_null($validator)) {
-            $validator = new  \FrenchFrogs\Validator\Validator();
+            $validator = new  \FrenchFrogs\Validator\DefaultValidator();
         }
         $form->setValidator($validator);
 
         return $form;
     }
+
 }
