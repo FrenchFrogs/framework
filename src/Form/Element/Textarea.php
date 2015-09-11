@@ -5,7 +5,7 @@ class Textarea extends Element
 {
 
     /**
-     * Constructeur
+     * Constructror
      *
      * @param $name
      * @param string $label
@@ -13,7 +13,7 @@ class Textarea extends Element
      */
     public function __construct($name, $label = '', $attr = [] )
     {
-        $this->setAttribute($attr);
+        $this->setAttributes($attr);
         $this->setName($name);
         $this->setLabel($label);
     }

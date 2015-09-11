@@ -304,7 +304,7 @@ Trait Html
      */
     public function clearAttributes()
     {
-        return $this->setAttributes([]);
+        return $this->setAttributes()s()s([]);
     }
 
 

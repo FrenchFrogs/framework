@@ -286,7 +286,7 @@ class HtmlTagTest extends PHPUnit_Framework_TestCase
             'class' => 'class1',
             'required' => 'required',
         );
-        $entity = $this->entity->setAttribute($attribute);
+        $entity = $this->entity->setAttributes()($attribute);
         $this->assertEquals($this->entity, $entity);
 
         $result = $this->entity->_get_attribute();
@@ -302,7 +302,7 @@ class HtmlTagTest extends PHPUnit_Framework_TestCase
             'value' => '',
             'size' => 0,
         );
-        $entity =$this->entity->setAttribute($attribute);
+        $entity =$this->entity->setAttributes()($attribute);
         $this->assertEquals($this->entity, $entity);
 
         $result = $this->entity->getAttribute('unexist key');
@@ -327,7 +327,7 @@ class HtmlTagTest extends PHPUnit_Framework_TestCase
             'value' => '',
             'size' => 0,
         );
-        $entity = $this->entity->setAttribute($attribute);
+        $entity = $this->entity->setAttributes()($attribute);
         $this->assertEquals($this->entity, $entity);
 
         $result = $this->entity->getAttribute('style');
@@ -356,7 +356,7 @@ class HtmlTagTest extends PHPUnit_Framework_TestCase
             'class' => 'class1',
             'required' => 'required',
         );
-        $entity = $this->entity->setAttribute($attribute);
+        $entity = $this->entity->setAttributes()($attribute);
         $this->assertEquals($this->entity, $entity);
 
         $result = $this->entity->_get_attribute();
@@ -479,7 +479,7 @@ class HtmlTagTest extends PHPUnit_Framework_TestCase
         );
 
         $this->entity->setTag('textarea');
-        $this->entity->setAttribute($attribute);
+        $this->entity->setAttributes()($attribute);
         $this->entity->setContent('Contenu');
         $string = (string)$this->entity;
         $this->assertEquals('<textarea required="required" class="class1" name="comment">Contenu</textarea>', $string);
@@ -494,7 +494,7 @@ class HtmlTagTest extends PHPUnit_Framework_TestCase
         );
 
         $this->entity->setTag('textarea');
-        $this->entity->setAttribute($attribute);
+        $this->entity->setAttributes()($attribute);
         $this->entity->setContent('Contenu');
         $string = $this->entity->render();
         $this->assertEquals('<textarea required="required" class="class1" name="comment">Contenu</textarea>', $string);

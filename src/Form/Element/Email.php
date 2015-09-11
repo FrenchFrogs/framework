@@ -5,7 +5,7 @@ class Email extends Text
 {
 
     /**
-     * Constructeur
+     * Constructror
      *
      * @param $name
      * @param string $label
@@ -13,7 +13,7 @@ class Email extends Text
      */
     public function __construct($name, $label = '', $attr = [] )
     {
-        $this->setAttribute($attr);
+        $this->setAttributes($attr);
         $this->setName($name);
         $this->setLabel($label);
         $this->addAttribute('type', 'email');

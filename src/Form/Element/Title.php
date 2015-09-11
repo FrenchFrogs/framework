@@ -5,14 +5,14 @@ class Title extends Element
 {
 
     /**
-     * Constructeur
+     * Constructror
      *
      * @param $label
      * @param array $attr
      */
     public function __construct($label, $attr = [] )
     {
-        $this->setAttribute($attr);
+        $this->setAttributes($attr);
         $this->setName($label);
     }
 

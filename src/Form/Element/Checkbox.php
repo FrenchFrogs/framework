@@ -13,7 +13,7 @@ class Checkbox extends Element
     protected $options = [];
 
     /**
-     * Constructeur
+     * Constructror
      *
      * @param $name
      * @param string $label
@@ -21,7 +21,7 @@ class Checkbox extends Element
      */
     public function __construct($name, $label = '', $options = [], $attr = [] )
     {
-        $this->setAttribute($attr);
+        $this->setAttributes($attr);
         $this->setName($name);
         $this->setLabel($label);
         $this->setOptions($options);

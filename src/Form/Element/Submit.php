@@ -5,7 +5,7 @@ class Submit extends Element
 {
 
     /**
-     * Constructeur
+     * Constructror
      *
      * @param $name
      * @param string $label
@@ -13,7 +13,7 @@ class Submit extends Element
      */
     public function __construct($name, $attr = [] )
     {
-        $this->setAttribute($attr);
+        $this->setAttributes($attr);
         $this->setName($name);
         $this->addAttribute('type', 'submit');
     }

@@ -3,9 +3,21 @@
 use FrenchFrogs\Renderer;
 use FrenchFrogs\Form;
 
+
+/**
+ * skeleton for Form renderer
+ *
+ * Class FormAbstract
+ * @package FrenchFrogs\Form\Renderer
+ */
 abstract class FormAbstract extends Renderer\Renderer
 {
 
+    /**
+     *
+     *
+     * @var array
+     */
     protected $renderer = [
         'form' => '_form',
         'form.text' => '_text',
@@ -29,7 +41,7 @@ abstract class FormAbstract extends Renderer\Renderer
     ];
 
     /**
-     * Rendu du formumaire
+     * Render object form
      *
      * @param \FrenchFrogs\Form\Form $form
      * @return string
@@ -38,7 +50,7 @@ abstract class FormAbstract extends Renderer\Renderer
 
 
     /**
-     * Rendu d'un champ test input.text
+     * Render object input.text
      *
      * @param \FrenchFrogs\Form\Element\Text $element
      * @return string
@@ -47,7 +59,7 @@ abstract class FormAbstract extends Renderer\Renderer
 
 
     /**
-     * Rendu d'un champ textarea
+     * Render object textarea
      *
      * @param \FrenchFrogs\Form\Element\Textarea $element
      * @return string
@@ -55,7 +67,7 @@ abstract class FormAbstract extends Renderer\Renderer
     abstract public function _textarea(Form\Element\Textarea $element);
 
     /**
-     * Rendu d'un bouton de soumission
+     * Render object submit
      *
      * @param \FrenchFrogs\Form\Element\Submit $element
      * @return string
@@ -64,7 +76,7 @@ abstract class FormAbstract extends Renderer\Renderer
 
 
     /**
-     * Rendu d'une checkbox
+     * Render object checkbox
      *
      * @param \FrenchFrogs\Form\Element\Checkbox $element
      * @return string
@@ -72,7 +84,7 @@ abstract class FormAbstract extends Renderer\Renderer
     abstract public function _checkbox(Form\Element\Checkbox $element);
 
     /**
-     * Rendu d'une checkbox multiple
+     * Render object multiple checkbox
      *
      * @param \FrenchFrogs\Form\Element\Checkbox $element
      * @return string
@@ -80,7 +92,7 @@ abstract class FormAbstract extends Renderer\Renderer
     abstract public function _checkboxmulti(Form\Element\Checkbox $element);
 
     /**
-     * Rendu d'un champ input tel
+     * Render object input:tel
      *
      * @param \FrenchFrogs\Form\Element\Tel $element
      * @return string
@@ -88,7 +100,7 @@ abstract class FormAbstract extends Renderer\Renderer
     abstract public function _tel(Form\Element\Tel $element);
 
     /**
-     * Rendu d'un champ input email
+     * Render object input:mail
      *
      * @param \FrenchFrogs\Form\Element\Email $element
      * @return string
@@ -97,7 +109,7 @@ abstract class FormAbstract extends Renderer\Renderer
 
 
     /**
-     * Rendu d'un champ input hidden
+     * Render object input:hidden
      *
      * @param \FrenchFrogs\Form\Element\Hidden $element
      * @return string
@@ -105,7 +117,7 @@ abstract class FormAbstract extends Renderer\Renderer
     abstract public function _hidden(Form\Element\Hidden $element);
 
     /**
-     * Rendu d'un champ input text
+     * Render object label
      *
      * @param \FrenchFrogs\Form\Element\Label $element
      * @return string
@@ -113,7 +125,7 @@ abstract class FormAbstract extends Renderer\Renderer
     abstract public function _label(Form\Element\Label $element);
 
     /**
-     * Rendu d'un bouton a l'interieur du formulaire
+     * Render object button
      *
      * @param \FrenchFrogs\Form\Element\Button $element
      * @return string
@@ -121,7 +133,7 @@ abstract class FormAbstract extends Renderer\Renderer
     abstract public function _button(Form\Element\Button $element);
 
     /**
-     * Ajout d'un ligen de séparation
+     * Render separation object
      *
      * @param \FrenchFrogs\Form\Element\Separator $element
      * @return string
@@ -129,7 +141,7 @@ abstract class FormAbstract extends Renderer\Renderer
     abstract public function _separator(Form\Element\Separator $element);
 
     /**
-     * Rendu d'un titre
+     * Render object title
      *
      * @param \FrenchFrogs\Form\Element\Title $element
      * @return string
@@ -137,7 +149,7 @@ abstract class FormAbstract extends Renderer\Renderer
     abstract public function _title(Form\Element\Title $element);
 
     /**
-     * Rendu d'un contenu
+     * Render object content
      *
      * @param \FrenchFrogs\Form\Element\Content $element
      * @return string
@@ -145,7 +157,7 @@ abstract class FormAbstract extends Renderer\Renderer
     abstract public function _content(Form\Element\Content $element);
 
     /**
-     * Rendu d'un champ input number
+     * Render object input:number
      *
      * @param \FrenchFrogs\Form\Element\Number $element
      * @return string
@@ -153,7 +165,7 @@ abstract class FormAbstract extends Renderer\Renderer
     abstract public function _number(Form\Element\Number $element);
 
     /**
-     * Rendu d'un champs de type radio
+     * Render object input:radio
      *
      * @param \FrenchFrogs\Form\Element\Radio $element
      * @return string
@@ -161,7 +173,7 @@ abstract class FormAbstract extends Renderer\Renderer
     abstract public function _radio(Form\Element\Radio $element);
 
     /**
-     * Rendu d'un champs de type select
+     * Render object
      *
      * @param \FrenchFrogs\Form\Element\Select $element
      * @return string
@@ -169,7 +181,7 @@ abstract class FormAbstract extends Renderer\Renderer
     abstract public function _select(Form\Element\Select $element);
 
     /**
-     * Rendu d'un champ input Password
+     * Render object input:password
      *
      * @param \FrenchFrogs\Form\Element\Password $element
      * @return string
@@ -178,7 +190,7 @@ abstract class FormAbstract extends Renderer\Renderer
 
 
     /**
-     * Rendu d'un champ input.file
+     * Render object input:file
      *
      * @param \FrenchFrogs\Form\Element\File $element
      * @return string

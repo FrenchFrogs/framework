@@ -5,7 +5,7 @@ class Password extends Text
 {
 
     /**
-     * Constructeur
+     * Constructror
      *
      * @param $name
      * @param string $label
@@ -13,7 +13,7 @@ class Password extends Text
      */
     public function __construct($name, $label = '', $attr = [] )
     {
-        $this->setAttribute($attr);
+        $this->setAttributes($attr);
         $this->setName($name);
         $this->setLabel($label);
         $this->addAttribute('type', 'password');

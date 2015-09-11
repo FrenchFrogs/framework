@@ -4,7 +4,7 @@
 class Button extends Element
 {
     /**
-     * Constructeur
+     * Constructror
      *
      * @param $name
      * @param string $label
@@ -12,7 +12,7 @@ class Button extends Element
      */
     public function __construct($name, $label = '', $attr = [] )
     {
-        $this->setAttribute($attr);
+        $this->setAttributes($attr);
         $this->setName($name);
         $this->setLabel($label);
     }

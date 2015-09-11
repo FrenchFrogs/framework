@@ -22,7 +22,7 @@ class Select extends Element
      */
     public function __construct($name, $label = '', $options = [], $attr = [] )
     {
-        $this->setAttribute($attr);
+        $this->setAttributes($attr);
         $this->setName($name);
         $this->setLabel($label);
         $this->setOptions($options);

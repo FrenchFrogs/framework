@@ -4,12 +4,14 @@ use FrenchFrogs\Renderer;
 use FrenchFrogs\Form;
 
 /**
- * Rendu d'un formulaire en mode bootstrap
+ * Form render using bootstrap
  *
  * Class Bootstrap
  * @package FrenchFrogs\Form\Renderer
  */
 class Bootstrap extends FormAbstract {
+
+    //@TODO manage horizontal inline form
 
 
     function _form(Form\Form $form)
@@ -18,13 +20,14 @@ class Bootstrap extends FormAbstract {
         $html = '';
         $form->addAttribute('role', 'form');
 
-        // Element
-        foreach ($form->getAllElement() as $e) {
+        // Elements
+        foreach ($form->getElements() as $e) {
+            /** @var $e \FrenchFrogs\Form\Element\Element */
             $html .= $e->render();
         }
 
-        // Action
-        $action = $form->getAllAction();
+        // Actions
+        $action = $form->getActions();
         if (count($action)) {
             $html .= '<div class="text-right">';
             foreach ($action as $e) {
@@ -33,19 +36,21 @@ class Bootstrap extends FormAbstract {
             $html .= "</div>";
         }
 
-        $html = html('form', $form->getAllAttribute(), $html);
+        $html = html('form', $form->getAttributes(), $html);
 
         return $html;
     }
 
+
+
     public function _text(Form\Element\Text $element)
     {
-        // Gestion de l'erreur
+        // Error
         if($hasError = !$element->getValidator()->isValid()){
 
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
-            foreach($element->getValidator()->getAllError() as $error){
+            foreach($element->getValidator()->getErrors() as $error){
                 $message .= $error . ';';
             }
             $element->addAttribute('data-original-title',$message);
@@ -56,7 +61,7 @@ class Bootstrap extends FormAbstract {
         $element->addClass('form-control');
         $html =  '<div class="form-group '. ($hasError ? 'has-error' : '' ).'">';
         $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
-        $html .= html('input', $element->getAllAttribute());
+        $html .= html('input', $element->getAttributes());
         $html .= '</div>';
 
         return $html;
@@ -64,11 +69,13 @@ class Bootstrap extends FormAbstract {
 
     public function _textarea(Form\Element\Textarea $element)
     {
+
+        //error
         if(!$element->getValidator()->isValid()){
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
-            foreach($element->getValidator()->getAllError() as $error){
+            foreach($element->getValidator()->getErrors() as $error){
                 $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
@@ -77,16 +84,17 @@ class Bootstrap extends FormAbstract {
         $element->addClass('form-control');
         $html =  '<div class="form-group">';
         $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . '</label>';
-        $html .= html('textarea', $element->getAllAttribute(), $element->getValue());
+        $html .= html('textarea', $element->getAttributes(), $element->getValue());
         $html .= '</div>';
 
         return $html;
     }
 
+
     public function _submit(Form\Element\Submit $element)
     {
         $element->addClass('btn btn-default');
-        $html = html('input', $element->getAllAttribute());
+        $html = html('input', $element->getAttributes());
 
         return $html;
     }
@@ -97,7 +105,7 @@ class Bootstrap extends FormAbstract {
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
-            foreach($element->getValidator()->getAllError() as $error){
+            foreach($element->getValidator()->getErrors() as $error){
                 $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
@@ -109,7 +117,7 @@ class Bootstrap extends FormAbstract {
             $element->addAttribute('checked', 'checked');
         }
 
-        $html .= html('input', $element->getAllAttribute());
+        $html .= html('input', $element->getAttributes());
         $html .= $element->getLabel();
         $html .= '</label>';
         $html .= '</div>';
@@ -119,11 +127,13 @@ class Bootstrap extends FormAbstract {
 
     public function _checkboxmulti(Form\Element\Checkbox $element)
     {
+
+        // error
         if(!$element->getValidator()->isValid()){
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
-            foreach($element->getValidator()->getAllError() as $error){
+            foreach($element->getValidator()->getErrors() as $error){
                 $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
@@ -151,7 +161,7 @@ class Bootstrap extends FormAbstract {
         }
 
 
-        $html .= html('div', $element->getAllAttribute(), $options);
+        $html .= html('div', $element->getAttributes(), $options);
         $html .= '</div>';
 
         return $html;
@@ -169,7 +179,7 @@ class Bootstrap extends FormAbstract {
 
     public function _hidden(Form\Element\Hidden $element)
     {
-        $html = html('input', $element->getAllAttribute());
+        $html = html('input', $element->getAttributes());
         return $html;
     }
 
@@ -190,7 +200,7 @@ class Bootstrap extends FormAbstract {
 
         $element->addClass('btn btn-default');
         $html = '<div class="form-group">';
-        $html .= html('button', $element->getAllAttribute(), $element->getLabel());
+        $html .= html('button', $element->getAttributes(), $element->getLabel());
         $html .= '</div>';
         return $html;
     }
@@ -224,7 +234,7 @@ class Bootstrap extends FormAbstract {
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
-            foreach($element->getValidator()->getAllError() as $error){
+            foreach($element->getValidator()->getErrors() as $error){
                 $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
@@ -233,7 +243,7 @@ class Bootstrap extends FormAbstract {
         $element->addClass('form-control');
         $html =  '<div class="form-group">';
         $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . '</label>';
-        $html .= html('input', $element->addAttribute('type', 'number')->getAllAttribute());
+        $html .= html('input', $element->addAttribute('type', 'number')->getAttributes());
         $html .= '</div>';
         return $html;
     }
@@ -260,7 +270,7 @@ class Bootstrap extends FormAbstract {
         }
 
 
-        $html .= html('div', $element->getAllAttribute(), $options);
+        $html .= html('div', $element->getAttributes(), $options);
         $html .= '</div>';
 
         return $html;
@@ -272,7 +282,7 @@ class Bootstrap extends FormAbstract {
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
-            foreach($element->getValidator()->getAllError() as $error){
+            foreach($element->getValidator()->getErrors() as $error){
                 $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
@@ -297,7 +307,7 @@ class Bootstrap extends FormAbstract {
             $options .= html('option', $attr, $label);
         }
 
-        $html .= html('select', $element->getAllAttribute(), $options);
+        $html .= html('select', $element->getAttributes(), $options);
         $html .= '</div>';
 
         return $html;
@@ -314,7 +324,7 @@ class Bootstrap extends FormAbstract {
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
-            foreach($element->getValidator()->getAllError() as $error){
+            foreach($element->getValidator()->getErrors() as $error){
                 $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
@@ -323,7 +333,7 @@ class Bootstrap extends FormAbstract {
         $html =  '<div class="form-group">';
         $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . '</label>';
         $element->addAttribute('type', 'file');
-        $html .= html('input', $element->getAllAttribute());
+        $html .= html('input', $element->getAttributes());
         $html .= '</div>';
 
         return $html;

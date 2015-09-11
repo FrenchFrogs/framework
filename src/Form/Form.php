@@ -5,7 +5,7 @@ use InvalidArgumentException;
 use FrenchFrogs;
 
 /**
- * Class de gesiton de formulaire de FrenchFrogs
+ * Form pollywog
  *
  * Class Form
  * @package FrenchFrogs\Form
@@ -18,26 +18,25 @@ class Form
     use Core\Filterer;
 
     /**
-     * Containeur des éléments du formulaire
-     *
-     *
-     * @var array
-     *
-     */
-    protected $element = [];
-
-    /**
-     * Conteneur des actions du formulaire
-     *
+     * Elements container
      *
      * @var array
      */
-    protected $action = [];
+    protected $elements = [];
+
+    /**
+     * Action (form submission) containers
+     *
+     * @var array
+     */
+    protected $actions = [];
 
 
     /**
-     * constructeur
+     * Constructor
      *
+     * @param string $url
+     * @param string $method
      */
     public function __construct($url = '', $method = 'POST')
     {
@@ -46,38 +45,38 @@ class Form
     }
 
     /**
-     * Add un élément à la pile
+     * Add a single element to the elements container
      *
      * @param Element\Element $element
      * @return $this
      */
     public function addElement(Element\Element $element, Renderer\FormAbstract $renderer = null)
     {
-        // attribution du form a l'element pour ne pas qu'il soit orphelin
+        // Join element to the form
         $element->setForm($this);
 
-        // si l'element n'a pas de rendu on lui applique celui du formulaire)
+        // Add renderer to element if it didn't has one
         if (!$element->hasRenderer() || !is_null($renderer)) {
             $element->setRenderer($this->getRenderer());
         }
 
-        // si l'element n'a pas de validator on lui applique le model de celui du formulaire
+        // Add validator to element if it didn't has one
         if (!$element->hasValidator()){
             $element->setValidator(clone $this->getValidator());
         }
 
-        // si l'element n'a pas de validator on lui applique le model de celui du formulaire
+        // Add validator to element if it didn't has one
         if (!$element->hasFilterer()){
-            $element->setFilterer(clone $this->getFilterer());
+            $element->setFilterer($this->getFilterer());
         }
 
-        $this->element[$element->getName()] = $element;
+        $this->elements[$element->getName()] = $element;
 
         return $this;
     }
 
     /**
-     * Remove l'element $name
+     * Remove element $name from elements container
      *
      * @param $name
      * @return $this
@@ -85,28 +84,28 @@ class Form
     public function removeElement($name)
     {
 
-        if (isset($this->element[$name])) {
-            unset($this->element[$name]);
+        if (isset($this->elements[$name])) {
+            unset($this->elements[$name]);
         }
 
         return $this;
     }
 
     /**
-     * Remove tous les éléments
+     * Clear the elements container
      *
      * @return $this
      */
-    public function clearElement()
+    public function clearElements()
     {
 
-        $this->element = [];
+        $this->elements = [];
 
         return $this;
     }
 
     /**
-     * Renvoie l'element $name
+     * Return the element $name from the elements container
      *
      * @param $name
      * @throws InvalidArgumentException
@@ -115,26 +114,39 @@ class Form
     public function getElement($name)
     {
 
-        if (!isset($this->element[$name])) {
-            throw new InvalidArgumentException("L'élément {$name} n'existe pas.");
+        if (!isset($this->elements[$name])) {
+            throw new InvalidArgumentException(" Element not found : {$name}");
         }
 
-        return $this->element[$name];
+        return $this->elements[$name];
     }
 
     /*
-     * Renvoie le tableau d'élement
+     * Return the elemen container as an array
      *
      * @return array
      */
-    public function getAllElement()
+    public function getElements()
     {
-        return $this->element;
+        return $this->elements;
     }
 
 
     /**
-     * Add une action à la pile
+     * Set the action container
+     *
+     * @param array $actions
+     * @return $this
+     */
+    public function setActions(array $actions)
+    {
+        $this->actions = $actions;
+        return $this;
+    }
+
+
+    /**
+     * Add an action to the action container
      *
      * @param Element\Element $element
      * @return $this
@@ -142,12 +154,12 @@ class Form
     public function addAction(Element\Element $element)
     {
         $element->setRenderer($this->getRenderer());
-        $this->action[$element->getName()] = $element;
+        $this->actions[$element->getName()] = $element;
         return $this;
     }
 
     /**
-     * Remove l'action $name
+     * Remove the action $name from the actions container
      *
      * @param $name
      * @return $this
@@ -155,26 +167,26 @@ class Form
     public function removeAction($name)
     {
 
-        if (isset($this->action[$name])) {
-            unset($this->action[$name]);
+        if (isset($this->actions[$name])) {
+            unset($this->actions[$name]);
         }
 
         return $this;
     }
 
     /**
-     * Remove toutes les actions
+     * Clear all the actions from the action container
      *
      * @return $this
      */
-    public function clearAction()
+    public function clearActions()
     {
-        $this->action = [];
+        $this->actions = [];
         return $this;
     }
 
     /**
-     * Renvoie l'element $name
+     * Return the $name element from the actions container
      *
      * @param $name
      * @throws InvalidArgumentException
@@ -183,29 +195,29 @@ class Form
     public function getAction($name)
     {
 
-        if (!isset($this->action[$name])) {
-            throw new InvalidArgumentException("L'action {$name} n'existe pas.");
+        if (!isset($this->actions[$name])) {
+            throw new InvalidArgumentException("Action not found : {$name}");
         }
 
-        return $this->action[$name];
+        return $this->actions[$name];
     }
 
-    /*
-     * Renvoie le tableau d'élement
+    /**
+     * Return actions container as an array
      *
      * @return array
      */
-    public function getAllAction()
+    public function getActions()
     {
-        return $this->action;
+        return $this->actions;
     }
 
     /**
      *
      * Factory
      *
-     * @param string $url attribut action
-     * @param string $method $attribut method
+     * @param string $url action attributes
+     * @param string $method method Attributes
      * @return Form
      */
     static public function create($url = '', $method = 'POST')
@@ -215,7 +227,7 @@ class Form
     }
 
     /**
-     * Set de l'attribut method du formulaire
+     * Set method
      *
      * @param $method
      * @return $this
@@ -227,7 +239,7 @@ class Form
 
 
     /**
-     * Get de l'attribut method du formulaire
+     * Get method
      *
      * @return string
      */
@@ -237,7 +249,7 @@ class Form
     }
 
     /**
-     * Set de l'action - url d'action du formulaire
+     * Set action URL
      *
      * @param $action
      * @return $this
@@ -249,7 +261,7 @@ class Form
     }
 
     /**
-     * Get de l'action - url d'action du formulaire
+     * get action URL
      *
      *
      * @return string
@@ -261,6 +273,8 @@ class Form
 
 
     /**
+     * Magic method for exceptional use
+     *
      * @param $name
      * @param $arguments
      */
@@ -297,40 +311,34 @@ class Form
         try {
             $render = $this->getRenderer()->render('form', $this);
         } catch(\Exception $e){
-            dd($e->getMessage());
+            dd($e->getMessage());//@todo find a good way to warn the developper
         }
 
         return $render;
     }
 
 
-    public function render()
-    {
-        return strval($this);
-    }
-
-
-
     /**
-     * Rempli un formulaire
      *
+     * Fill the form with $values
      *
-     *
-     * @param array $row
-     *
+     * @param array $values
+     * @return $this
      */
-    public function populate(array $row)
+    public function populate(array $values)
     {
-        foreach($row as $name => $value) {
-            if(!empty($this->element[$name])) {
-                $this->element[$name]->setValue($value);
+        foreach($values as $name => $value) {
+            if(!empty($this->elements[$name])) {
+                $this->elements[$name]->setValue($value);
             }
         }
+
+        return $this;
     }
 
 
     /**
-     * Renvoie la valeur d'un element
+     * Return the value single value of the $name element
      *
      * @param $name
      * @return mixed
@@ -342,15 +350,16 @@ class Form
 
 
     /**
-     * Renvoie toute les valeur d'un formulaire
+     * Return all values from all elements
      *
      * @return array
      */
-    public function getAllValue()
+    public function getValues()
     {
 
         $values = [];
-        foreach($this->getAllElement() as $name => $e) {
+        foreach($this->getElements() as $name => $e) {
+            /** @var $e \FrenchFrogs\Form\Element\Element */
             $values[$name] = $e->getValue();
         }
 
@@ -359,7 +368,7 @@ class Form
 
 
     /**
-     * Renvoie lma valeur filtré d'un element
+     * Return single filtered value from the $name element
      *
      * @param $name
      * @return mixed
@@ -371,7 +380,7 @@ class Form
 
 
     /**
-     * Renvoie toutes les valeurs filtré
+     * Return all filtered values from all elements
      *
      * @return array
      */
@@ -379,7 +388,7 @@ class Form
     {
 
         $values = [];
-        foreach($this->getAllElement() as $name => $e){
+        foreach($this->getElements() as $name => $e){
             /** @var \FrenchFrogs\Form\Element\Element $e */
             $values[$name] = $e->getFilteredValue();
         }
@@ -398,7 +407,7 @@ class Form
 
 
     /**
-     * Ajout d'un champs text
+     * Add a input:text element
      *
      * @param $name
      * @param string $label
@@ -413,7 +422,7 @@ class Form
     }
 
     /**
-     * Ajout d'un champs password
+     * Add input:password element
      *
      * @param $name
      * @param string $label
@@ -428,7 +437,7 @@ class Form
     }
 
     /**
-     * Ajout d'un champs textarea
+     * Add textarea element
      *
      * @param $name
      * @param string $label
@@ -443,7 +452,7 @@ class Form
     }
     
     /**
-     * Ajout d'un bouton en fin de formulaire
+     * Add action button
      *
      * @param $name
      * @param array $attr
@@ -458,7 +467,7 @@ class Form
 
 
     /**
-     * Ajout d'un champs checkbox
+     * Add input checkbox element
      *
      * @param $name
      * @param string $label
@@ -474,7 +483,7 @@ class Form
 
 
     /**
-     * Ajout d'un champs tel
+     * Add phone element
      *
      * @param $name
      * @param string $label
@@ -489,7 +498,7 @@ class Form
     }
 
     /**
-     * Ajout d'un champs Email
+     * Add input:mail element
      *
      * @param $name
      * @param string $label
@@ -505,7 +514,7 @@ class Form
 
 
     /**
-     * Ajout d'un champs hidden
+     * Add input:hidden element
      *
      *
      * @param $name
@@ -520,7 +529,7 @@ class Form
     }
 
     /**
-     * Ajout d'un champs label
+     * Add label element (read-only element)
      *
      * @param $name
      * @param string $label
@@ -536,7 +545,7 @@ class Form
 
 
     /**
-     * Ajout d'un bouton
+     * Add button element
      *
      * @param $label
      * @param array $attr
@@ -551,7 +560,7 @@ class Form
 
 
     /**
-     * Ajout d'un ligne de sépration
+     * Add separation
      *
      * @return \FrenchFrogs\Form\Element\Separator
      */
@@ -563,7 +572,13 @@ class Form
     }
 
 
-
+    /**
+     * Add a Title element
+     *
+     * @param $name
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Title
+     */
     public function addTitle($name, $attr = [])
     {
         $e = new Element\Title($name, $attr);
@@ -573,7 +588,7 @@ class Form
 
 
     /**
-     * Ajout d'un bloc de contenu
+     * Add format content
      *
      * @param $label
      * @param string $content
@@ -589,7 +604,7 @@ class Form
 
 
     /**
-     * Ajout d'un element nombre
+     * Add input:number element
      *
      * @param $name
      * @param string $label
@@ -605,7 +620,7 @@ class Form
 
 
     /**
-     * Ajout d'un element Radio
+     * Add input:radio element
      *
      * @param $name
      * @param string $label
@@ -622,7 +637,7 @@ class Form
 
 
     /**
-     * Ajout d'un champ select
+     * Add select element
      *
      *
      * @param $name
@@ -640,7 +655,7 @@ class Form
 
 
     /**
-     * Ajout d'un champ fichier
+     * Add file element
      *
      * @param $name
      * @param string $label
@@ -664,14 +679,13 @@ class Form
      */
 
     /**
-     * Validation du formualaire
+     * Valid all the form elements
      *
      * @param array $values
      * @return $this
      */
     public function valid(array $values)
     {
-        // validation des elements
         foreach($values as $index => $value){
 
             $element = $this->getElement($index)->valid($value);
@@ -685,7 +699,7 @@ class Form
     }
 
     /**
-     * Renvoie les erreur formater en chaine de charactère
+     * Return string formated error from the form validation
      *
      *
      * @return string
@@ -693,7 +707,7 @@ class Form
     public function getErrorAsString()
     {
         $errors  = [];
-        foreach($this->getValidator()->getAllError() as $index => $message){
+        foreach($this->getValidator()->getErrors() as $index => $message){
             $errors[] = sprintf('%s:%s %s', $index, PHP_EOL, $message);
         }
         return implode(PHP_EOL, $errors);
@@ -713,10 +727,12 @@ class Form
 
     public function filter(array $values)
     {
-        // validation des elements
+
         foreach($values as $index => $value){
             $this->getElement($index)->filter($value);
         }
+
+        // @todo return fitered values
 
         return $this;
     }

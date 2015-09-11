@@ -5,14 +5,14 @@ class Content extends Element
 {
 
     /**
-     * Constructeur
+     * Constructror
      *
      * @param $label
      * @param array $attr
      */
     public function __construct($label, $value = '', $attr = [])
     {
-        $this->setAttribute($attr);
+        $this->setAttributes($attr);
         $this->setLabel($label);
         $this->setName($label);
         $this->setValue($value);

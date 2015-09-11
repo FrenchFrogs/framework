@@ -4,7 +4,7 @@
 class Hidden extends Text
 {
     /**
-     * Constructeur
+     * Constructror
      *
      * @param $name
      * @param string $label
@@ -12,7 +12,7 @@ class Hidden extends Text
      */
     public function __construct($name, $attr = [] )
     {
-        $this->setAttribute($attr);
+        $this->setAttributes($attr);
         $this->setName($name);
         $this->addAttribute('type', 'hidden');
     }
