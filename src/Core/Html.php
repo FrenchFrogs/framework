@@ -27,21 +27,21 @@ Trait Html
      *
      * @var array
      */
-    protected $attribute = [];
+    protected $attributes = [];
 
     /**
-     * "class" attribute setter
+     * Set all the "class" attribute as an array
      *
      * @param array $class
      * @return $this
      */
-    public function setClass(array $class)
+    public function setClasses(array $classes)
     {
-        return $this->addAttribute('class', implode(' ', $class));
+        return $this->addAttribute('class', implode(' ', $classes));
     }
 
     /**
-     * Add class
+     * Add a single "class" to the "class" attribute
      *
      * @param $class
      * @return $this
@@ -53,14 +53,14 @@ Trait Html
             $attr = $this->getAttribute('class');
             $attr = explode(' ', $attr);
             $attr[] = $class;
-            $this->setClass($attr);
+            $this->setClasses($attr);
         }
 
         return $this;
     }
 
     /**
-     * Remove une classe de l'objet formuaire
+     * Remove a single "class" from the "class" attribute
      *
      * @param $class
      * @return $this
@@ -74,21 +74,21 @@ Trait Html
             unset($attr[$i]);
         }
 
-        return $this->setClass($attr);
+        return $this->setClasses($attr);
     }
 
     /**
-     * Efface toute les classes associé à l'obet formulaire
+     * Clear the "class" attribute
      *
      * @return $this
      */
-    public function clearClass()
+    public function clearClasses()
     {
         return $this->removeAttribute('class');
     }
 
     /**
-     * Renvoie true si la classe est associé au formulaire
+     * Check if the "class" exist in the "class" attribute
      *
      * @param $class
      * @return bool
@@ -101,27 +101,27 @@ Trait Html
     }
 
     /**
-     * Renvoie les classes associé au formulaire
+     * Return an array of all "class"
      *
      * @return string
      */
-    public function getClass()
+    public function getClasses()
     {
         return $this->getAttribute('class');
     }
 
     /**
-     * Set de l'attribut style
+     * Set all the "style" attribute as an array
      *
      * @param array $style
      * @return $this
      */
-    public function setStyle(array $style)
+    public function setStyles(array $styles)
     {
         $result = [];
 
         // formatage du css
-        foreach($style as $k => $v) {
+        foreach($styles as $k => $v) {
             $result[] = $k . ': ' .$v;
         }
 
@@ -129,7 +129,7 @@ Trait Html
     }
 
     /**
-     * Add $name : $value à l'attribut style
+     * Add a single "style" to the "style" attribute
      *
      * @param $name
      * @param $value
@@ -147,11 +147,11 @@ Trait Html
 
         // Set de la valeur
         $style[$name] = $value;
-        return $this->setStyle($style);
+        return $this->setStyles($style);
     }
 
     /**
-     * Remove $name de l'attribut style
+     * Remove a single "style" from the "style" attribute
      *
      * @param $name
      * @return $this
@@ -166,34 +166,79 @@ Trait Html
             $style[$k] = $v;
         }
 
-        return $this->setStyle($style);
+        return $this->setStyles($style);
     }
 
     /**
-     *  Clear l'attribut style
+     *  Clear the "style" attribute
      *
      * @return $this
      */
-    public function clearStyle()
+    public function clearStyles()
     {
         return $this->removeAttribute('style');
     }
 
     /**
-     * Set l'intégralité des attributs du formulaire
+     * Check if $style exist in the "style" attribute
+     *
+     * @param $class
+     * @return bool
+     */
+    public function hasStyle($name)
+    {
+
+        foreach(explode(';', (string) $this->getAttribute('style')) as $data) {
+            list($k, $v) = explode(':', $data, 2);
+            if ($k == $name) {return true;}
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Return the value of a single "style" from the "style" attribute
+     *
+     * @param $name
+     * @return bool
+     */
+    public function getStyle($name)
+    {
+        foreach(explode(';', (string) $this->getAttribute('style')) as $data) {
+            list($k, $v) = explode(':', $data, 2);
+            if ($k == $name) {return $v;}
+        }
+
+        return false;
+    }
+
+    /**
+     * Return an array of all "style"
+     *
+     * @return string
+     */
+    public function getStyles()
+    {
+        return $this->getAttribute('style');
+    }
+
+
+    /**
+     * Set all attributes as an array
      *
      * @param array $attribute
      * @return $this
      */
-    public function setAttribute(array $attribute)
+    public function setAttributes(array $attributes)
     {
-        $this->attributes = $attribute;
+        $this->attributes = $attributes;
         return $this;
     }
 
     /**
      *
-     * Ajoute un atribut
+     * Add a single attribute to the attributes container
      *
      * @param $name
      * @param $value
@@ -206,7 +251,7 @@ Trait Html
     }
 
     /**
-     * Renvoie la valeur d'un attribut par rapport a son nom
+     * Return the attribute $name from the attributes container
      *
      * @param $name
      * @return null
@@ -217,16 +262,16 @@ Trait Html
     }
 
     /**
-     * Renvoie les attributs
+     * Return an array of all attributes
      *
      * @return array
      */
-    public function getAllAttribute() {
+    public function getAttributes() {
         return $this->attributes;
     }
 
     /**
-     * Supprime un attribut
+     * Remove a single attribute from de attributes container
      *
      * @param $name
      * @return $this
@@ -242,7 +287,7 @@ Trait Html
 
 
     /**
-     * Renvoie si l'attribut existe
+     * Return TRUE if the attribute $name is found in the attributes container
      *
      * @param $name
      * @return bool
@@ -253,16 +298,19 @@ Trait Html
     }
 
     /**
-     * supprime tous les attributs
+     * Clear all attributes from the attributes container
      *
      * @return $this
      */
-    public function clearAttribute()
+    public function clearAttributes()
     {
-        return $this->setAttribute([]);
+        return $this->setAttributes([]);
     }
+
+
+
     /**
-     * Get content
+     * Return the content
      *
      * @return string
      */
@@ -272,7 +320,7 @@ Trait Html
     }
 
     /**
-     * Set content
+     * Set the content
      *
      * @param string $content
      * @return $this
@@ -284,7 +332,7 @@ Trait Html
     }
 
     /**
-     * Append coontent
+     * Append $content to the current content
      *
      * @param $content
      * @return $this
@@ -296,7 +344,7 @@ Trait Html
     }
 
     /**
-     * Append content
+     * Prepend $content to the current content
      *
      * @param $content
      * @return $this
@@ -308,7 +356,7 @@ Trait Html
     }
 
     /**
-     * Clear content
+     * Clear the current content
      *
      * @return $this
      */
@@ -319,7 +367,9 @@ Trait Html
     }
 
     /**
-     * Get tag
+     * Set the tag
+     *
+     *
      * @return string
      */
     public function getTag()
@@ -328,6 +378,8 @@ Trait Html
     }
 
     /**
+     * Return the tag
+     *
      * @param string $tag
      * @return $this
      */
@@ -335,5 +387,16 @@ Trait Html
     {
         $this->tag = $tag;
         return $this;
+    }
+
+
+    /**
+     * return the html version of the model
+     *
+     * @return string
+     */
+    public function toHtml()
+    {
+        return html($this->tag, $this->attributes, $this->content);
     }
 }

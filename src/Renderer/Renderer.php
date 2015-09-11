@@ -2,7 +2,9 @@
 
 
 /**
- * Trait de gestion pour les decorators
+ * Class model used to render the element
+ *
+ * Use polymorphisme with Trait \FrenchFrogs\Core\Renderer
  *
  * Class Renderer
  * @package FrenchFrogs\Renderer
@@ -10,40 +12,41 @@
 class Renderer {
 
     /**
+     * Container
+     *
      * @var array container
      */
-    protected $renderer = [];
+    protected $renderers = [];
 
 
     /**
-     * Constructeur
+     * Constructor
      *
      * @param ...$params
      */
     public function __construct(...$params)
     {
-        // s'il y a  une methode pour enregistrer des
+        // if method "init" exist, we call it.
         if (method_exists($this, 'init')) {
             call_user_func_array([$this, 'init'], $params);
         }
     }
 
 
-
     /**
-     * Set des rendu
+     *  Set all renderer as an array
      *
-     * @param array $renderer
+     * @param array $renderers
      * @return $this
      */
-    public function setRenderer(array $renderer)
+    public function setRenderers(array $renderers)
     {
-        $this->renderer = $renderer;
+        $this->renderers = $renderers;
         return $this;
     }
 
     /**
-     * Ajoute un Rendu
+     * Add a single renderer to the renderers container
      *
      * @param $index
      * @param $method
@@ -51,12 +54,12 @@ class Renderer {
      */
     public function addRenderer($index, $method)
     {
-        $this->renderer[$index] = $method;
+        $this->renderers[$index] = $method;
         return $this;
     }
 
     /**
-     * Suppression d'un Rendu
+     * Remove a single renderer from the renderers container
      *
      * @param $index
      * @return $this
@@ -65,63 +68,63 @@ class Renderer {
     {
 
         if ($this->hasRenderer($index)) {
-            unset($this->renderer[$index]);
+            unset($this->renderers[$index]);
         }
 
         return $this;
     }
 
     /**
-     * Efface toute les Rendu
+     * Clear all renderers from the renderers container
      *
      * @return $this
      */
     public function clearRenderer()
     {
-        $this->renderer = [];
+        $this->renderers = [];
 
         return $this;
     }
 
     /**
-     * Renvoie true si le Rendu existe
+     * Check if the renderer $index exist in the renderer container
      *
      * @param $index
      * @return bool
      */
     public function hasRenderer($index)
     {
-        return isset($this->renderer[$index]);
+        return isset($this->renderers[$index]);
     }
 
     /**
-     * Renvoie la valeur du Rendu
+     *  Return the renderer $index from the filters renderer container
      *
      * @return mixed Callable | string
      */
     public function getRenderer($index)
     {
         if (!$this->hasRenderer($index)) {
-            throw new \Exception('Impossible de trouver le rendu : ' . $index);
+            throw new \Exception('Renderer not found : ' . $index);
         }
 
-        return $this->renderer[$index];
+        return $this->renderers[$index];
     }
 
 
     /**
-     * Renvoie la liste des Rendu
+     * Return array of all renderers
      *
      * @return array
      */
-    public function getAllRenderer()
+    public function getRenderers()
     {
-        return $this->renderer;
+        return $this->renderers;
     }
 
 
     /**
-     * Effectue le rendu
+     * Render element
      *
      * @param ...$params
      * @return mixed
@@ -130,11 +133,11 @@ class Renderer {
     {
         $renderer = $this->getRenderer($index);
 
-        // si le rendu est une function anonyme
+        // If it's a anonymous function
         if (is_callable($renderer)) {
             $render = call_user_func_array($renderer, $params);
 
-        // si c'est une methode local
+            // if it's a local method
         } else {
 
             if (!method_exists($this, $renderer)) {

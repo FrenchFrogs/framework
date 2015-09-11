@@ -1,11 +1,16 @@
 <?php namespace FrenchFrogs\Core;
 
-
+/**
+ * Trait for validator polymorphisme
+ *
+ * Class Validator
+ * @package FrenchFrogs\Core
+ */
 trait Validator
 {
 
     /**
-     * container
+     * Validator container
      *
      * @var \FrenchFrogs\Validator\Validator
      */
@@ -13,7 +18,7 @@ trait Validator
 
 
     /**
-     * getter
+     * Getter
      *
      * @return \FrenchFrogs\Validator\Validator
      */
@@ -37,7 +42,7 @@ trait Validator
     }
 
     /**
-     * Renvoie tru si un validator est setté
+     * Return TRUE if validator is set
      *
      * @return bool
      */
@@ -48,7 +53,7 @@ trait Validator
 
 
     /**
-     * Ajoute un validateur
+     * Add a single validator with message to the validator container
      *
      * @param $index
      * @param null $method
@@ -58,12 +63,12 @@ trait Validator
      */
     public function addValidator($index, $method = null, array $params = [], $message = null)
     {
-        // ajout de la methode aux paramètre de la regle
+        // set up params
         array_unshift($params, $method);
         array_unshift($params, $index);
         call_user_func_array([$this->getValidator(), 'addRule'], $params);
 
-        // gestion de message
+        // Message management
         if (!is_null($message)) {
             $this->getValidator()->addMessage($index, $message);
         }
@@ -73,7 +78,7 @@ trait Validator
 
 
     /**
-     * Validation de l'element
+     * Shortcut to the main function of the model
      *
      * @param $value
      * @return $this
@@ -87,7 +92,7 @@ trait Validator
 
 
     /**
-     * Renvoie si l'element est valide
+     * Return TRUE if the element is valid
      *
      * @return bool
      */
@@ -98,8 +103,7 @@ trait Validator
 
 
     /**
-     * Renvoie les erreur formater en chaine de charactère
-     *
+     * Return the error message format as a string
      *
      * @return string
      */

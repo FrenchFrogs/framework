@@ -1,6 +1,6 @@
 <?php
 /**
- * Génération d'une balise html
+ * Render an HTML tag
  *
  * @param $tag
  * @param array $attributes
@@ -16,7 +16,7 @@ if (!function_exists('html')) {
             'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'
         ];
 
-        // gestion des attributs
+        // Attributes
         foreach ($attributes as $key => &$value) {
             $value = sprintf('%s="%s"', $key, str_replace('"', '\"', $value)) . ' ';
         }
@@ -30,7 +30,7 @@ if (!function_exists('html')) {
 
 
 /**
- * Function de debug avec un exit au bout
+ * Debug => die function
  *
  * dd => debug die
  *

@@ -1,11 +1,17 @@
 <?php namespace FrenchFrogs\Core;
 
 
+/**
+ * Trait for render polymorphisme
+ *
+ * Class Renderer
+ * @package FrenchFrogs\Core
+ */
 trait Renderer
 {
 
     /**
-     * container
+     * Renderer container
      *
      * @var \FrenchFrogs\Renderer\Renderer
      */
@@ -13,7 +19,7 @@ trait Renderer
 
 
     /**
-     * getter
+     * Getter
      *
      * @return \FrenchFrogs\Renderer\Renderer
      */
@@ -37,7 +43,7 @@ trait Renderer
     }
 
     /**
-     * Renvoie true si un renderer est setté
+     * Return TRUE if a renderer is set
      *
      * @return bool
      *
@@ -48,7 +54,8 @@ trait Renderer
     }
 
     /**
-     * Rendu
+     *
+     * Shortcut to the main function of the model
      *
      * @return string
      */
