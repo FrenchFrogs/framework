@@ -34,7 +34,8 @@
     "autoload": {
         "psr-4": {
             "FrenchFrogs\\": "src/"
-        }
+        },
+        "files": ["src/function.php"]
     },
     "minimum-stability": "stable"
 }

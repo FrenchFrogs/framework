@@ -336,7 +336,7 @@ class Validator
      * @param $value
      * @return $this
      */
-    public function validate($value)
+    public function valid($value)
     {
 
         foreach($this->getAllRule() as $index => $rule) {

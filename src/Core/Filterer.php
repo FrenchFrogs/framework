@@ -1,6 +1,12 @@
 <?php namespace FrenchFrogs\Core;
 
-
+/**
+ *
+ * Trait for filterer polymorphisme
+ *
+ * Class Filterer
+ * @package FrenchFrogs\Core
+ */
 trait Filterer
 {
 
@@ -13,7 +19,7 @@ trait Filterer
 
 
     /**
-     * getter
+     * Getter
      *
      * @return \FrenchFrogs\Filterer\Filterer
      */
@@ -37,7 +43,7 @@ trait Filterer
     }
 
     /**
-     * Renvoie tru si un validator est setté
+     * Return true if a filtrerer is set
      *
      * @return bool
      */
@@ -48,7 +54,7 @@ trait Filterer
 
 
     /**
-     * Validation de l'element
+     * Shortcut to the main function of the model
      *
      * @param $value
      * @return $this

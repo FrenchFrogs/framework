@@ -15,6 +15,7 @@ class Form
     use Core\Html;
     use Core\Renderer;
     use Core\Validator;
+    use Core\Filterer;
 
     /**
      * Containeur des éléments du formulaire
@@ -26,7 +27,7 @@ class Form
     protected $element = [];
 
     /**
-     * Conteneur des action du formulaire
+     * Conteneur des actions du formulaire
      *
      *
      * @var array
@@ -63,6 +64,11 @@ class Form
         // si l'element n'a pas de validator on lui applique le model de celui du formulaire
         if (!$element->hasValidator()){
             $element->setValidator(clone $this->getValidator());
+        }
+
+        // si l'element n'a pas de validator on lui applique le model de celui du formulaire
+        if (!$element->hasFilterer()){
+            $element->setFilterer(clone $this->getFilterer());
         }
 
         $this->element[$element->getName()] = $element;
@@ -320,6 +326,64 @@ class Form
                 $this->element[$name]->setValue($value);
             }
         }
+    }
+
+
+    /**
+     * Renvoie la valeur d'un element
+     *
+     * @param $name
+     * @return mixed
+     */
+    public function getValue($name)
+    {
+        return $this->getElement($name)->getValue();
+    }
+
+
+    /**
+     * Renvoie toute les valeur d'un formulaire
+     *
+     * @return array
+     */
+    public function getAllValue()
+    {
+
+        $values = [];
+        foreach($this->getAllElement() as $name => $e) {
+            $values[$name] = $e->getValue();
+        }
+
+        return $values;
+    }
+
+
+    /**
+     * Renvoie lma valeur filtré d'un element
+     *
+     * @param $name
+     * @return mixed
+     */
+    public function getFilteredValue($name)
+    {
+        return $this->getElement($name)->getFilteredValue();
+    }
+
+
+    /**
+     * Renvoie toutes les valeurs filtré
+     *
+     * @return array
+     */
+    public function getAllFilteredValue()
+    {
+
+        $values = [];
+        foreach($this->getAllElement() as $name => $e){
+            /** @var \FrenchFrogs\Form\Element\Element $e */
+            $values[$name] = $e->getFilteredValue();
+        }
+        return $values;
     }
 
 
@@ -605,12 +669,12 @@ class Form
      * @param array $values
      * @return $this
      */
-    public function validate(array $values)
+    public function valid(array $values)
     {
         // validation des elements
         foreach($values as $index => $value){
 
-            $element = $this->getElement($index)->validate($value);
+            $element = $this->getElement($index)->valid($value);
 
             if (!$element->isValid()) {
                 $this->getValidator()->addError($index, $element->getErrorAsString());
@@ -633,5 +697,27 @@ class Form
             $errors[] = sprintf('%s:%s %s', $index, PHP_EOL, $message);
         }
         return implode(PHP_EOL, $errors);
+    }
+
+
+    /**
+     *
+     * *************************
+     *
+     * FILTERER
+     *
+     * *************************
+     */
+
+
+
+    public function filter(array $values)
+    {
+        // validation des elements
+        foreach($values as $index => $value){
+            $this->getElement($index)->filter($value);
+        }
+
+        return $this;
     }
 }

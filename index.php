@@ -1,5 +1,4 @@
 <?php
-require_once 'src/function.php';
 require_once 'vendor/autoload.php';
 
 use FrenchFrogs\Core;
@@ -43,7 +42,6 @@ use FrenchFrogs\Core;
         <h1>Form</h1>
 
         <?php
-
         /**
          *
          * Exemple de formulaire
@@ -52,8 +50,7 @@ use FrenchFrogs\Core;
          */
         $form = Core\Factory::form()->addStyle('width', '400px');
         $form->addTitle('Input');
-        $form->addText('text_test', 'Text')->setPlaceholder()->addRule('inArray', null, [['abcd', 'cououc', 'titi']]);
-
+        $form->addText('text_test', 'Text')->setPlaceholder()->addFilter('lower');
         $form->addPassword('password_test', 'Password')->setPlaceholder()->getValidator()->addRule('required');
         $form->addTel('tel', 'Telephone')->getValidator()->addRule('required');
         $form->addNumber('number', 'Un nombre')->setPlaceholder()->getValidator()->addRule('required');
@@ -73,7 +70,11 @@ use FrenchFrogs\Core;
         $form->addContent('Content', '<button class="btn">Button</button> Et oui ca marche');
         $form->addButton('mybutton', 'Button');
         $form->addSubmit('Enregistrer');
-        $form->validate(['text_test' => 'abcssd']);
+        $form->filter(['text_test' => 'OUOUOUOUOUOU']);
+
+
+        dd($form->getAllFilteredValue());
+        dd();
 
         echo $form;
 
@@ -87,9 +88,7 @@ use FrenchFrogs\Core;
 
 <script>
     $(function() {
-            $('[data-toggle="tooltip"]').tooltip()
-
-
+            $('[data-toggle="tooltip"]').tooltip();
     });
 
 

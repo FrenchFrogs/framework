@@ -34,6 +34,14 @@ abstract class Element
      */
     protected $value;
 
+
+
+    /**
+     * Si l'element doit être traité dans les process de masse comme le retour de valeur ou autres
+     *
+     */
+    protected $is_discreet = false;
+
     /**
      * @return Form
      */
@@ -317,7 +325,7 @@ abstract class Element
      * @return $this
      * @throws \Exception
      */
-    public function validate($value = null)
+    public function valida($value = null)
     {
 
         // si la valeur n'ets pas null, on la set
@@ -325,7 +333,7 @@ abstract class Element
             $this->setValue($value);
         }
 
-        $this->getValidator()->validate($this->getValue());
+        $this->getValidator()->valid($this->getValue());
 
         return $this;
     }
@@ -345,9 +353,9 @@ abstract class Element
      * @param null $method
      * @return $this
      */
-    public function addFilterer($filterer, $method = null)
+    public function addFilter($filter, $method = null)
     {
-        $this->getFilterer()->addFilterer($filterer, $method);
+        $this->getFilterer()->addFilter($filter, $method);
         return $this;
     }
 
@@ -357,9 +365,9 @@ abstract class Element
      * @param $rule
      * @return bool
      */
-    public function hasFilterer($filterer)
+    public function hasFilter($filterer)
     {
-        $this->getFilterer()->hasFilterer($filterer);
+        $this->getFilterer()->hasFilter($filter);
         return $this;
     }
 
@@ -370,32 +378,21 @@ abstract class Element
      * @param $rule
      * @return $this
      */
-    public function removeFilterer($filterer)
+    public function removeFilter($filter)
     {
-        $this->getFilterer()->removeFilterer($filterer);
+        $this->getFilterer()->removeFilter($filter);
         return $this;
     }
 
 
     /**
-     * Validation de la valeur courant de l'element
+     * Renvoie la valeur filtré
      *
-     * @param mixed $value
-     * @return $this
+     * @return mixed
      * @throws \Exception
      */
-    public function filter($value)
+    public function getFilteredValue()
     {
-
-        // si la valeur n'ets pas null, on la set
-        if (!is_null($value)) {
-            $this->setValue($value);
-        }
-
-        $this->getValidator()->validate($this->getValue());
-
-        return $this;
+        return  $this->getFilterer()->filter($this->getValue());
     }
-
-
 }

@@ -79,9 +79,9 @@ trait Validator
      * @return $this
      * @throws \Exception
      */
-    public function validate($value)
+    public function valid($value)
     {
-        $this->getValidator()->validate($value);
+        $this->getValidator()->valid($value);
         return $this;
     }
 

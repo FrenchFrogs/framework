@@ -1,21 +1,21 @@
 <?php namespace FrenchFrogs\Core;
 
 /**
- *  Gestion des tags Html
+ * Trait for Html element management polymorphisme
  *
  * Class Attributes
  */
 Trait Html
 {
     /**
-     * Taq HTML to générate
+     * HTML tag
      *
      * @var string
      */
     protected $tag;
 
     /**
-     * Content of the tag
+     * Content of the HTML tag
      *
      * @var string
      */
@@ -23,14 +23,14 @@ Trait Html
 
     /**
      *
-     * Attributs html du formulaire
+     * Attributes of the HTML tag
      *
      * @var array
      */
     protected $attribute = [];
 
     /**
-     * Set de l'attrribut class
+     * "class" attribute setter
      *
      * @param array $class
      * @return $this
@@ -187,7 +187,7 @@ Trait Html
      */
     public function setAttribute(array $attribute)
     {
-        $this->attribute = $attribute;
+        $this->attributes = $attribute;
         return $this;
     }
 
@@ -201,7 +201,7 @@ Trait Html
      */
     public function addAttribute($name, $value)
     {
-        $this->attribute[$name] = $value;
+        $this->attributes[$name] = $value;
         return $this;
     }
 
@@ -213,7 +213,7 @@ Trait Html
      */
     public function getAttribute($name)
     {
-        return isset($this->attribute[$name]) ? $this->attribute[$name] : null;
+        return isset($this->attributes[$name]) ? $this->attributes[$name] : null;
     }
 
     /**
@@ -222,7 +222,7 @@ Trait Html
      * @return array
      */
     public function getAllAttribute() {
-        return $this->attribute;
+        return $this->attributes;
     }
 
     /**
@@ -233,8 +233,8 @@ Trait Html
      */
     public function removeAttribute($name)
     {
-        if(isset($this->attribute[$name])) {
-            unset($this->attribute[$name]);
+        if(isset($this->attributes[$name])) {
+            unset($this->attributes[$name]);
         }
 
         return $this;
@@ -249,7 +249,7 @@ Trait Html
      */
     public function hasAttribute($name)
     {
-        return isset($this->attribute[$name]);
+        return isset($this->attributes[$name]);
     }
 
     /**
