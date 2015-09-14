@@ -139,7 +139,7 @@ class Filterer
      */
     public function filter($value)
     {
-        foreach($this->getAllFilter() as $index => $filter) {
+        foreach($this->getFilters() as $index => $filter) {
 
             // Extract the params
             list($method, $params) = $filter;

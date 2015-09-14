@@ -5,7 +5,7 @@ class Email extends Text
 {
 
     /**
-     * Constructror
+     * Constructor
      *
      * @param $name
      * @param string $label
@@ -18,7 +18,7 @@ class Email extends Text
         $this->setLabel($label);
         $this->addAttribute('type', 'email');
 
-        $this->addRule('email');
+        //$this->addRule('email'); @todo need to have a validator before adding rules
     }
 
     /**

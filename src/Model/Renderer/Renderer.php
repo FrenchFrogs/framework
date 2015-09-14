@@ -131,6 +131,7 @@ class Renderer {
      */
     public function render($index , ...$params)
     {
+
         $renderer = $this->getRenderer($index);
 
         // If it's a anonymous function

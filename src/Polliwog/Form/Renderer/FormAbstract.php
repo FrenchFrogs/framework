@@ -18,7 +18,7 @@ abstract class FormAbstract extends Renderer\Renderer
      *
      * @var array
      */
-    protected $renderer = [
+    protected $renderers = [
         'form' => '_form',
         'form.text' => '_text',
         'form.textarea' => '_textarea',

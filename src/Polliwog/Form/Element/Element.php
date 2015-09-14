@@ -281,6 +281,7 @@ abstract class Element
         // construction des paramètres
         array_unshift($params, $rule, $method);
 
+        dd($this);
         //ajout de la regle
         call_user_func_array([$this->getValidator(), 'addRule'], $params);
 

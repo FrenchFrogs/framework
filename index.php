@@ -1,4 +1,11 @@
 <?php
+
+// setting
+ini_set('display_errors', '1');
+error_reporting(E_ALL);
+
+
+// loading everything
 require_once 'vendor/autoload.php';
 
 use FrenchFrogs\Core;
@@ -71,10 +78,6 @@ use FrenchFrogs\Core;
         $form->addButton('mybutton', 'Button');
         $form->addSubmit('Enregistrer');
         $form->filter(['text_test' => 'OUOUOUOUOUOU']);
-
-
-        dd($form->getFilteredValues());
-        dd();
 
         echo $form;
 
