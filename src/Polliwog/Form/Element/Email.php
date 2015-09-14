@@ -1,7 +1,7 @@
-<?php namespace FrenchFrogs\Form\Element;
+<?php namespace FrenchFrogs\Polliwog\Form\Element;
 
 
-class Submit extends Element
+class Email extends Text
 {
 
     /**
@@ -11,11 +11,14 @@ class Submit extends Element
      * @param string $label
      * @param array $attr
      */
-    public function __construct($name, $attr = [] )
+    public function __construct($name, $label = '', $attr = [] )
     {
         $this->setAttributes($attr);
         $this->setName($name);
-        $this->addAttribute('type', 'submit');
+        $this->setLabel($label);
+        $this->addAttribute('type', 'email');
+
+        $this->addRule('email');
     }
 
     /**
@@ -26,12 +29,11 @@ class Submit extends Element
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.submit', $this);
+            $render = $this->getRenderer()->render('form.email', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }
 
         return $render;
-
     }
 }

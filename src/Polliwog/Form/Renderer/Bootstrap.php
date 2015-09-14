@@ -1,13 +1,13 @@
-<?php namespace FrenchFrogs\Form\Renderer;
+<?php namespace FrenchFrogs\Polliwog\Form\Renderer;
 
-use FrenchFrogs\Renderer;
-use FrenchFrogs\Form;
+use FrenchFrogs\Model\Renderer;
+use FrenchFrogs\Polliwog\Form;
 
 /**
  * Form render using bootstrap
  *
  * Class Bootstrap
- * @package FrenchFrogs\Form\Renderer
+ * @package FrenchFrogs\Polliwog\Form\Renderer
  */
 class Bootstrap extends FormAbstract {
 
@@ -22,7 +22,7 @@ class Bootstrap extends FormAbstract {
 
         // Elements
         foreach ($form->getElements() as $e) {
-            /** @var $e \FrenchFrogs\Form\Element\Element */
+            /** @var $e \FrenchFrogs\Polliwog\Form\Element\Element */
             $html .= $e->render();
         }
 

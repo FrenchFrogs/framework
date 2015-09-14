@@ -16,29 +16,29 @@ class Factory
      *
      * @param string $url
      * @param string $method
-     * @return \FrenchFrogs\Form\Form
+     * @return \FrenchFrogs\Polliwog\Form\Form
      *
      */
-    static public function form($url = '', $method = 'POST', \FrenchFrogs\Form\Renderer\FormAbstract $renderer = null, \FrenchFrogs\Validator\Validator $validator = null, \FrenchFrogs\Filterer\Filterer $filterer = null)
+    static public function form($url = '', $method = 'POST', \FrenchFrogs\Polliwog\Form\Renderer\FormAbstract $renderer = null, \FrenchFrogs\Model\Validator\Validator $validator = null, \FrenchFrogs\Model\Filterer\Filterer $filterer = null)
     {
-        $form =  new \FrenchFrogs\Form\Form($url, $method);
+        $form =  new \FrenchFrogs\Polliwog\Form\Form($url, $method);
 
         //renderer
         if (is_null($renderer)) {
-            $renderer = new  \FrenchFrogs\Form\Renderer\Bootstrap();
+            $renderer = new  \FrenchFrogs\Polliwog\Form\Renderer\Bootstrap();
         }
         $form->setRenderer($renderer);
 
         //Validator
         if (is_null($validator)) {
-            $validator = new  \FrenchFrogs\Validator\DefaultValidator();
+            $validator = new  \FrenchFrogs\Model\Validator\Validator();
         }
         $form->setValidator($validator);
 
 
         //filterer
         if (is_null($filterer)) {
-            $filterer = new  \FrenchFrogs\Filterer\Filterer();
+            $filterer = new  \FrenchFrogs\Model\Filterer\Filterer();
         }
         $form->setFilterer($filterer);
 

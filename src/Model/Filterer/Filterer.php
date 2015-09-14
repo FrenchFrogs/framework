@@ -1,4 +1,4 @@
-<?php namespace FrenchFrogs\Filterer;
+<?php namespace FrenchFrogs\Model\Filterer;
 
 
 /**
@@ -7,7 +7,7 @@
  * Use polymorphisme with Trait \FrenchFrogs\Core\Filterer
  *
  * Class Filterer
- * @package FrenchFrogs\Filterer
+ * @package FrenchFrogs\Model\Filterer
  */
 class Filterer
 {

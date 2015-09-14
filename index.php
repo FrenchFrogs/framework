@@ -73,7 +73,7 @@ use FrenchFrogs\Core;
         $form->filter(['text_test' => 'OUOUOUOUOUOU']);
 
 
-        dd($form->getAllFilteredValue());
+        dd($form->getFilteredValues());
         dd();
 
         echo $form;

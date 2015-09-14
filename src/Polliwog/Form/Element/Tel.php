@@ -1,4 +1,4 @@
-<?php namespace FrenchFrogs\Form\Element;
+<?php namespace FrenchFrogs\Polliwog\Form\Element;
 
 
 class Tel extends Text

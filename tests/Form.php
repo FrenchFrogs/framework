@@ -5,8 +5,8 @@
  * TODO: Test __call / __toString
 **/
 
-use FrenchFrogs\Form\Form;
-use FrenchFrogs\Form\Element;
+use FrenchFrogs\Pollywog\Form\Form;
+use FrenchFrogs\Pollywog\Form\Element;
 
 class FormEntity extends Form
 {

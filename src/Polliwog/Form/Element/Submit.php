@@ -1,8 +1,9 @@
-<?php namespace FrenchFrogs\Form\Element;
+<?php namespace FrenchFrogs\Polliwog\Form\Element;
 
 
-class Hidden extends Text
+class Submit extends Element
 {
+
     /**
      * Constructror
      *
@@ -14,9 +15,8 @@ class Hidden extends Text
     {
         $this->setAttributes($attr);
         $this->setName($name);
-        $this->addAttribute('type', 'hidden');
+        $this->addAttribute('type', 'submit');
     }
-
 
     /**
      * @return string
@@ -26,11 +26,12 @@ class Hidden extends Text
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.hidden', $this);
+            $render = $this->getRenderer()->render('form.submit', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }
 
         return $render;
+
     }
 }

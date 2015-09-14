@@ -1,7 +1,7 @@
-<?php namespace FrenchFrogs\Form\Element;
+<?php namespace FrenchFrogs\Polliwog\Form\Element;
 
 use FrenchFrogs\Core;
-use FrenchFrogs\Form\Form;
+use FrenchFrogs\Polliwog\Form\Form;
 
 
 abstract class Element

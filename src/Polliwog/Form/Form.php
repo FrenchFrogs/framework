@@ -1,4 +1,4 @@
-<?php namespace FrenchFrogs\Form;
+<?php namespace FrenchFrogs\Polliwog\Form;
 
 use FrenchFrogs\Core;
 use InvalidArgumentException;
@@ -8,7 +8,7 @@ use FrenchFrogs;
  * Form pollywog
  *
  * Class Form
- * @package FrenchFrogs\Form
+ * @package FrenchFrogs\Polliwog\Form
  */
 class Form
 {
@@ -359,7 +359,7 @@ class Form
 
         $values = [];
         foreach($this->getElements() as $name => $e) {
-            /** @var $e \FrenchFrogs\Form\Element\Element */
+            /** @var $e \FrenchFrogs\Polliwog\Form\Element\Element */
             $values[$name] = $e->getValue();
         }
 
@@ -384,12 +384,12 @@ class Form
      *
      * @return array
      */
-    public function getAllFilteredValue()
+    public function getFilteredValues()
     {
 
         $values = [];
         foreach($this->getElements() as $name => $e){
-            /** @var \FrenchFrogs\Form\Element\Element $e */
+            /** @var \FrenchFrogs\Polliwog\Form\Element\Element $e */
             $values[$name] = $e->getFilteredValue();
         }
         return $values;
@@ -412,7 +412,7 @@ class Form
      * @param $name
      * @param string $label
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Text
+     * @return \FrenchFrogs\Polliwog\Form\Element\Text
      */
     public function addText($name, $label = '', $attr = [] )
     {
@@ -427,7 +427,7 @@ class Form
      * @param $name
      * @param string $label
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Password
+     * @return \FrenchFrogs\Polliwog\Form\Element\Password
      */
     public function addPassword($name, $label = '', $attr = [] )
     {
@@ -442,7 +442,7 @@ class Form
      * @param $name
      * @param string $label
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Textarea
+     * @return \FrenchFrogs\Polliwog\Form\Element\Textarea
      */
     public function addTextarea($name, $label = '', $attr = [] )
     {
@@ -456,7 +456,7 @@ class Form
      *
      * @param $name
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Submit
+     * @return \FrenchFrogs\Polliwog\Form\Element\Submit
      */
     public function addSubmit($name, $attr = [])
     {
@@ -472,7 +472,7 @@ class Form
      * @param $name
      * @param string $label
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Checkbox
+     * @return \FrenchFrogs\Polliwog\Form\Element\Checkbox
      */
     public function addCheckbox($name, $label = '', $multi  = [], $attr = [] )
     {
@@ -488,7 +488,7 @@ class Form
      * @param $name
      * @param string $label
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Tel
+     * @return \FrenchFrogs\Polliwog\Form\Element\Tel
      */
     public function addTel($name, $label = '', $attr = [] )
     {
@@ -503,7 +503,7 @@ class Form
      * @param $name
      * @param string $label
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Email
+     * @return \FrenchFrogs\Polliwog\Form\Element\Email
      */
     public function addEmail($name, $label = '', $attr = [] )
     {
@@ -519,7 +519,7 @@ class Form
      *
      * @param $name
      * @param array $attr
-     * @return  \FrenchFrogs\Form\Element\Hidden
+     * @return  \FrenchFrogs\Polliwog\Form\Element\Hidden
      */
     public function addHidden($name, $attr = [])
     {
@@ -534,7 +534,7 @@ class Form
      * @param $name
      * @param string $label
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Label
+     * @return \FrenchFrogs\Polliwog\Form\Element\Label
      */
     public function addLabel($name, $label = '', $attr = [] )
     {
@@ -549,7 +549,7 @@ class Form
      *
      * @param $label
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Button
+     * @return \FrenchFrogs\Polliwog\Form\Element\Button
      */
     public function addButton($name, $label, $attr = [] )
     {
@@ -562,7 +562,7 @@ class Form
     /**
      * Add separation
      *
-     * @return \FrenchFrogs\Form\Element\Separator
+     * @return \FrenchFrogs\Polliwog\Form\Element\Separator
      */
     public function addSeparator()
     {
@@ -577,7 +577,7 @@ class Form
      *
      * @param $name
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Title
+     * @return \FrenchFrogs\Polliwog\Form\Element\Title
      */
     public function addTitle($name, $attr = [])
     {
@@ -593,7 +593,7 @@ class Form
      * @param $label
      * @param string $content
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Content
+     * @return \FrenchFrogs\Polliwog\Form\Element\Content
      */
     public function addContent($label, $value = '', $attr = [])
     {
@@ -609,7 +609,7 @@ class Form
      * @param $name
      * @param string $label
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Number
+     * @return \FrenchFrogs\Polliwog\Form\Element\Number
      */
     public function addNumber($name, $label = '', $attr = [] )
     {
@@ -626,7 +626,7 @@ class Form
      * @param string $label
      * @param array $multi
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Radio
+     * @return \FrenchFrogs\Polliwog\Form\Element\Radio
      */
     public function addRadio($name, $label = '', $multi  = [], $attr = [] )
     {
@@ -644,7 +644,7 @@ class Form
      * @param $label
      * @param array $multi
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Select
+     * @return \FrenchFrogs\Polliwog\Form\Element\Select
      */
     public function addSelect($name, $label, $multi = [], $attr = [])
     {
@@ -660,7 +660,7 @@ class Form
      * @param $name
      * @param string $label
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\File
+     * @return \FrenchFrogs\Polliwog\Form\Element\File
      */
     public function addFile($name, $label = '', $attr = [])
     {

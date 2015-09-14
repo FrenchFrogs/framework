@@ -1,7 +1,7 @@
-<?php namespace FrenchFrogs\Form\Element;
+<?php namespace FrenchFrogs\Polliwog\Form\Element;
 
 
-class Text extends Element
+class Number extends Text
 {
 
     /**
@@ -16,39 +16,18 @@ class Text extends Element
         $this->setAttributes($attr);
         $this->setName($name);
         $this->setLabel($label);
-        $this->addAttribute('type', 'text');
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     *
-     * @param mixed $value
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-        $this->addAttribute('value', $value);
-
-
-
-        return $this;
-    }
 
     /**
      * @return string
      */
     public function __toString()
     {
+
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.text', $this);
+            $render = $this->getRenderer()->render('form.number', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

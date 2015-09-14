@@ -1,7 +1,7 @@
-<?php namespace FrenchFrogs\Form\Element;
+<?php namespace FrenchFrogs\Polliwog\Form\Element;
 
 
-class Title extends Element
+class Content extends Element
 {
 
     /**
@@ -10,22 +10,23 @@ class Title extends Element
      * @param $label
      * @param array $attr
      */
-    public function __construct($label, $attr = [] )
+    public function __construct($label, $value = '', $attr = [])
     {
         $this->setAttributes($attr);
+        $this->setLabel($label);
         $this->setName($label);
+        $this->setValue($value);
     }
-
 
     /**
      * @return string
      */
     public function __toString()
     {
-
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.title', $this);
+
+            $render = $this->getRenderer()->render('form.content', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

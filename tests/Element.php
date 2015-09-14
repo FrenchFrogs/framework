@@ -1,6 +1,6 @@
 <?php
 
-use FrenchFrogs\Form\Element;
+use FrenchFrogs\Pollywog\Form\Element;
 
 class ElementEntity extends Element {
 

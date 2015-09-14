@@ -1,4 +1,4 @@
-<?php namespace FrenchFrogs\Validator;
+<?php namespace FrenchFrogs\Model\Validator;
 
 /**
  *
@@ -7,7 +7,7 @@
  * Use polymorphisme with Trait \FrenchFrogs\Core\Validator
  *
  * Class Validator
- * @package FrenchFrogs\Validator
+ * @package FrenchFrogs\Model\Validator
  */
 class Validator
 {

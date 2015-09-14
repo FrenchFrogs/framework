@@ -1,7 +1,7 @@
-<?php namespace FrenchFrogs\Form\Element;
+<?php namespace FrenchFrogs\Polliwog\Form\Element;
 
 
-class Label extends Text
+class Text extends Element
 {
 
     /**
@@ -16,6 +16,29 @@ class Label extends Text
         $this->setAttributes($attr);
         $this->setName($name);
         $this->setLabel($label);
+        $this->addAttribute('type', 'text');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     *
+     * @param mixed $value
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+        $this->addAttribute('value', $value);
+
+
+
+        return $this;
     }
 
     /**
@@ -23,10 +46,9 @@ class Label extends Text
      */
     public function __toString()
     {
-
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.label', $this);
+            $render = $this->getRenderer()->render('form.text', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

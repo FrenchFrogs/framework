@@ -1,4 +1,4 @@
-<?php namespace FrenchFrogs\Renderer;
+<?php namespace FrenchFrogs\Model\Renderer;
 
 
 /**
@@ -7,7 +7,7 @@
  * Use polymorphisme with Trait \FrenchFrogs\Core\Renderer
  *
  * Class Renderer
- * @package FrenchFrogs\Renderer
+ * @package FrenchFrogs\Model\Renderer
  */
 class Renderer {
 

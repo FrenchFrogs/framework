@@ -13,7 +13,7 @@ trait Renderer
     /**
      * Renderer container
      *
-     * @var \FrenchFrogs\Renderer\Renderer
+     * @var \FrenchFrogs\Model\Renderer\Renderer
      */
     protected $renderer;
 
@@ -21,7 +21,7 @@ trait Renderer
     /**
      * Getter
      *
-     * @return \FrenchFrogs\Renderer\Renderer
+     * @return \FrenchFrogs\Model\Renderer\Renderer
      */
     public function getRenderer()
     {
@@ -32,10 +32,10 @@ trait Renderer
     /**
      * Setter
      *
-     * @param \FrenchFrogs\Renderer\Renderer $renderer
+     * @param \FrenchFrogs\Model\Renderer\Renderer $renderer
      * @return $this
      */
-    public function setRenderer(\FrenchFrogs\Renderer\Renderer $renderer)
+    public function setRenderer(\FrenchFrogs\Model\Renderer\Renderer $renderer)
     {
 
         $this->renderer = $renderer;

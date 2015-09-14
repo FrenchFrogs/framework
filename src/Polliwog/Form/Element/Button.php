@@ -1,9 +1,8 @@
-<?php namespace FrenchFrogs\Form\Element;
+<?php namespace FrenchFrogs\Polliwog\Form\Element;
 
 
-class Number extends Text
+class Button extends Element
 {
-
     /**
      * Constructror
      *
@@ -18,7 +17,6 @@ class Number extends Text
         $this->setLabel($label);
     }
 
-
     /**
      * @return string
      */
@@ -27,7 +25,7 @@ class Number extends Text
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.number', $this);
+            $render = $this->getRenderer()->render('form.button', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

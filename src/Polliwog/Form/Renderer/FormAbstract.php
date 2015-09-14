@@ -1,14 +1,14 @@
-<?php namespace FrenchFrogs\Form\Renderer;
+<?php namespace FrenchFrogs\Polliwog\Form\Renderer;
 
-use FrenchFrogs\Renderer;
-use FrenchFrogs\Form;
+use FrenchFrogs\Model\Renderer;
+use FrenchFrogs\Polliwog\Form;
 
 
 /**
  * skeleton for Form renderer
  *
  * Class FormAbstract
- * @package FrenchFrogs\Form\Renderer
+ * @package FrenchFrogs\Polliwog\Form\Renderer
  */
 abstract class FormAbstract extends Renderer\Renderer
 {
@@ -43,7 +43,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object form
      *
-     * @param \FrenchFrogs\Form\Form $form
+     * @param \FrenchFrogs\Polliwog\Form\Form $form
      * @return string
      */
     abstract public function  _form(Form\Form $form);
@@ -52,7 +52,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object input.text
      *
-     * @param \FrenchFrogs\Form\Element\Text $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Text $element
      * @return string
      */
     abstract public function  _text(Form\Element\Text $element);
@@ -61,7 +61,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object textarea
      *
-     * @param \FrenchFrogs\Form\Element\Textarea $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Textarea $element
      * @return string
      */
     abstract public function _textarea(Form\Element\Textarea $element);
@@ -69,7 +69,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object submit
      *
-     * @param \FrenchFrogs\Form\Element\Submit $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Submit $element
      * @return string
      */
     abstract public function _submit(Form\Element\Submit $element);
@@ -78,7 +78,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object checkbox
      *
-     * @param \FrenchFrogs\Form\Element\Checkbox $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Checkbox $element
      * @return string
      */
     abstract public function _checkbox(Form\Element\Checkbox $element);
@@ -86,7 +86,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object multiple checkbox
      *
-     * @param \FrenchFrogs\Form\Element\Checkbox $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Checkbox $element
      * @return string
      */
     abstract public function _checkboxmulti(Form\Element\Checkbox $element);
@@ -94,7 +94,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object input:tel
      *
-     * @param \FrenchFrogs\Form\Element\Tel $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Tel $element
      * @return string
      */
     abstract public function _tel(Form\Element\Tel $element);
@@ -102,7 +102,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object input:mail
      *
-     * @param \FrenchFrogs\Form\Element\Email $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Email $element
      * @return string
      */
     abstract public function _email(Form\Element\Email $element);
@@ -111,7 +111,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object input:hidden
      *
-     * @param \FrenchFrogs\Form\Element\Hidden $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Hidden $element
      * @return string
      */
     abstract public function _hidden(Form\Element\Hidden $element);
@@ -119,7 +119,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object label
      *
-     * @param \FrenchFrogs\Form\Element\Label $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Label $element
      * @return string
      */
     abstract public function _label(Form\Element\Label $element);
@@ -127,7 +127,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object button
      *
-     * @param \FrenchFrogs\Form\Element\Button $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Button $element
      * @return string
      */
     abstract public function _button(Form\Element\Button $element);
@@ -135,7 +135,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render separation object
      *
-     * @param \FrenchFrogs\Form\Element\Separator $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Separator $element
      * @return string
      */
     abstract public function _separator(Form\Element\Separator $element);
@@ -143,7 +143,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object title
      *
-     * @param \FrenchFrogs\Form\Element\Title $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Title $element
      * @return string
      */
     abstract public function _title(Form\Element\Title $element);
@@ -151,7 +151,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object content
      *
-     * @param \FrenchFrogs\Form\Element\Content $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Content $element
      * @return string
      */
     abstract public function _content(Form\Element\Content $element);
@@ -159,7 +159,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object input:number
      *
-     * @param \FrenchFrogs\Form\Element\Number $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Number $element
      * @return string
      */
     abstract public function _number(Form\Element\Number $element);
@@ -167,7 +167,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object input:radio
      *
-     * @param \FrenchFrogs\Form\Element\Radio $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Radio $element
      * @return string
      */
     abstract public function _radio(Form\Element\Radio $element);
@@ -175,7 +175,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object
      *
-     * @param \FrenchFrogs\Form\Element\Select $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Select $element
      * @return string
      */
     abstract public function _select(Form\Element\Select $element);
@@ -183,7 +183,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object input:password
      *
-     * @param \FrenchFrogs\Form\Element\Password $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\Password $element
      * @return string
      */
     abstract public function _password(Form\Element\Password $element);
@@ -192,7 +192,7 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object input:file
      *
-     * @param \FrenchFrogs\Form\Element\File $element
+     * @param \FrenchFrogs\Polliwog\Form\Element\File $element
      * @return string
      */
     abstract public function _file(Form\Element\File $element);

@@ -1,21 +1,21 @@
-<?php namespace FrenchFrogs\Form\Element;
+<?php namespace FrenchFrogs\Polliwog\Form\Element;
 
 
-class Content extends Element
+class File extends Text
 {
 
     /**
      * Constructror
      *
-     * @param $label
+     * @param $name
+     * @param string $label
      * @param array $attr
      */
-    public function __construct($label, $value = '', $attr = [])
+    public function __construct($name, $label = '', $attr = [] )
     {
         $this->setAttributes($attr);
+        $this->setName($name);
         $this->setLabel($label);
-        $this->setName($label);
-        $this->setValue($value);
     }
 
     /**
@@ -23,10 +23,10 @@ class Content extends Element
      */
     public function __toString()
     {
+
         $render = '';
         try {
-
-            $render = $this->getRenderer()->render('form.content', $this);
+            $render = $this->getRenderer()->render('form.file', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

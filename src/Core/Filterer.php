@@ -13,7 +13,7 @@ trait Filterer
     /**
      * container
      *
-     * @var \FrenchFrogs\Filterer\Filterer
+     * @var \FrenchFrogs\Model\Filterer\Filterer
      */
     protected $filterer;
 
@@ -21,7 +21,7 @@ trait Filterer
     /**
      * Getter
      *
-     * @return \FrenchFrogs\Filterer\Filterer
+     * @return \FrenchFrogs\Model\Filterer\Filterer
      */
     public function getFilterer()
     {
@@ -32,10 +32,10 @@ trait Filterer
     /**
      * Setter
      *
-     * @param \FrenchFrogs\Filterer\Filterer $filterer
+     * @param \FrenchFrogs\Model\Filterer\Filterer $filterer
      * @return $this
      */
-    public function setFilterer(\FrenchFrogs\Filterer\Filterer $filterer)
+    public function setFilterer(\FrenchFrogs\Model\Filterer\Filterer $filterer)
     {
 
         $this->filterer = $filterer;
