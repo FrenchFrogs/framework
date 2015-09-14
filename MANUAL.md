@@ -19,7 +19,11 @@ We use some simples rules to name attribute and method :
 
 Name must begin with **is_**, **can_**, **has_** or other verbs that lead to a question with a yes/no response
 
-*ex :*  **is_** valid, **has_** children, **can_** render
+*ex :*
+
+ - **is_** valid,
+ - **has_** children,
+ - **can_** render
 
 For boolean attribute, here are the method we expect :
 (is|has|can) + name of the variable
@@ -38,28 +42,32 @@ For boolean attribute, here are the method we expect :
 ```
 
 
-### Container - Array
+### Container / Array
 
 Name must be at plural.
 
 For array attribute, here are the methods we expect :
 
-*Global method*
-**set** + Plural name : global setter
-**get** + Plural name : global getter
-**clear** + Plural name : Empty the array
+####Global method
 
-*Singular hash method*  - if you need index into the container
-**add** + singular name : Add a single value in the container
-**remove** + singular name  : Remove a nsingle value from the container
-**has** + singular name : Return TRUE if the value exist in the container
-**get** + singular name : Return the value
+ - **set** + Plural name : global setter
+ - **get** + Plural name : global getter
+ - **clear** + Plural name : Empty the array
 
-*Stack method* - if you don't need index into the container
-**shift** + singular name :  Shift an element off the beginning of the container
-**unshift** + singular name : Prepend one or more elements to the beginning of the container
-**push** + singular name : Push one element onto the end of the container
-**pop** + singular name : Pop the element off the end of the container
+####Singular hash method  - if you need index into the container
+
+ - **add** + singular name : Add a single value in the container
+ - **remove** + singular name  : Remove a nsingle value from the container
+ - **has** + singular name : Return TRUE if the value exist in the container
+ - **get** + singular name : Return the value
+
+####Stack method - if you don't need index into the container
+
+ - **shift** + singular name :  Shift an element off the beginning of the container
+ - **unshift** + singular name : Prepend one or more elements to the beginning of the container
+ - **push** + singular name : Push one element onto the end of the container
+ - **pop** + singular name : Pop the element off the end of the container
+
 
 *ex :*
 
