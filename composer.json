@@ -8,13 +8,14 @@
         "type": "git",
         "reference": "origin/master"
     },
-    "keywords": ["laravel", "french", "frogs", "datagrid", "form", "plugins"],
+    "keywords": ["laravel", "french", "frogs", "datagrid", "table", "form", "plugins"],
     "homepage": "https://github.com/FrenchFrogs/Framework",
     "licence": "GPL-3.0+",
     "authors": [
         {
             "name": "Julien Houvion",
             "email": "cotcotquedec@gmail.com",
+            "homepage": "https://github.com/cotcotquedec",
             "role": "Developer"
         },
         {

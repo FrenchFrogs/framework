@@ -9,6 +9,25 @@ error_reporting(E_ALL);
 require_once 'vendor/autoload.php';
 
 use FrenchFrogs\Core;
+
+
+$data = ['titi', 'tutu', 'coucou'];
+$data = new ArrayIterator($data);
+
+//$data->offset
+dd($data);
+
+if (is_array($data)) {
+
+    if (!($data instanceof Iterator)){
+        throw new \Exception('$data doit être un iterator');
+    }
+}
+
+
+dd($data);
+
+
 ?>
 
 <!DOCTYPE html>

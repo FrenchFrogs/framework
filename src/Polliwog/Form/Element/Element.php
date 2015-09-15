@@ -12,7 +12,7 @@ abstract class Element
     use Core\Filterer;
 
     /**
-     * Contient le formulaire
+     * Parent form
      *
      * @var Form
      *
@@ -20,14 +20,14 @@ abstract class Element
     protected $form;
 
     /**
-     * Label du champs
+     * Field label
      *
      * @var string
      */
     protected $label;
 
     /**
-     * Valeur de l'element
+     * Field value
      *
      * @var $value
      *
@@ -37,7 +37,7 @@ abstract class Element
 
 
     /**
-     * Si l'element doit être traité dans les process de masse comme le retour de valeur ou autres
+     * If the element has to be treat during global action
      *
      */
     protected $is_discreet = false;
@@ -281,7 +281,6 @@ abstract class Element
         // construction des paramètres
         array_unshift($params, $rule, $method);
 
-        dd($this);
         //ajout de la regle
         call_user_func_array([$this->getValidator(), 'addRule'], $params);
 
@@ -395,5 +394,30 @@ abstract class Element
     public function getFilteredValue()
     {
         return  $this->getFilterer()->filter($this->getValue());
+    }
+
+
+    /**
+     * Setter for is_discreet boolean
+     *
+     * @param bool|true $discreet
+     * @return $this
+     */
+    public function setDiscreet($discreet = true)
+    {
+        $this->is_discreet = $discreet;
+
+        return $this;
+    }
+
+    /**
+     *
+     * Return TRUE if the element has to be treat during global process
+     *
+     * @return bool
+     */
+    public function isDiscreet()
+    {
+        return $this->is_discreet;
     }
 }

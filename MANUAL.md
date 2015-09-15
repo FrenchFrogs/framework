@@ -64,8 +64,8 @@ For array attribute, here are the methods we expect :
 ####Stack method - if you don't need index into the container
 
  - **shift** + singular name :  Shift an element off the beginning of the container
- - **unshift** + singular name : Prepend one or more elements to the beginning of the container
- - **push** + singular name : Push one element onto the end of the container
+ - **prepend** + singular name : Prepend one or more elements to the beginning of the container
+ - **append** + singular name : Push one element onto the end of the container
  - **pop** + singular name : Pop the element off the end of the container
 
 
@@ -78,13 +78,13 @@ For array attribute, here are the methods we expect :
 
 		public function setChildren(array $children)
 		{
-			$this->children = $children
+			$this->children = $children;
 			return $this;
 		}
 
 		public function getChildren()
 		{
-			return $this->children
+			return $this->children;
 		}
 
 		public function clearChildren()
@@ -128,13 +128,13 @@ For array attribute, here are the methods we expect :
 			return array_shift($this->children);
 		}
 
-		public function unshiftChild($value)
+		public function prependChild($value)
 		{
 			array_unshift($this->children, $value);
 			return $this;
 		}
 
-		public function pushChild($value)
+		public function appendChild($value)
 		{
 			$this->children[] = $value;
 			return $this;
