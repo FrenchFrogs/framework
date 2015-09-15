@@ -300,12 +300,11 @@ class Form
     }
 
     /**
-     * Overload parent method for form specification
+     * Render the polliwog
      *
-     * @return string
-     *
+     * @return mixed|string
      */
-    public function __toString()
+    public function render()
     {
         $render = '';
         try {
@@ -315,6 +314,18 @@ class Form
         }
 
         return $render;
+    }
+
+
+    /**
+     * Overload parent method for form specification
+     *
+     * @return string
+     *
+     */
+    public function __toString()
+    {
+        return $this->render();
     }
 
 

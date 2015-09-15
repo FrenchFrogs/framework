@@ -57,12 +57,11 @@ class Factory
      */
     static public function table($data = null, \FrenchFrogs\Polliwog\Table\Renderer\TableAbstract $renderer = null)
     {
-
         $table = new \FrenchFrogs\Polliwog\Table\Table($data);
 
         //renderer
         if (is_null($renderer)) {
-            $renderer = new  \FrenchFrogs\Polliwog\Form\Renderer\Bootstrap();
+            $renderer = new  \FrenchFrogs\Polliwog\Table\Renderer\Bootstrap();
         }
         $table->setRenderer($renderer);
 

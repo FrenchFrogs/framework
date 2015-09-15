@@ -10,24 +10,6 @@ require_once 'vendor/autoload.php';
 
 use FrenchFrogs\Core;
 
-
-$data = ['titi', 'tutu', 'coucou'];
-$data = new ArrayIterator($data);
-
-//$data->offset
-dd($data);
-
-if (is_array($data)) {
-
-    if (!($data instanceof Iterator)){
-        throw new \Exception('$data doit être un iterator');
-    }
-}
-
-
-dd($data);
-
-
 ?>
 
 <!DOCTYPE html>
@@ -64,7 +46,7 @@ dd($data);
 
 <div class="container">
 
-    <div class="starter-template">
+    <div class="starter-template hidden">
         <h1>Form</h1>
 
         <?php
@@ -102,6 +84,42 @@ dd($data);
 
         ?>
     </div>
+
+    <div class="starter-template">
+        <h1>Table</h1>
+
+        <?php
+        /**
+         *
+         * Exemple de formulaire
+         *
+         *
+         */
+
+        $col = ['col1', 'col2', 'col3', 'col4'];
+        $col = array_combine($col,$col);
+
+        $data = [];
+        for($i = 0; $i < rand(10,25); $i++ ){
+            $data[] = $col;
+        }
+
+        $table = Core\Factory::table($data);
+        $table->addText('col1', 'Colonne 1');
+        $table->addText('col2', 'Papa');
+        $table->addText('col3', 'Maman');
+        $table->addText('col4', 'Frerot');
+
+
+
+        echo $table;
+
+        ?>
+    </div>
+
+
+
+
 </div><!-- /.container -->
 
 

@@ -1,6 +1,7 @@
 <?php namespace FrenchFrogs\Polliwog\Table\Renderer;
 
-abstract class TableAbstract
+
+abstract class TableAbstract extends \FrenchFrogs\Model\Renderer\Renderer
 {
 
     /**
@@ -10,9 +11,8 @@ abstract class TableAbstract
      * @var array
      */
     protected $renderers = [
-        'head' => '_head',
-        'body' => '_body',
-        'foot' => '_foot'
+        'table' => '_table',
+        'table.text' => '_text'
     ];
 
 }

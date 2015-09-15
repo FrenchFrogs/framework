@@ -173,4 +173,16 @@ abstract class Column
         unset($this->name);
         return $this;
     }
+
+
+    /**
+     * Default render
+     *
+     * @param array $row
+     * @return mixed
+     */
+    public function render(array $row)
+    {
+        return $row[$this->name];
+    }
 }

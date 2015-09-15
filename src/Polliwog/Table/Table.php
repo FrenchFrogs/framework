@@ -4,6 +4,7 @@
 use FrenchFrogs\Core;
 use FrenchFrogs\Polliwog\Table\Column;
 use FrenchFrogs\Polliwog\Table\Renderer;
+use InvalidArgumentException;
 
 /**
  * Table polliwog
@@ -15,6 +16,7 @@ class Table
 {
 
     use Core\Renderer;
+    use Core\Html;
 
 
     /**
@@ -40,8 +42,16 @@ class Table
      * @param string $url
      * @param string $method
      */
-    public function __construct(\Iterator $rows = null)
+    public function __construct($rows = [])
     {
+        if (is_array($rows)) {
+            $rows = new \ArrayIterator($rows);
+        }
+
+        if (!($rows instanceof \Iterator)){
+            throw new InvalidArgumentException("{$rows} must be an array or an Iterator");
+        }
+
         if (!is_null($rows)) {
             $this->setRows($rows);
         }
@@ -135,7 +145,7 @@ class Table
             $column->setRenderer($this->getRenderer());
         }
 
-        $this->$column[$column->getName()] = $column;
+        $this->columns[$column->getName()] = $column;
 
         return $this;
     }
@@ -179,6 +189,55 @@ class Table
         return $this->columns[$name];
     }
 
+
+
+
+    /**
+     *
+     * Column
+     *
+     *
+     *
+     */
+
+
+    /**
+     * Add Text column to $columns container
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Polliwog\Table\Column\Text
+     */
+    public function addText($name, $label = '', $attr = [])
+    {
+
+        $c = new Column\Text($name, $label, $attr);
+        $this->addColumn($c);
+
+        return $c;
+    }
+
+
+
+    /**
+     * Overload parent method for form specification
+     *
+     * @return string
+     *
+     */
+    public function __toString()
+    {
+
+        $render = '';
+        try {
+            $render = $this->getRenderer()->render('table', $this);
+        } catch(\Exception $e){
+            dd($e->getMessage());//@todo find a good way to warn the developper
+        }
+
+        return $render;
+    }
 
 
 
