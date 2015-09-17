@@ -2,184 +2,49 @@
 
 use FrenchFrogs\Polliwog\Table\Column;
 
-class Bootstrap extends TableAbstract
+class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
 {
 
-
-    const TABLE_STRIPED_CLASS = 'table-striped';
-
-
-    const TABLE_BORDERED_CLASS = 'table-bordered';
-
-
-    const TABLE_HOVER_CLASS = 'table-hover';
-
-
-    const TABLE_CONDENSED_CLASS = 'table-condensed';
-
-
-    const TABLE_RESPONSIVE_CLASS = 'table-responsive';
-
+    /**
+     * Classes for table element
+     *
+     */
+    const TABLE_CLASS_STRIPED = 'table-striped';
+    const TABLE_CLASS_BORDERED = 'table-bordered';
+    const TABLE_CLASS_HOVER = 'table-hover';
+    const TABLE_CLASS_CONDENSED = 'table-condensed';
+    const TABLE_CLASS_RESPONSIVE = 'table-responsive';
     const TABLE_CLASS = 'table';
 
-    /**
-     *
-     * Add zebra-striping to any table row within the <tbody>
-     *
-     * @link http://getbootstrap.com/css/#tables-striped
-     *
-     * @var bool
-     */
-    protected $is_striped = true;
 
     /**
-     * Borders on all sides of the table and cells
+     * Classes for button element
      *
-     * @link http://getbootstrap.com/css/#tables-bordered
-     *
-     * @var bool
      */
-    protected $is_bordered = false;
-
+    const BUTTON_CLASS = 'btn';
+    const BUTTON_OPTION_CLASS_DEFAULT = 'btn-default';
+    const BUTTON_OPTION_CLASS_PRIMARY = 'btn-primary';
+    const BUTTON_OPTION_CLASS_SUCCESS = 'btn-success';
+    const BUTTON_OPTION_CLASS_INFO = 'btn-info';
+    const BUTTON_OPTION_CLASS_WARNING = 'btn-warning';
+    const BUTTON_OPTION_CLASS_DANGER = 'btn-danger';
+    const BUTTON_OPTION_CLASS_LINK = 'btn-link';
+    const BUTTON_SIZE_CLASS_LARGE = 'btn-lg';
+    const BUTTON_SIZE_CLASS_SMALL = 'btn-sm';
+    const BUTTON_SIZE_CLASS_EXTRA_SMALL = 'btn-xs';
 
     /**
-     * Enable a hover state on table rows within a <tbody>
      *
-     * @link http://getbootstrap.com/css/#tables-hover-rows
+     * Available renderer
      *
-     * @var bool
+     * @var array
      */
-    protected $has_hover = true;
-
-    /**
-     * Make tables more compact by cutting cell padding in half.
-     *
-     * @link http://getbootstrap.com/css/#tables-condensed
-     *
-     * @var bool
-     */
-    protected $is_condensed = true;
-
-    /**
-     * Create responsive tables by making them scroll horizontally on small devices
-     *
-     * @link http://getbootstrap.com/css/#tables-responsive
-     *
-     * @var bool
-     */
-    protected $is_responsive = true;
-
-
-    /**
-     * Setter for $is_stripped attribute
-     *
-     * @param bool|true $stripped
-     * @return $this
-     */
-    public function setStriped($stripped = true)
-    {
-        $this->is_striped = (bool) $stripped;
-        return $this;
-    }
-
-    /**
-     * Return TRUE if $is_stripped attribute is TRUE
-     *
-     * @return bool
-     */
-    public function isStriped()
-    {
-        return (bool) $this->is_striped;
-    }
-
-    /**
-     * Setter for $is_bordered attribute
-     *
-     * @param bool|true $borderer
-     * @return $this
-     */
-    public function setBordered($borderer = true)
-    {
-        $this->is_bordered = (bool) $borderer;
-        return $this;
-    }
-
-    /**
-     * Return TRUE if $is_bordered attribute is TRUE
-     *
-     * @return bool
-     */
-    public function isBordered()
-    {
-        return (bool) $this->is_bordered;
-    }
-
-
-    /**
-     * Setter for $is_condensed attribute
-     *
-     * @param bool|true $condensed
-     * @return $this
-     */
-    public function setCondensed($condensed = true)
-    {
-        $this->is_condensed = (bool) $condensed;
-        return $this;
-    }
-
-    /**
-     * Return TRUE if $is_condensed attribute is TRUE
-     *
-     * @return bool
-     */
-    public function isCondensed()
-    {
-        return (bool) $this->is_condensed;
-    }
-
-    /**
-     * Setter for $is_responsive attribute
-     *
-     * @param bool|true $responsive
-     * @return $this
-     */
-    public function setResponsive($responsive = true)
-    {
-        $this->is_responsive = (bool) $responsive;
-        return $this;
-    }
-
-    /**
-     * Return TRUE if $is_responsive attribute is TRUE
-     *
-     * @return bool
-     */
-    public function isResponsive()
-    {
-        return (bool) $this->is_responsive;
-    }
-
-    /**
-     * Setter for $has_hover attribute
-     *
-     * @param bool|true $hover
-     * @return $this
-     */
-    public function setHover($hover = true)
-    {
-        $this->has_hover = $hover;
-        return $this;
-    }
-
-    /**
-     * Return TRUE if $has_hover attribute is TRUE
-     *
-     * @return bool
-     */
-    public function hasHover()
-    {
-        return (bool) $this->has_hover;
-    }
+    protected $renderers = [
+        'table' => '_table',
+        'table.text' => '_text',
+        'table.link' => '_link',
+        'table.button' => '_button'
+    ];
 
 
     public function _table(\FrenchFrogs\Polliwog\Table\Table $table)
@@ -210,34 +75,34 @@ class Bootstrap extends TableAbstract
 
         // Footer
 
-        // Gesiton des class globale
+        // Bootstrap class management
         $table->addClass(static::TABLE_CLASS);
 
-
-        if ($this->isStriped()){
-            $table->addClass(static::TABLE_STRIPED_CLASS);
+        if ($table->isStriped()){
+            $table->addClass(static::TABLE_CLASS_STRIPED);
         }
 
-        if ($this->isBordered()) {
-            $table->addClass(static::TABLE_BORDERED_CLASS);
+        if ($table->isBordered()) {
+            $table->addClass(static::TABLE_CLASS_BORDERED);
         }
 
-        if ($this->isCondensed()) {
-            $table->addClass(static::TABLE_CONDENSED_CLASS);
+        if ($table->isCondensed()) {
+            $table->addClass(static::TABLE_CLASS_CONDENSED);
         }
 
-        if ($this->hasHover()) {
-            $table->addClass(static::TABLE_HOVER_CLASS);
+        if ($table->hasHover()) {
+            $table->addClass(static::TABLE_CLASS_HOVER);
         }
 
-        $table =  html('table', $table->getAttributes(), html('thead', [], $head) . html('tbody', [], $body));
+
+        $html =  html('table', $table->getAttributes(), html('thead', [], $head) . html('tbody', [], $body));
 
         // responsive
-        if ($this->isResponsive()){
-            $table = html('div', ['class' => static::TABLE_RESPONSIVE_CLASS], $table);
+        if ($table->isResponsive()){
+            $html = html('div', ['class' => static::TABLE_CLASS_RESPONSIVE], $html);
         }
 
-        return $table;
+        return $html;
     }
 
 
@@ -250,9 +115,44 @@ class Bootstrap extends TableAbstract
     public function _link(Column\Link $column, array $row)
     {
 
+        $html = html('a', ['href' => $column->getBindedLink($row)], isset($row[$column->getName()]) ? $row[$column->getName()] : '' );
+        return $html;
     }
 
 
+    public function _button(Column\Button $column, array $row)
+    {
+
+        if ($column->hasOption()) {
+            $column->addClass($column->getOption());
+        }
+
+        if ($column->hasSize()) {
+            $column->addClass($column->getSize());
+        }
+
+
+        $column->addClass(static::BUTTON_CLASS);
+        $column->addAttribute('href',$column->getBindedLink($row));
+
+
+        $label = '';
+        if ($column->hasIcon()) {
+            $label .= html('i', ['class' => $column->getIcon()]);
+        }
+
+        $name = isset($row[$column->getName()]) ? $row[$column->getName()] : '';
+        if ($column->isIconOnly()) {
+            $column->addAttribute('data-toggle', 'tooltip');
+        } else {
+            $label .= $name;
+        }
+
+        $column->addAttribute('title', $name);
+
+        $html = html('a',$column->getAttributes(), $label );
+        return $html;
+    }
 }
 
 

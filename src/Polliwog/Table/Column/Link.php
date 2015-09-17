@@ -39,12 +39,12 @@ class Link extends Text
      */
     public function getLink()
     {
-        return $this->getLink();
+        return $this->link;
     }
 
 
     /**
-     * Setter
+     * Setter for $binds
      *
      * @param array $binds
      * @return $this
@@ -55,34 +55,67 @@ class Link extends Text
         return $this;
     }
 
+    /**
+     * Getter for $binds
+     *
+     * @return array
+     */
     public function getBinds()
     {
         return $this->binds;
     }
 
+
+    /**
+     * Clear $binds container
+     *
+     * @return $this
+     */
     public function clearBinds()
     {
         $this->binds = [];
         return $this;
     }
 
+    /**
+     * Add a single value to the end of $binds container
+     *
+     * @param $bind
+     * @return $this
+     */
     public function appendBind($bind)
     {
         $this->binds[] = $bind;
         return $this;
     }
 
+    /**
+     * Add a single value to the begin of $binds container
+     *
+     * @param $bind
+     * @return $this
+     */
     public function prependBind($bind)
     {
         array_unshift($this->binds, $bind);
         return $this;
     }
 
+    /**
+     * Shift first element of $binds container
+     *
+     * @return mixed
+     */
     public function shiftBind()
     {
         return array_shift($this->binds);
     }
 
+    /**
+     * Pop last element of $binds container
+     *
+     * @return mixed
+     */
     public function popBind()
     {
         return array_pop($this->binds);
@@ -104,8 +137,18 @@ class Link extends Text
         $this->setName($name);
         $this->setLabel($label);
         $this->setLink($link);
-        $this->setBinds($binds);
+        $this->setBinds((array) $binds);
     }
+
+    public function getBindedLink($row = [])
+    {
+
+        $bind = array_intersect_key($row, array_fill_keys($this->getBinds(), ''));
+
+        return vsprintf($this->getLink(),$bind);
+
+    }
+
 
     /**
      *
@@ -116,15 +159,11 @@ class Link extends Text
     {
         $render = '';
         try {
-            $render = $this->getRenderer()->render('table.text', $this, $row);
+            $render = $this->getRenderer()->render('table.link', $this, $row);
         } catch(\Exception $e){
             dd($e->getMessage());
         }
 
         return $render;
     }
-
-
-
-
 }

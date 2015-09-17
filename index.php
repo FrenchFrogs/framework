@@ -22,6 +22,7 @@ use FrenchFrogs\Core;
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
     <style>
         body {
@@ -107,8 +108,8 @@ use FrenchFrogs\Core;
         $table = Core\Factory::table($data);
         $table->addText('col1', 'Colonne 1');
         $table->addText('col2', 'Papa');
-        $table->addText('col3', 'Maman');
-        $table->addText('col4', 'Frerot');
+        $table->addLink('col3', 'Maman', "javascript:alert('%s')", 'col3');
+        $table->addButton('col4', 'Frerot', "javascript:alert('%s')", 'col4')->icon('fa fa-amazon')->setOptionAsPrimary();
 
 
 

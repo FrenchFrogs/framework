@@ -9,6 +9,8 @@ use InvalidArgumentException;
 /**
  * Table polliwog
  *
+ * Default table is build with a bootstrap support
+ *
  * Class Table
  * @package FrenchFrogs\Polliwog\Table
  */
@@ -18,6 +20,53 @@ class Table
     use Core\Renderer;
     use Core\Html;
 
+
+    /**
+     *
+     * Add zebra-striping to any table row within the <tbody>
+     *
+     * @link http://getbootstrap.com/css/#tables-striped
+     *
+     * @var bool
+     */
+    protected $is_striped = true;
+
+    /**
+     * Borders on all sides of the table and cells
+     *
+     * @link http://getbootstrap.com/css/#tables-bordered
+     *
+     * @var bool
+     */
+    protected $is_bordered = false;
+
+
+    /**
+     * Enable a hover state on table rows within a <tbody>
+     *
+     * @link http://getbootstrap.com/css/#tables-hover-rows
+     *
+     * @var bool
+     */
+    protected $has_hover = true;
+
+    /**
+     * Make tables more compact by cutting cell padding in half.
+     *
+     * @link http://getbootstrap.com/css/#tables-condensed
+     *
+     * @var bool
+     */
+    protected $is_condensed = true;
+
+    /**
+     * Create responsive tables by making them scroll horizontally on small devices
+     *
+     * @link http://getbootstrap.com/css/#tables-responsive
+     *
+     * @var bool
+     */
+    protected $is_responsive = true;
 
     /**
      *
@@ -190,14 +239,33 @@ class Table
     }
 
 
+    /**
+     * Overload parent method for form specification
+     *
+     * @return string
+     *
+     */
+    public function __toString()
+    {
+
+        $render = '';
+        try {
+            $render = $this->getRenderer()->render('table', $this);
+        } catch(\Exception $e){
+            dd($e->getMessage());//@todo find a good way to warn the developper
+        }
+
+        return $render;
+    }
+
 
 
     /**
      *
-     * Column
+     ********************
+     * COLUMNS
      *
-     *
-     *
+     ********************
      */
 
 
@@ -219,27 +287,154 @@ class Table
     }
 
 
-
     /**
-     * Overload parent method for form specification
+     * Add Link columns to $columns container
      *
-     * @return string
-     *
+     * @param $name
+     * @param string $label
+     * @param string $link
+     * @param array $binds
+     * @param array $attr
+     * @return \FrenchFrogs\Polliwog\Table\Column\Link
      */
-    public function __toString()
+    public function addLink($name, $label = '', $link = '', $binds = [], $attr = [])
     {
+        $c = new Column\Link($name, $label, $link, $binds, $attr);
+        $this->addColumn($c);
 
-        $render = '';
-        try {
-            $render = $this->getRenderer()->render('table', $this);
-        } catch(\Exception $e){
-            dd($e->getMessage());//@todo find a good way to warn the developper
-        }
+        return $c;
+    }
 
-        return $render;
+    public function addButton($name, $label = '', $link = '', $binds = [], $attr = [])
+    {
+        $c = new Column\Button($name, $label, $link, $binds, $attr);
+        $c->setOptionAsDefault();
+        $this->addColumn($c);
+
+        return $c;
     }
 
 
+
+    /**
+     * **********************
+     * Bootstrap
+     *
+     * **********************
+     *
+     */
+
+
+    /**
+     * Setter for $is_stripped attribute
+     *
+     * @param bool|true $stripped
+     * @return $this
+     */
+    public function setStriped($stripped = true)
+    {
+        $this->is_striped = (bool) $stripped;
+        return $this;
+    }
+
+    /**
+     * Return TRUE if $is_stripped attribute is TRUE
+     *
+     * @return bool
+     */
+    public function isStriped()
+    {
+        return (bool) $this->is_striped;
+    }
+
+    /**
+     * Setter for $is_bordered attribute
+     *
+     * @param bool|true $borderer
+     * @return $this
+     */
+    public function setBordered($borderer = true)
+    {
+        $this->is_bordered = (bool) $borderer;
+        return $this;
+    }
+
+    /**
+     * Return TRUE if $is_bordered attribute is TRUE
+     *
+     * @return bool
+     */
+    public function isBordered()
+    {
+        return (bool) $this->is_bordered;
+    }
+
+
+    /**
+     * Setter for $is_condensed attribute
+     *
+     * @param bool|true $condensed
+     * @return $this
+     */
+    public function setCondensed($condensed = true)
+    {
+        $this->is_condensed = (bool) $condensed;
+        return $this;
+    }
+
+    /**
+     * Return TRUE if $is_condensed attribute is TRUE
+     *
+     * @return bool
+     */
+    public function isCondensed()
+    {
+        return (bool) $this->is_condensed;
+    }
+
+    /**
+     * Setter for $is_responsive attribute
+     *
+     * @param bool|true $responsive
+     * @return $this
+     */
+    public function setResponsive($responsive = true)
+    {
+        $this->is_responsive = (bool) $responsive;
+        return $this;
+    }
+
+    /**
+     * Return TRUE if $is_responsive attribute is TRUE
+     *
+     * @return bool
+     */
+    public function isResponsive()
+    {
+        return (bool) $this->is_responsive;
+    }
+
+    /**
+     * Setter for $has_hover attribute
+     *
+     * @param bool|true $hover
+     * @return $this
+     */
+    public function setHover($hover = true)
+    {
+        $this->has_hover = $hover;
+        return $this;
+    }
+
+    /**
+     * Return TRUE if $has_hover attribute is TRUE
+     *
+     * @return bool
+     */
+    public function hasHover()
+    {
+        return (bool) $this->has_hover;
+    }
 
 
 }

@@ -52,10 +52,10 @@ class Factory
      * Return a configured table
      *
      * @param null $data
-     * @param \FrenchFrogs\Polliwog\Table\Renderer\TableAbstract|null $renderer
+     * @param \FrenchFrogs\Model\Renderer\Renderer|null $renderer
      * @return \FrenchFrogs\Polliwog\Table\Table
      */
-    static public function table($data = null, \FrenchFrogs\Polliwog\Table\Renderer\TableAbstract $renderer = null)
+    static public function table($data = null, \FrenchFrogs\Model\Renderer\Renderer $renderer = null)
     {
         $table = new \FrenchFrogs\Polliwog\Table\Table($data);
 
