@@ -66,8 +66,7 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
 
             $line = '';
             foreach($table->getColumns() as $name => $column) {
-                $line .= html('td', [], $column->render($row));
-
+                $line .= html('td', [], $column->render((array) $row));
             }
 
             $body .= html('tr', [],$line );
@@ -141,7 +140,7 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
             $label .= html('i', ['class' => $column->getIcon()]);
         }
 
-        $name = isset($row[$column->getName()]) ? $row[$column->getName()] : '';
+        $name = $column->getLabel();
         if ($column->isIconOnly()) {
             $column->addAttribute('data-toggle', 'tooltip');
         } else {

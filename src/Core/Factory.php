@@ -37,7 +37,6 @@ class Factory
         }
         $form->setValidator($validator);
 
-
         //filterer
         if (is_null($filterer)) {
             $filterer = new  \FrenchFrogs\Model\Filterer\Filterer();

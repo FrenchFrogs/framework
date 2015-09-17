@@ -104,6 +104,11 @@ class Table
         if (!is_null($rows)) {
             $this->setRows($rows);
         }
+
+        // if method "init" exist, we call it.
+        if (method_exists($this, 'init')) {
+            call_user_func_array([$this, 'init'], func_get_args());
+        }
     }
 
 
@@ -238,6 +243,18 @@ class Table
         return $this->columns[$name];
     }
 
+    public function render()
+    {
+        $render = '';
+        try {
+            $render = $this->getRenderer()->render('table', $this);
+        } catch(\Exception $e){
+            dd($e->getMessage());//@todo find a good way to warn the developper
+        }
+
+        return $render;
+    }
+
 
     /**
      * Overload parent method for form specification
@@ -247,15 +264,7 @@ class Table
      */
     public function __toString()
     {
-
-        $render = '';
-        try {
-            $render = $this->getRenderer()->render('table', $this);
-        } catch(\Exception $e){
-            dd($e->getMessage());//@todo find a good way to warn the developper
-        }
-
-        return $render;
+        return $this->render();
     }
 
 
