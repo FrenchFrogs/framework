@@ -174,7 +174,7 @@ class Button extends Link
      */
     public function setOptionAsDefault()
     {
-        $this->setOption(Bootstrap::BUTTON_OPTION_CLASS_DEFAULT);
+        $this->setOption('BUTTON_OPTION_CLASS_DEFAULT');
         return $this;
     }
 
@@ -186,7 +186,7 @@ class Button extends Link
      */
     public function setOptionAsPrimary()
     {
-        $this->setOption(Bootstrap::BUTTON_OPTION_CLASS_PRIMARY);
+        $this->setOption('BUTTON_OPTION_CLASS_PRIMARY');
         return $this;
     }
 
@@ -197,7 +197,7 @@ class Button extends Link
      */
     public function setOptionAsSuccess()
     {
-        $this->setOption( Bootstrap::BUTTON_OPTION_CLASS_SUCCESS);
+        $this->setOption( 'BUTTON_OPTION_CLASS_SUCCESS');
         return $this;
     }
 
@@ -208,7 +208,7 @@ class Button extends Link
      */
     public function setOptionAsInfo()
     {
-        $this->setOption(Bootstrap::BUTTON_OPTION_CLASS_INFO);
+        $this->setOption('BUTTON_OPTION_CLASS_INFO');
         return $this;
     }
 
@@ -220,7 +220,7 @@ class Button extends Link
      */
     public function setOptionAsWarning()
     {
-        $this->setOption(Bootstrap::BUTTON_OPTION_CLASS_WARNING);
+        $this->setOption('BUTTON_OPTION_CLASS_WARNING');
         return $this;
     }
 
@@ -231,7 +231,7 @@ class Button extends Link
      */
     public function setOptionAsDanger()
     {
-        $this->setOption(Bootstrap::BUTTON_OPTION_CLASS_DANGER);
+        $this->setOption('BUTTON_OPTION_CLASS_DANGER');
         return $this;
     }
 
@@ -242,7 +242,7 @@ class Button extends Link
      */
     public function setOptionAsLink()
     {
-        $this->setOption(Bootstrap::BUTTON_OPTION_CLASS_LINK);
+        $this->setOption('BUTTON_OPTION_CLASS_LINK');
         return $this;
     }
 
@@ -297,7 +297,7 @@ class Button extends Link
      */
     public function setSizeAsLarge()
     {
-        $this->setSize(Bootstrap::BUTTON_SIZE_CLASS_LARGE);
+        $this->setSize('BUTTON_SIZE_CLASS_LARGE');
         return $this;
     }
 
@@ -308,7 +308,7 @@ class Button extends Link
      */
     public function setSizeAsSmall()
     {
-        $this->setSize(Bootstrap::BUTTON_SIZE_CLASS_SMALL);
+        $this->setSize('BUTTON_SIZE_CLASS_SMALL');
         return $this;
     }
 
@@ -320,7 +320,7 @@ class Button extends Link
      */
     public function setSizeAsExtraSmall()
     {
-        $this->setSize(Bootstrap::BUTTON_SIZE_CLASS_EXTRA_SMALL);
+        $this->setSize('BUTTON_SIZE_CLASS_EXTRA_SMALL');
         return $this;
     }
 

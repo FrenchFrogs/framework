@@ -1,30 +1,72 @@
 <?php namespace FrenchFrogs\Core;
 
+use FrenchFrogs\Polliwog;
+
 
 class Configurator
 {
 
+    const NAMESPACE_DEFAULT = 'default';
 
     /**
-     * Configurator container
-     *
+     * Config
      *
      * @var array
      */
-    static protected $config = [];
+    protected $config = [
+        'panel.class' => Polliwog\Panel\Panel\Panel::class,
+        'panel.renderer.class' =>  Polliwog\Panel\Renderer\Bootstrap::class,
+        'table.class' => Polliwog\Table\Table\Table::class,
+        'table.renderer.class' => Polliwog\Table\Renderer\Bootstrap::class,
+    ];
+
+    /**
+     * Instances
+     *
+     * @var array
+     */
+    static protected $instances = [];
+
+    /**
+     * constructor du singleton
+     *
+     * @return Configurator
+     */
+    static function getInstance($namespace = null) {
+
+        $namespace = is_null($namespace) ? static::NAMESPACE_DEFAULT : $namespace;
+
+        if (!array_key_exists($namespace, self::$instances)) {
+            self::$instances[$namespace] = new Configurator();
+        }
+
+        return self::$instances[$namespace];
+    }
+
+
+    /**
+     * Constructor for a default configuration
+     */
+    protected function __construct()
+    {
+
+    }
 
 
     /**
      * Get a config from $index
      *
      * @param $index
+     * @param null $default
      * @return null
      */
-    static public function get($index)
+    public function get($index, $default = null)
     {
 
-        if (self::has($index)) {
-            return self::$config[$index];
+        if ($this->has($index)) {
+            return $this->config[$index];
+        } else {
+            return $default;
         }
     }
 
@@ -34,9 +76,21 @@ class Configurator
      * @param $index
      * @return bool
      */
-    static public function has($index)
+    public function has($index)
     {
-        return isset(self::$config[$index]);
+        return array_key_exists($index, $this->config);
+    }
+
+    /**
+     * Merge $config with $config attribute
+     *
+     * @param array $config
+     * @return $this
+     */
+    public function merge(array $config)
+    {
+        $this->config = array_merge($this->config,$config);
+        return $this;
     }
 
 
@@ -46,30 +100,51 @@ class Configurator
      * @param $index
      * @param $value
      */
-    static public function add($index, $value)
+    public function add($index, $value)
     {
-        self::$config[$index] = $value;
+        $this->config[$index] = $value;
     }
 
-    static public function remove($index)
+
+    /**
+     * Remove a single config in $config container
+     *
+     * @param $index
+     */
+    public function remove($index)
     {
-        if (self::has($index)) {
-            unset(self::$config[$index]);
+        if ($this->has($index)) {
+            unset($this->config[$index]);
         }
     }
 
-    static public function setAll(array $allconfig)
+    /**
+     * Setter for all the $config container
+     *
+     * @param array $allconfig
+     */
+    public function setAll(array $allconfig)
     {
-       self::$config = $allconfig;
+       $this->config = $allconfig;
     }
 
-    static public function getAll()
+
+    /**
+     * Getter for all $config container
+     *
+     * @return array
+     */
+    public function getAll()
     {
-        return self::$config;
+        return $this->config;
     }
 
-    static public function clearAll()
+    /**
+     * Clear $config container
+     *
+     */
+    public function clearAll()
     {
-        self::$config = [];
+        $this->config = [];
     }
 }

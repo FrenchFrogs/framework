@@ -1,4 +1,4 @@
-<?php namespace FrenchFrogs\Polliwog\Table;
+<?php namespace FrenchFrogs\Polliwog\Table\Table;
 
 
 use FrenchFrogs\Core;
@@ -19,7 +19,7 @@ class Table
 
     use Core\Renderer;
     use Core\Html;
-
+    use Core\Panel;
 
     /**
      *
@@ -78,6 +78,14 @@ class Table
 
 
     /**
+     * Source data
+     *
+     * @var
+     */
+    protected $source;
+
+
+    /**
      * Table columns container
      *
      * @var array
@@ -86,28 +94,45 @@ class Table
 
 
     /**
+     * Item per table page
+     *
+     * @var int
+     */
+    protected $itemsPerPage = 25;
+
+    /**
+     * Total number of item
+     *
+     * @var
+     */
+    protected $itemTotal;
+
+
+    /**
+     * Actual page
+     *
+     * @var int
+     */
+    protected $currentPage = 1;
+
+    /**
      * Constructor
      *
      * @param string $url
      * @param string $method
      */
-    public function __construct($rows = [])
+    public function __construct()
     {
-        if (is_array($rows)) {
-            $rows = new \ArrayIterator($rows);
-        }
-
-        if (!($rows instanceof \Iterator)){
-            throw new InvalidArgumentException("{$rows} must be an array or an Iterator");
-        }
-
-        if (!is_null($rows)) {
-            $this->setRows($rows);
-        }
-
         // if method "init" exist, we call it.
         if (method_exists($this, 'init')) {
             call_user_func_array([$this, 'init'], func_get_args());
+        } elseif(func_num_args() == 1) {
+            $this->setSource(func_get_arg(0));
+        }
+
+        if (!$this->hasRenderer()) {
+            $class = configurator()->get('table.renderer.class');
+            $this->setRenderer(new $class);
         }
     }
 
@@ -243,10 +268,145 @@ class Table
         return $this->columns[$name];
     }
 
+
+    /**
+     * getter for $itemsPerPage attribute
+     *
+     * @return int
+     */
+    public function getItemPerPage()
+    {
+        return $this->itemsPerPage;
+    }
+
+    /**
+     * Setter for $itemsPerPage attribute
+     *
+     * @param $itemsPerPage
+     * @return $this
+     */
+    public function setItemPerPage($itemsPerPage)
+    {
+        $this->itemsPerPage = $itemsPerPage;
+        return $this;
+    }
+
+    /**
+     * Getter for $itemTotal attribute
+     *
+     * @return mixed
+     */
+    public function getItemTotal()
+    {
+        return $this->itemTotal;
+    }
+
+    /**
+     * Getter for $currentPage attribute
+     *
+     * @return int
+     */
+    public function getCurrentPage()
+    {
+        return $this->currentPage;
+    }
+
+
+    /**
+     * Setter for $currentPage attribute
+     *
+     * @param $currentPage
+     * @return $this
+     */
+    public function setCurrentPage($currentPage)
+    {
+        $this->currentPage = $currentPage;
+        return $this;
+    }
+
+    /**
+     *
+     *
+     * @param $source
+     * @return $this
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+        return $this;
+    }
+
+
+    /**
+     * Getter for $source attribute
+     *
+     * @return array
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * Return TRUE if $source attribute is set
+     *
+     * @return bool
+     */
+    public function hasSource()
+    {
+        return isset($this->source);
+    }
+
+    /**
+     * Extract rows from $source attribute
+     *
+     * @return $this
+     */
+    protected function extractRows()
+    {
+        $source = $this->source;
+
+        // Laravel query builder case
+        if ($source instanceof \Illuminate\Database\Eloquent\Builder){
+            /** @var $source  \Illuminate\Database\Eloquent\Builder */
+            $source = $source->skip(($this->getCurrentPage() - 1) * $this->getItemPerPage())->take($this->getItemPerPage())->get()->toArray();
+            $source = new \ArrayIterator($source);
+
+            // Array case
+        } elseif(is_array($source)) {
+            $source = array_slice($source, ceil($this->getCurrentPage() * $this->getItemPerPage()), $this->getItemPerPage());
+            $source = new \ArrayIterator($source);
+        }
+
+        if (!($source instanceof \Iterator)) {
+            throw new \InvalidArgumentException("Source must be an array or an Iterator");
+        }
+
+        if (!is_null($source)) {
+            $this->setRows($source);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * *******************
+     * RENDERER
+     * *******************
+     */
+
+    /**
+     * Render polliwog
+     *
+     * @return mixed|string
+     */
     public function render()
     {
+
         $render = '';
         try {
+            $this->extractRows();
             $render = $this->getRenderer()->render('table', $this);
         } catch(\Exception $e){
             dd($e->getMessage());//@todo find a good way to warn the developper

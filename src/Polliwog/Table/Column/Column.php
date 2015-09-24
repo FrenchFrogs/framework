@@ -41,12 +41,54 @@ abstract class Column
 
 
     /**
-     * Setter for $table property
+     * Filter for the column
      *
-     * @param \FrenchFrogs\Polliwog\Table\Table $table
+     * @var
+     */
+    protected $filter;
+
+
+    /**
+     * Return TRUE if the column has a filter
+     *
+     * @return bool
+     */
+    public function hasFilter()
+    {
+        return isset($this->filter);
+    }
+
+    /**
+     *
+     * Getter for $filter attribute
+     *
+     * @return mixed
+     */
+    public function getFilter()
+    {
+        return $this->filter;
+    }
+
+    /**
+     * Setter for filter attribute
+     *
+     * @param $filter
      * @return $this
      */
-    public function setTable(\FrenchFrogs\Polliwog\Table\Table $table)
+    public function setFilter($filter)
+    {
+        $this->filter = $filter;
+        return $this;
+    }
+
+
+    /**
+     * Setter for $table property
+     *
+     * @param \FrenchFrogs\Polliwog\Table\Table\Table $table
+     * @return $this
+     */
+    public function setTable(\FrenchFrogs\Polliwog\Table\Table\Table $table)
     {
         $this->table = $table;
         return $this;
@@ -56,7 +98,7 @@ abstract class Column
     /**
      * Getter for $table property
      *
-     * @return \FrenchFrogs\Polliwog\Table\Table
+     * @return \FrenchFrogs\Polliwog\Table\Table\Table
      */
     public function getTable()
     {

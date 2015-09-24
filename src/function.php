@@ -1,14 +1,17 @@
 <?php
-/**
- * Render an HTML tag
- *
- * @param $tag
- * @param array $attributes
- * @param string $content
- * @return string
- */
+
+use FrenchFrogs\Core\Configurator;
+use FrenchFrogs\Polliwog;
 
 if (!function_exists('html')) {
+    /**
+     * Render an HTML tag
+     *
+     * @param $tag
+     * @param array $attributes
+     * @param string $content
+     * @return string
+     */
     function html($tag, $attributes = [], $content = '')
     {
         $autoclosed = [
@@ -38,9 +41,55 @@ if (!function_exists('html')) {
  */
 if (!function_exists('dd')) {
 
-    function dd() {
+    function dd()
+    {
         array_map(function($x) { !d($x); }, func_get_args());
         d(microtime(),'Stats execution');
         die;
     }
+}
+
+/**
+ * Return the namespace configurator
+ *
+ * @param null $namespace
+ * @return \FrenchFrogs\Core\Configurator
+ */
+function configurator($namespace = null)
+{
+    return Configurator::getInstance($namespace);
+}
+
+
+/**
+ * Return new panel polliwog instance
+ *
+ * @param ...$args
+ * @return Polliwog\Panel\Panel\Panel
+ */
+function panel(...$args)
+{
+
+    // retrieve the good class
+    $class = configurator()->get('panel.class', Polliwog\Panel\Panel\Panel::class);
+
+    // build the instance
+    $reflection = new ReflectionClass($class);
+    return $reflection->newInstanceArgs($args);
+}
+
+/**
+ * Return new table polliwog instance
+ *
+ * @param ...$args
+ * @return Polliwog\Table\Table\Table
+ */
+function table(...$args)
+{
+    // retrieve the good class
+    $class = configurator()->get('table.class', Polliwog\Table\Table\Table::class);
+
+    // build the instance
+    $reflection = new ReflectionClass($class);
+    return $reflection->newInstanceArgs($args);
 }

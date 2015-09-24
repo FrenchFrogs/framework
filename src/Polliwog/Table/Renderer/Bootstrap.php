@@ -47,7 +47,16 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
     ];
 
 
-    public function _table(\FrenchFrogs\Polliwog\Table\Table $table)
+    /*
+     * ************************
+     * COLUMNS
+     * ***********************
+     *
+     */
+
+
+
+    public function _table(\FrenchFrogs\Polliwog\Table\Table\Table $table)
     {
 
         // Headers
@@ -101,6 +110,9 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
             $html = html('div', ['class' => static::TABLE_CLASS_RESPONSIVE], $html);
         }
 
+        if ($table->hasPanel()) {
+            $html = $table->getPanel()->setBody($html)->render();
+        }
         return $html;
     }
 
@@ -123,11 +135,11 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
     {
 
         if ($column->hasOption()) {
-            $column->addClass($column->getOption());
+            $column->addClass(constant( 'static::' . $column->getOption()));
         }
 
         if ($column->hasSize()) {
-            $column->addClass($column->getSize());
+            $column->addClass(constant( 'static::' . $column->getSize()));
         }
 
 
@@ -152,6 +164,14 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
         $html = html('a',$column->getAttributes(), $label );
         return $html;
     }
+
+
+    /*
+     * ************************
+     * FILTER
+     * ************************
+     *
+     */
 }
 
 
