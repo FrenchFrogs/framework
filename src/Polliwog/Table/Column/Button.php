@@ -335,6 +335,10 @@ class Button extends Link
     {
         $render = '';
         try {
+            // on force l'affichage du label si pas d'icon
+            if (!$this->hasIcon()) {
+                $this->setIconOnly(false);
+            }
             $this->addClass($this->getOption())->addClass($this->getSize());
             $render = $this->getRenderer()->render('table.button', $this, $row);
         } catch(\Exception $e){

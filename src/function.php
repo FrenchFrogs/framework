@@ -93,3 +93,13 @@ function table(...$args)
     $reflection = new ReflectionClass($class);
     return $reflection->newInstanceArgs($args);
 }
+
+function modal(...$args)
+{
+    // retrieve the good class
+    $class = configurator()->get('modal.class', Polliwog\Modal\Modal\Modal::class);
+
+    // build the instance
+    $reflection = new ReflectionClass($class);
+    return $reflection->newInstanceArgs($args);
+}

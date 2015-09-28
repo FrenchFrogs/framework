@@ -18,6 +18,11 @@ class Configurator
         'panel.renderer.class' =>  Polliwog\Panel\Renderer\Bootstrap::class,
         'table.class' => Polliwog\Table\Table\Table::class,
         'table.renderer.class' => Polliwog\Table\Renderer\Bootstrap::class,
+
+        'modal.class' => Polliwog\Modal\Modal\Modal::class,
+        'modal.renderer.class' => Polliwog\Modal\Renderer\Bootstrap::class,
+        'modal.backdrop' => true,
+        'modal.escToclose' => true
     ];
 
     /**
