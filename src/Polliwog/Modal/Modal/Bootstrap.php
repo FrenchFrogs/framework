@@ -4,7 +4,7 @@ use FrenchFrogs\Core;
 use FrenchFrogs\Polliwog;
 
 
-class Modal
+class Bootstrap
 {
 
     use Core\Renderer;
@@ -15,14 +15,14 @@ class Modal
      *
      * @var string | boolean
      */
-    protected $backdrop;
+    protected $backdrop = true;
 
     /**
      * Configuration for close modal on escape button press
      *
      * @var boolean
      */
-    protected $escToClose;
+    protected $is_escToClose = true;
 
     /**
      * Titleof the modal
@@ -45,6 +45,96 @@ class Modal
      */
     protected $actions = [];
 
+    /**
+     * true if render the header close button
+     *
+     * @var Boolean
+     */
+    protected $has_closeButton = true;
+
+
+    /**
+     * Label for the close button
+     *
+     * @var string
+     */
+    protected $closeButtonLabel = 'Close';
+
+
+    /**
+     * Setter for $closeButtonLabel Attribute
+     *
+     * @param $label
+     * @return $this
+     */
+    public function setCloseButtonLabel($label)
+    {
+        $this->closeButtonLabel = $label;
+        return $this;
+    }
+
+    /**
+     * Getter for $closeButtonLabel attribute
+     *
+     * @return string
+     */
+    public function getCloseButtonLabel()
+    {
+        return $this->closeButtonLabel;
+    }
+
+    /**
+     * TRUE if render only the main content container
+     *
+     * @var bool
+     */
+    protected $is_onlyContent = true;
+
+
+    /**
+     * Setter for $is_closeButton attribute
+     *
+     * @param bool|true $bool
+     * @return $this
+     */
+    public function setCloseButton($bool = true)
+    {
+        $this->has_closeButton = (bool) $bool;
+        return $this;
+    }
+
+
+    /**
+     * Return TRUE if the close button will be render
+     *
+     * @return bool
+     */
+    public function hasCloseButton()
+    {
+        return $this->has_closeButton;
+    }
+
+    /**
+     * Setter for $is_onlyContent attribute
+     *
+     * @param bool|true $bool
+     * @return $this
+     */
+    public function setOnlyContent($bool = true)
+    {
+        $this->is_onlyContent = (bool) $bool;
+        return $this;
+    }
+
+    /**
+     * Return TRUE if $is_onlyContent attribute is TRUE
+     *
+     * @return bool
+     */
+    public function isOnlyContent()
+    {
+        return $this->is_onlyContent;
+    }
 
 
 
@@ -59,6 +149,8 @@ class Modal
     {
         $this->setBackdrop(configurator()->get('modal.backdrop'));
         $this->setEscToClose( configurator()->get('modal.backdrop'));
+        $this->setCloseButtonLabel(configurator()->get('modal.closeButtonLabel', $this->closeButtonLabel));
+
 
         if (!is_null($title)) {
             $this->setTitle($title);
@@ -72,6 +164,10 @@ class Modal
             $actions = (array) $actions;
             $this->setActions($actions);
         }
+
+        // Renderer
+        $renderer = configurator()->get('modal.renderer.class');
+        $this->setRenderer(new $renderer);
     }
 
 
@@ -123,26 +219,26 @@ class Modal
     }
 
     /**
-     * Setter for $escToClose attribute
+     * Setter for $is_escToClose attribute
      *
-     * @param $escToClose
+     * @param $is_escToClose
      * @return $this
      */
-    public function setEscToClose($escToClose)
+    public function setEscToClose($is_escToClose)
     {
-        $this->escToClose = (bool) $escToClose;
+        $this->is_escToClose = (bool) $is_escToClose;
         return $this;
     }
 
 
     /**
-     * return TRUE if $escToClose is TRUE
+     * return TRUE if $is_escToClose is TRUE
      *
      * @return mixed
      */
     public function isEscToClose()
     {
-        return (bool) $this->escToClose;
+        return (bool) $this->is_escToClose;
     }
 
 
@@ -282,6 +378,16 @@ class Modal
     {
         $this->actions = [];
         return $this;
+    }
+
+    /**
+     * Return TRUE if $action container have at least 1 element
+     *
+     * @return bool
+     */
+    public function hasActions()
+    {
+        return (bool) count($this->actions);
     }
 
     /**

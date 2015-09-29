@@ -19,8 +19,9 @@ class Configurator
         'table.class' => Polliwog\Table\Table\Table::class,
         'table.renderer.class' => Polliwog\Table\Renderer\Bootstrap::class,
 
-        'modal.class' => Polliwog\Modal\Modal\Modal::class,
+        'modal.class' => Polliwog\Modal\Modal\Bootstrap::class,
         'modal.renderer.class' => Polliwog\Modal\Renderer\Bootstrap::class,
+        'modal.closeButtonLabel' => 'Fermer',
         'modal.backdrop' => true,
         'modal.escToclose' => true
     ];

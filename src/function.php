@@ -26,8 +26,7 @@ if (!function_exists('html')) {
         $attributes = implode(' ', $attributes);
 
 
-        return array_search($tag, $autoclosed) === false ? sprintf('<%s %s/>%s</%1$s>', $tag, $attributes, $content) : sprintf('<%s %s/>', $tag, $attributes);
-
+        return array_search($tag, $autoclosed) === false ? sprintf('<%s %s>%s</%1$s>', $tag, $attributes, $content) : sprintf('<%s %s/>', $tag, $attributes);
     }
 }
 
@@ -94,10 +93,16 @@ function table(...$args)
     return $reflection->newInstanceArgs($args);
 }
 
+/**
+ * Return new modal polliwog
+ *
+ * @param ...$args
+ * @return Polliwog\modal\Modal\Bootstrap
+ */
 function modal(...$args)
 {
     // retrieve the good class
-    $class = configurator()->get('modal.class', Polliwog\Modal\Modal\Modal::class);
+    $class = configurator()->get('modal.class', Polliwog\Modal\Modal\Bootstrap::class);
 
     // build the instance
     $reflection = new ReflectionClass($class);

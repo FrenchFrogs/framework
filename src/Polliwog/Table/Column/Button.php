@@ -1,6 +1,5 @@
 <?php namespace FrenchFrogs\Polliwog\Table\Column;
 
-use FrenchFrogs\Polliwog\Table\Renderer\Bootstrap;
 
 class Button extends Link
 {
