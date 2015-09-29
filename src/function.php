@@ -81,12 +81,12 @@ function panel(...$args)
  * Return new table polliwog instance
  *
  * @param ...$args
- * @return Polliwog\Table\Table\Table
+ * @return Polliwog\Table\Table\Bootstrap
  */
 function table(...$args)
 {
     // retrieve the good class
-    $class = configurator()->get('table.class', Polliwog\Table\Table\Table::class);
+    $class = configurator()->get('table.class', Polliwog\Table\Table\Bootstrap::class);
 
     // build the instance
     $reflection = new ReflectionClass($class);

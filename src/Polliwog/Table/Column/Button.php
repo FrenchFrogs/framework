@@ -38,6 +38,22 @@ class Button extends Link
      */
     protected $is_icon_only = true;
 
+    /**
+     * Is true if the link render in a model
+     *
+     * @var bool
+     */
+    protected $is_remoteModal = true;
+
+
+    public function setRemoteModal($remoteModal = true)
+    {
+        $this->is_remoteModal = (bool) $remoteModal;
+        return $this;
+    }
+
+
+
 
     /**
      * Fast setting for icon
@@ -322,8 +338,6 @@ class Button extends Link
         $this->setSize('BUTTON_SIZE_CLASS_EXTRA_SMALL');
         return $this;
     }
-
-
 
     /**
      *

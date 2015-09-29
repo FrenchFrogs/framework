@@ -54,7 +54,7 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
      *
      */
 
-    public function _table(\FrenchFrogs\Polliwog\Table\Table\Table $table)
+    public function _table(\FrenchFrogs\Polliwog\Table\Table\Bootstrap $table)
     {
 
         // Headers

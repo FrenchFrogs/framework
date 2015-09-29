@@ -14,7 +14,7 @@ use InvalidArgumentException;
  * Class Table
  * @package FrenchFrogs\Polliwog\Table
  */
-class Table
+class Bootstrap
 {
 
     use Core\Renderer;
@@ -474,6 +474,16 @@ class Table
         return $c;
     }
 
+    /**
+     * Add as Button Column
+     *
+     * @param $name
+     * @param string $label
+     * @param string $link
+     * @param array $binds
+     * @param array $attr
+     * @return \FrenchFrogs\Polliwog\Table\Column\Button
+     */
     public function addButton($name, $label = '', $link = '', $binds = [], $attr = [])
     {
         $c = new Column\Button($name, $label, $link, $binds, $attr);

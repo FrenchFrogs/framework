@@ -16,7 +16,7 @@ class Configurator
     protected $config = [
         'panel.class' => Polliwog\Panel\Panel\Panel::class,
         'panel.renderer.class' =>  Polliwog\Panel\Renderer\Bootstrap::class,
-        'table.class' => Polliwog\Table\Table\Table::class,
+        'table.class' => Polliwog\Table\Table\Bootstrap::class,
         'table.renderer.class' => Polliwog\Table\Renderer\Bootstrap::class,
 
         'modal.class' => Polliwog\Modal\Modal\Bootstrap::class,
