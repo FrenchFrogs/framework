@@ -14,7 +14,7 @@ class Bootstrap extends FormAbstract {
     //@TODO manage horizontal inline form
 
 
-    function _form(Form\Form $form)
+    function _form(Form\Form\Bootstrap $form)
     {
 
         $html = '';

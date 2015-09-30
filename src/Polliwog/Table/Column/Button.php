@@ -38,22 +38,6 @@ class Button extends Link
      */
     protected $is_icon_only = true;
 
-    /**
-     * Is true if the link render in a model
-     *
-     * @var bool
-     */
-    protected $is_remoteModal = true;
-
-
-    public function setRemoteModal($remoteModal = true)
-    {
-        $this->is_remoteModal = (bool) $remoteModal;
-        return $this;
-    }
-
-
-
 
     /**
      * Fast setting for icon
@@ -352,7 +336,7 @@ class Button extends Link
             if (!$this->hasIcon()) {
                 $this->setIconOnly(false);
             }
-            $this->addClass($this->getOption())->addClass($this->getSize());
+//            $this->addClass($this->getOption())->addClass($this->getSize());
             $render = $this->getRenderer()->render('table.button', $this, $row);
         } catch(\Exception $e){
             dd($e->getMessage());

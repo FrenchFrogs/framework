@@ -43,10 +43,10 @@ abstract class FormAbstract extends Renderer\Renderer
     /**
      * Render object form
      *
-     * @param \FrenchFrogs\Polliwog\Form\Form $form
+     * @param \FrenchFrogs\Polliwog\Form\Form\Bootstrap $form
      * @return string
      */
-    abstract public function  _form(Form\Form $form);
+    abstract public function  _form(Form\Form\Bootstrap $form);
 
 
     /**

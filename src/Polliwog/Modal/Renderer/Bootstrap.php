@@ -17,7 +17,6 @@ class Bootstrap extends Renderer
     const MODAL_BODY_CLASS = 'modal-body';
     const MODAL_FOOTER_CLASS = 'modal-footer';
 
-
     /**
      *
      * Available renderer
@@ -26,7 +25,7 @@ class Bootstrap extends Renderer
      */
     protected $renderers = [
         'modal' => '_modal',
-        'action' => '_action',
+        'modal_remote' => '_modal_remote'
     ];
 
 
@@ -75,10 +74,22 @@ class Bootstrap extends Renderer
         }
 
         // container
-        if (!$modal->isOnlyContent()) {
-            $html = html('div', ['class' => static::MODAL_CONTENT_CLASS, 'role' => 'document'], $html);
-            $html = html('div', ['class' => static::MODAL_CLASS, 'role' => 'dialog'], $html);
+        if (!$modal->isRemote()) {
+            $html = html('div', ['class' => static::MODAL_CONTENT_CLASS, ], $html);
+            $html = html('div', ['class' => static::MODAL_DIALOG_CLASS, 'role' => 'document'], $html);
+            $html = html('div', ['class' => static::MODAL_CLASS,'role' => 'dialog'], $html);
         }
+
+        return $html;
+    }
+
+
+    public function _modal_remote(Modal\Bootstrap $modal)
+    {
+
+        $html = html('div', ['class' => static::MODAL_CONTENT_CLASS, ], '');
+        $html = html('div', ['class' => static::MODAL_DIALOG_CLASS, 'role' => 'document'], $html);
+        $html = html('div', ['class' => static::MODAL_CLASS,'role' => 'dialog', 'id' => $modal->getRemoteId()], $html);
 
         return $html;
     }

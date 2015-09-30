@@ -9,7 +9,6 @@ class Bootstrap
 
     use Core\Renderer;
 
-
     /**
      * Configuration for the overlay
      *
@@ -62,6 +61,57 @@ class Bootstrap
 
 
     /**
+     * id html attribute for remote modal
+     *
+     * @var
+     */
+    protected $remoteId;
+
+
+    /**
+     * TRUE if render only the main content container
+     *
+     * @var bool
+     */
+    protected $is_remote = false;
+
+
+    /**
+     * Setter for $id attribute
+     *
+     * @param $id
+     * @return $this
+     */
+    public function setRemoteId($id)
+    {
+        $this->remoteId = $id;
+        return $this;
+    }
+
+    /**
+     * Getter for $remoteId Attribute
+     *
+     * @return mixed
+     */
+    public function getRemoteId()
+    {
+        return $this->remoteId;
+    }
+
+    /**
+     * Set $is_remote as TRUE
+     *
+     * @return $this
+     */
+    public function remote()
+    {
+        $this->setRemote(true);
+        return $this;
+    }
+
+
+
+    /**
      * Setter for $closeButtonLabel Attribute
      *
      * @param $label
@@ -82,14 +132,6 @@ class Bootstrap
     {
         return $this->closeButtonLabel;
     }
-
-    /**
-     * TRUE if render only the main content container
-     *
-     * @var bool
-     */
-    protected $is_onlyContent = true;
-
 
     /**
      * Setter for $is_closeButton attribute
@@ -120,9 +162,9 @@ class Bootstrap
      * @param bool|true $bool
      * @return $this
      */
-    public function setOnlyContent($bool = true)
+    public function setRemote($bool = true)
     {
-        $this->is_onlyContent = (bool) $bool;
+        $this->is_remote = (bool) $bool;
         return $this;
     }
 
@@ -131,9 +173,9 @@ class Bootstrap
      *
      * @return bool
      */
-    public function isOnlyContent()
+    public function isRemote()
     {
-        return $this->is_onlyContent;
+        return $this->is_remote;
     }
 
 
@@ -150,6 +192,9 @@ class Bootstrap
         $this->setBackdrop(configurator()->get('modal.backdrop'));
         $this->setEscToClose( configurator()->get('modal.backdrop'));
         $this->setCloseButtonLabel(configurator()->get('modal.closeButtonLabel', $this->closeButtonLabel));
+
+        $this->setRemoteId(configurator()->get('modal.remote.id', $this->remoteId));
+        $this->setRemote(configurator()->get('modal.is_remote', $this->remoteId));
 
 
         if (!is_null($title)) {
@@ -462,5 +507,23 @@ class Bootstrap
     public function __toString()
     {
         return $this->render();
+    }
+
+
+    /**
+     * Render an emptyl
+     *
+     * @param null $remoteId
+     * @return mixed
+     * @throws \Exception
+     */
+    static function renderRemoteEmptyModal($remoteId = null)
+    {
+        $modal = modal();
+
+        if (!is_null($remoteId)) {
+            $modal->setRemoteId($remoteId);
+        }
+        return $modal->getRenderer()->render('modal_remote', $modal);
     }
 }

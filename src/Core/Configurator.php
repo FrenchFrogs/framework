@@ -23,7 +23,9 @@ class Configurator
         'modal.renderer.class' => Polliwog\Modal\Renderer\Bootstrap::class,
         'modal.closeButtonLabel' => 'Fermer',
         'modal.backdrop' => true,
-        'modal.escToclose' => true
+        'modal.escToclose' => true,
+        'modal.is_remote' => false,
+        'modal.remote.id' => 'modal-remote',
     ];
 
     /**

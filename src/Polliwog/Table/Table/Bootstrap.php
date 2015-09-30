@@ -369,6 +369,8 @@ class Bootstrap
         // Laravel query builder case
         if ($source instanceof \Illuminate\Database\Eloquent\Builder){
             /** @var $source  \Illuminate\Database\Eloquent\Builder */
+
+            $this->itemTotal = $source->count();
             $source = $source->skip(($this->getCurrentPage() - 1) * $this->getItemPerPage())->take($this->getItemPerPage())->get()->toArray();
             $source = new \ArrayIterator($source);
 
@@ -466,7 +468,7 @@ class Bootstrap
      * @param array $attr
      * @return \FrenchFrogs\Polliwog\Table\Column\Link
      */
-    public function addLink($name, $label = '', $link = '', $binds = [], $attr = [])
+    public function addLink($name, $label = '%s', $link = '#', $binds = [], $attr = [] )
     {
         $c = new Column\Link($name, $label, $link, $binds, $attr);
         $this->addColumn($c);
@@ -484,7 +486,7 @@ class Bootstrap
      * @param array $attr
      * @return \FrenchFrogs\Polliwog\Table\Column\Button
      */
-    public function addButton($name, $label = '', $link = '', $binds = [], $attr = [])
+    public function addButton($name, $label = '%s', $link = '#', $binds = [], $attr = [] )
     {
         $c = new Column\Button($name, $label, $link, $binds, $attr);
         $c->setOptionAsDefault();

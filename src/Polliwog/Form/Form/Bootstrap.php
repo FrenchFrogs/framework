@@ -1,4 +1,4 @@
-<?php namespace FrenchFrogs\Polliwog\Form;
+<?php namespace FrenchFrogs\Polliwog\Form\Form;
 
 use FrenchFrogs\Core;
 use InvalidArgumentException;
@@ -8,9 +8,9 @@ use FrenchFrogs;
  * Form pollywog
  *
  * Class Form
- * @package FrenchFrogs\Polliwog\Form
+ * @package FrenchFrogs\Polliwog\Form\Form
  */
-class Form
+class Bootstrap
 {
     use Core\Html;
     use Core\Renderer;

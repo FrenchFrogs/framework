@@ -1,7 +1,7 @@
 <?php namespace FrenchFrogs\Polliwog\Form\Element;
 
 use FrenchFrogs\Core;
-use FrenchFrogs\Polliwog\Form\Form;
+use FrenchFrogs\Polliwog\Form\Bootstrap;
 
 
 abstract class Element
@@ -14,7 +14,7 @@ abstract class Element
     /**
      * Parent form
      *
-     * @var Form
+     * @var Bootstrap
      *
      */
     protected $form;

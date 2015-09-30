@@ -19,6 +19,75 @@ class Link extends Text
      */
     protected $binds = [];
 
+    /**
+     * Define if a link will load in a modal
+     *
+     * @var bool
+     */
+    protected $is_remote = false;
+
+    /**
+     * id html attribute for remote modal
+     *
+     * @var
+     */
+    protected $remoteId;
+
+
+    /**
+     * Setter for $id attribute
+     *
+     * @param $id
+     * @return $this
+     */
+    public function setRemoteId($id)
+    {
+        $this->remoteId = $id;
+        return $this;
+    }
+
+    /**
+     * Getter for $remoteId Attribute
+     *
+     * @return mixed
+     */
+    public function getRemoteId()
+    {
+        return $this->remoteId;
+    }
+
+    /**
+     * Setter for $is_remoter attribute
+     *
+     * @param $remote
+     * @return $this
+     */
+    public function setRemote($remote)
+    {
+        $this->is_remote = (bool) $remote;
+        return $this;
+    }
+
+    /**
+     * Return TRUE if $is_remote attribute is true
+     *
+     * @return bool
+     */
+    public function isRemote()
+    {
+        return $this->is_remote;
+    }
+
+    /**
+     * Set $is_remote attribute as TRUE
+     *
+     * @return $this
+     */
+    public function remote()
+    {
+        $this->setRemote(true);
+        return $this;
+    }
 
     /**
      *
@@ -131,8 +200,10 @@ class Link extends Text
      * @param array $binds
      * @param array $attr
      */
-    public function __construct($name, $label = '', $link = '', $binds = [], $attr = [] )
+    public function __construct($name, $label = '%s', $link = '#', $binds = [], $attr = [] )
     {
+        $this->setRemoteId(configurator()->get('modal.remote.id', $this->remoteId));
+
         $this->setAttributes($attr);
         $this->setName($name);
         $this->setLabel($label);
@@ -140,13 +211,28 @@ class Link extends Text
         $this->setBinds((array) $binds);
     }
 
+    /**
+     * Return the binded link
+     *
+     * @param array $row
+     * @return string
+     */
     public function getBindedLink($row = [])
     {
-
         $bind = array_intersect_key($row, array_fill_keys($this->getBinds(), ''));
-
         return vsprintf($this->getLink(),$bind);
+    }
 
+    /**
+     * Return the binded Label
+     *
+     * @param array $row
+     * @return string
+     */
+    public function getBindedLabel($row = [])
+    {
+        $bind = isset($row[$this->getName()]) ? $row[$this->getName()] : false;
+        return sprintf($this->getLabel(), $bind);
     }
 
 
