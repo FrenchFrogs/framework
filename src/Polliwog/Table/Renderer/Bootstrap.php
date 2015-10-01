@@ -44,7 +44,7 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
         'table.text' => '_text',
         'table.link' => '_link',
         'table.button' => '_button',
-        'footer' => '_footer'
+        'datatable' => '_datatable'
     ];
 
 
@@ -55,7 +55,7 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
      *
      */
 
-    public function _table(\FrenchFrogs\Polliwog\Table\Table\Bootstrap $table)
+    public function _table(\FrenchFrogs\Polliwog\Table\Table\Table $table)
     {
 
         // Headers
@@ -81,37 +81,19 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
         }
 
         // Footer
-
-        /**
-         * <ul class="pagination">
-         * <li class="disabled"><span>&laquo;</span></li>
-         * <li class="active"><span>1</span></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=2">2</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=3">3</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=4">4</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=5">5</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=6">6</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=7">7</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=8">8</a></li>
-         * <li class="disabled"><span>...</span></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=20">20</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=21">21</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=2" rel="next">&raquo;</a></li>
-         * </ul>
-         */
-
         $footer = '';
-        $current = $table->getCurrentPage();
+
+        $current = $table->getPage();
         $footer .= sprintf('<li class="disabled"><span>&laquo;</span></li>');
-        for($i = 1; $i <= min(10, $table->getItemTotal()); $i++){
-            $footer .= html('li', ['class' => $current == $i ? 'active' : null], sprintf('<a href="%s">%s</a>', '#', $i));
+        for($i = 1; $i <= min(10, $table->getPagesTotal()); $i++){
+            $footer .= html('li', ['class' => $current == $i ? 'active' : null], sprintf('<a href="%s">%s</a>', $table->getPageUrl($i), $i));
         }
 
-
         $footer .= sprintf('<li><a href="%s" rel="next">&raquo;</a></li>', '#');
-//        dd();
-
         $footer = html('ul', ['class' => 'pagination'], $footer);
+        $footer = html('td', ['colspan' => count($headers)], $footer);
+        $footer = html('tr', [], $footer);
+        $footer = html('tfoot', ['class' => 'text-center'], $footer);
 
 
         // Bootstrap class management
@@ -133,12 +115,7 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
             $table->addClass(static::TABLE_CLASS_HOVER);
         }
 
-//        dd( html('tfoot', ['class' => 'text-center'], $footer));
-
-
-        $html =  html('table', $table->getAttributes(), html('thead', [], $head) . html('tbody', [], $body) . html('tfoot', ['class' => 'text-center'], $footer));
-
-
+        $html =  html('table', $table->getAttributes(), html('thead', [], $head) . html('tbody', [], $body) . $footer);
 
         // responsive
         if ($table->isResponsive()){
@@ -148,6 +125,7 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
         if ($table->hasPanel()) {
             $html = $table->getPanel()->setBody($html)->render();
         }
+
         return $html;
     }
 
@@ -166,7 +144,7 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
                 ->addAttribute('data-toggle', 'modal');
         }
 
-        $html = html('a', ['href' => $column->getBindedLink($row)], $this->getBindedLabel($row));
+        $html = html('a', ['href' => $column->getBindedLink($row)], $column->getBindedLabel($row));
         return $html;
     }
 
@@ -209,27 +187,6 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
         $html = html('a',$column->getAttributes(), $label );
 
         return $html;
-    }
-
-
-    public function _footer()
-    {
-        /**
-         * <ul class="pagination"><li class="disabled"><span>&laquo;</span></li>
-         * <li class="active"><span>l</span></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=2">2</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=3">3</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=4">4</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=5">5</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=6">6</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=7">7</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=8">8</a></li>
-         * <li class="disabled"><span>...</span></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=20">20</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=21">21</a></li>
-         * <li><a href="http://myvm.lc/frenchfrogz/phoenix/user/?page=2" rel="next">&raquo;</a></li>
-         * </ul>
-         */
     }
 }
 

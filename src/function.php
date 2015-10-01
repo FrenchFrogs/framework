@@ -81,12 +81,12 @@ function panel(...$args)
  * Return new table polliwog instance
  *
  * @param ...$args
- * @return Polliwog\Table\Table\Bootstrap
+ * @return Polliwog\Table\Table\Table
  */
 function table(...$args)
 {
     // retrieve the good class
-    $class = configurator()->get('table.class', Polliwog\Table\Table\Bootstrap::class);
+    $class = configurator()->get('table.class', Polliwog\Table\Table\Table::class);
 
     // build the instance
     $reflection = new ReflectionClass($class);
@@ -108,3 +108,30 @@ function modal(...$args)
     $reflection = new ReflectionClass($class);
     return $reflection->newInstanceArgs($args);
 }
+
+/**
+ * Return a Javascript Container polliwog
+ *
+ * @param $namespace
+ * @param null $selector
+ * @param null $function
+ * @param ...$params
+ * @return \FrenchFrogs\Polliwog\Container\Javascript
+ */
+function js($namespace, $selector = null, $function = null, ...$params)
+{
+    /** @var $container Polliwog\Container\Javascript */
+    $container = Polliwog\Container\Javascript::getInstance($namespace);
+
+    if (!is_null($function)){
+        array_unshift($params, $selector, $function);
+        call_user_func_array([$container, 'appendJs'], $params);
+    } elseif(!is_null($selector)) {
+        $container->append($selector);
+    }
+
+    return $container;
+}
+
+
+

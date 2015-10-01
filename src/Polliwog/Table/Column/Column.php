@@ -85,10 +85,10 @@ abstract class Column
     /**
      * Setter for $table property
      *
-     * @param \FrenchFrogs\Polliwog\Table\Table\Bootstrap $table
+     * @param \FrenchFrogs\Polliwog\Table\Table\Table $table
      * @return $this
      */
-    public function setTable(\FrenchFrogs\Polliwog\Table\Table\Bootstrap $table)
+    public function setTable(\FrenchFrogs\Polliwog\Table\Table\Table $table)
     {
         $this->table = $table;
         return $this;
@@ -98,7 +98,7 @@ abstract class Column
     /**
      * Getter for $table property
      *
-     * @return \FrenchFrogs\Polliwog\Table\Table\Bootstrap
+     * @return \FrenchFrogs\Polliwog\Table\Table\Table
      */
     public function getTable()
     {
