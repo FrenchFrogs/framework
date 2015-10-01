@@ -48,40 +48,12 @@ class Table
      */
     protected $columns = [];
 
+    /**
+     * If false, footer will not be render
+     *
+     * @var bool
+     */
     protected $has_footer = true;
-
-    /**
-     * Set $has_footer attribute to TRUE
-     *
-     * @return $this
-     */
-    public function enableFooter()
-    {
-        $this->has_footer = true;
-        return $this;
-    }
-
-    /**
-     * Set $has_footer attribute to FALSE
-     *
-     * @return $this
-     */
-    public function disableFooter()
-    {
-        $this->has_footer = false;
-        return $this;
-    }
-
-
-    /**
-     *
-     *
-     * @return bool
-     */
-    public function hasFooter()
-    {
-        return $this->has_footer;
-    }
 
 
     /**
@@ -101,7 +73,7 @@ class Table
 
         // Force id html attribute
         if (!$this->hasAttribute('id')) {
-            $this->addAttribute('id', __CLASS__ .  rand());
+            $this->addAttribute('id', 'table-' . rand());
         }
 
         /*
@@ -317,6 +289,40 @@ class Table
 
         return $this;
     }
+
+    /**
+     * Set $has_footer attribute to TRUE
+     *
+     * @return $this
+     */
+    public function enableFooter()
+    {
+        $this->has_footer = true;
+        return $this;
+    }
+
+    /**
+     * Set $has_footer attribute to FALSE
+     *
+     * @return $this
+     */
+    public function disableFooter()
+    {
+        $this->has_footer = false;
+        return $this;
+    }
+
+
+    /**
+     * return TRUE if $has_footer is set tio TRUE
+     *
+     * @return bool
+     */
+    public function hasFooter()
+    {
+        return $this->has_footer;
+    }
+
 
 
     /**

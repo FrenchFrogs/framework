@@ -61,4 +61,28 @@ class Javascript extends Container
         return $this;
     }
 
+    /**
+     * Add alert() javascript function to the container
+     *
+     * @param $message
+     * @return $this
+     */
+    public function alert($message)
+    {
+        $this->append(sprintf('alert("%s")', $message));
+        return $this;
+    }
+
+    /**
+     * Add console.log() javascript function to the container
+     *
+     * @param $message
+     * @return $this
+     */
+    public function log($message)
+    {
+        $this->append(sprintf('console.log("%s")', $message));
+        return $this;
+    }
+
 }

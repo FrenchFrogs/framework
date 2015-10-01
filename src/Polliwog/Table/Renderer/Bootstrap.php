@@ -1,6 +1,7 @@
 <?php namespace FrenchFrogs\Polliwog\Table\Renderer;
 
 use FrenchFrogs\Polliwog\Table\Column;
+use FrenchFrogs\Polliwog\Table\Table;
 
 class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
 {
@@ -55,7 +56,7 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
      *
      */
 
-    public function _table(\FrenchFrogs\Polliwog\Table\Table\Table $table)
+    public function _table(Table\Table $table)
     {
 
         // Headers
@@ -80,20 +81,27 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
             $body .= html('tr', [],$line );
         }
 
+        if ($table->isDatatable()) {
+            $table->disableFooter();
+            $this->render('datatable', $table);
+        }
+
         // Footer
         $footer = '';
 
-        $current = $table->getPage();
-        $footer .= sprintf('<li class="disabled"><span>&laquo;</span></li>');
-        for($i = 1; $i <= min(10, $table->getPagesTotal()); $i++){
-            $footer .= html('li', ['class' => $current == $i ? 'active' : null], sprintf('<a href="%s">%s</a>', $table->getPageUrl($i), $i));
-        }
+        if ($table->hasFooter()) {
+            $current = $table->getPage();
+            $footer .= sprintf('<li class="disabled"><span>&laquo;</span></li>');
+            for ($i = 1; $i <= min(10, $table->getPagesTotal()); $i++) {
+                $footer .= html('li', ['class' => $current == $i ? 'active' : null], sprintf('<a href="%s">%s</a>', $table->getPageUrl($i), $i));
+            }
 
-        $footer .= sprintf('<li><a href="%s" rel="next">&raquo;</a></li>', '#');
-        $footer = html('ul', ['class' => 'pagination'], $footer);
-        $footer = html('td', ['colspan' => count($headers)], $footer);
-        $footer = html('tr', [], $footer);
-        $footer = html('tfoot', ['class' => 'text-center'], $footer);
+            $footer .= sprintf('<li><a href="%s" rel="next">&raquo;</a></li>', '#');
+            $footer = html('ul', ['class' => 'pagination'], $footer);
+            $footer = html('td', ['colspan' => count($headers)], $footer);
+            $footer = html('tr', [], $footer);
+            $footer = html('tfoot', ['class' => 'text-center'], $footer);
+        }
 
 
         // Bootstrap class management
@@ -187,6 +195,18 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
         $html = html('a',$column->getAttributes(), $label );
 
         return $html;
+    }
+
+    /**
+     * Render dfatatable js
+     *
+     * @param \FrenchFrogs\Polliwog\Table\Table\Table $table
+     * @return string
+     */
+    public function _datatable(Table\Table $table)
+    {
+        js('inline', '#' . $table->getAttribute('id'), 'dataTable');
+        return '';
     }
 }
 
