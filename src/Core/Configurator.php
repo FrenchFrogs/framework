@@ -18,7 +18,6 @@ class Configurator
         'panel.renderer.class' =>  Polliwog\Panel\Renderer\Bootstrap::class,
         'table.class' => Polliwog\Table\Table\Table::class,
         'table.renderer.class' => Polliwog\Table\Renderer\Bootstrap::class,
-
         'modal.class' => Polliwog\Modal\Modal\Bootstrap::class,
         'modal.renderer.class' => Polliwog\Modal\Renderer\Bootstrap::class,
         'modal.closeButtonLabel' => 'Fermer',
@@ -33,24 +32,24 @@ class Configurator
      *
      * @var array
      */
-    static protected $instances = [];
+    protected static $instances = [];
 
     /**
      * constructor du singleton
      *
-     * @return Configurator
+     * @param $namespace
+     * @return static
      */
-    static function getInstance($namespace = null) {
+    public static function getInstance($namespace = null) {
 
         $namespace = is_null($namespace) ? static::NAMESPACE_DEFAULT : $namespace;
 
         if (!array_key_exists($namespace, self::$instances)) {
-            self::$instances[$namespace] = new Configurator();
+            static::$instances[$namespace] = new static();
         }
 
-        return self::$instances[$namespace];
+        return static::$instances[$namespace];
     }
-
 
     /**
      * Constructor for a default configuration
@@ -60,22 +59,20 @@ class Configurator
 
     }
 
-
     /**
      * Get a config from $index
      *
      * @param $index
      * @param null $default
-     * @return null
+     * @return mixed
      */
     public function get($index, $default = null)
     {
 
         if ($this->has($index)) {
             return $this->config[$index];
-        } else {
-            return $default;
         }
+        return $default;
     }
 
     /**
@@ -129,11 +126,11 @@ class Configurator
     /**
      * Setter for all the $config container
      *
-     * @param array $allconfig
+     * @param array $config
      */
-    public function setAll(array $allconfig)
+    public function setAll(array $config)
     {
-       $this->config = $allconfig;
+       $this->config = $config;
     }
 
 
