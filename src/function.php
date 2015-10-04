@@ -48,6 +48,29 @@ if (!function_exists('dd')) {
     }
 }
 
+
+/**
+ * Return human format octet size (mo, go etc...)
+ *
+ * @param unknown_type $size
+ * @param unknown_type $round
+ * @throws Exception
+ */
+function human_size($size, $round = 1) {
+
+    $unit = array('Ko', 'Mo', 'Go', 'To');
+
+    // initialisation du resultat
+    $result = $size . 'o';
+
+    // calcul
+    foreach ($unit as $u) {if (($size /= 1024) > 1) {$result = round($size, $round) . $u;}}
+
+    return $result;
+}
+
+
+
 /**
  * Return the namespace configurator
  *
