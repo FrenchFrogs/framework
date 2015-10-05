@@ -147,6 +147,20 @@ trait Pagination
     }
 
     /**
+     * Set page from an offset count items
+     *
+     * @param $items
+     * @return $this
+     */
+    public function setPageFromItemsOffset($items)
+    {
+//        dd($items, $this->getItemsPerPage());
+//        dd(ceil(($items - 1) / $this->getItemsPerPage()));
+        $this->setPage(ceil(--$items / $this->getItemsPerPage()));
+        return $this;
+    }
+
+    /**
      * Getter for $url attribute
      *
      * @return mixed

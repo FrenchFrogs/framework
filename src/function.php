@@ -141,7 +141,7 @@ function modal(...$args)
  * @param ...$params
  * @return \FrenchFrogs\Polliwog\Container\Javascript
  */
-function js($namespace, $selector = null, $function = null, ...$params)
+function js($namespace = null, $selector = null, $function = null, ...$params)
 {
     /** @var $container Polliwog\Container\Javascript */
     $container = Polliwog\Container\Javascript::getInstance($namespace);

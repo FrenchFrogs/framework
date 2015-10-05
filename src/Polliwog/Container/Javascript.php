@@ -8,6 +8,9 @@
  */
 class Javascript extends Container
 {
+
+    const NAMESPACE_DEFAULT = 'onload';
+
     /**
      * Build a jquery call javascript code
      *
@@ -19,10 +22,10 @@ class Javascript extends Container
     public function build($selector, $function, ...$params)
     {
         $attributes = [];
-        foreach($params as $p) {
 
+        foreach($params as $p) {
             if (is_array($p)) {
-                $attributes[] = json_encode($p);
+                $attributes[] = json_encode($p, JSON_FORCE_OBJECT);
             } elseif (substr($p,0,7) == 'function') {
                 $attributes[] = str_replace('"', '\"', $p);
             } else {
@@ -43,7 +46,8 @@ class Javascript extends Container
      */
     public function appendJs($selector, $function, ...$params)
     {
-        $this->append($this->build($selector, $function, $params));
+        array_unshift($params, $selector, $function);
+        $this->append(call_user_func_array([$this, 'build'], $params));
         return $this;
     }
 
@@ -57,7 +61,8 @@ class Javascript extends Container
      */
     public function prependJs($selector, $function, ...$params)
     {
-        $this->prepend($this->build($selector, $function, $params));
+        array_unshift($params, $selector, $function);
+        $this->append(call_user_func_array([$this, 'build'], $params));
         return $this;
     }
 

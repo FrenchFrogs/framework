@@ -198,14 +198,28 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
     }
 
     /**
-     * Render dfatatable js
+     * Render datatable js
      *
      * @param \FrenchFrogs\Polliwog\Table\Table\Table $table
      * @return string
      */
     public function _datatable(Table\Table $table)
     {
-        js('inline', '#' . $table->getAttribute('id'), 'dataTable');
+        $options = [];
+
+        // Is remote loading
+        if ($table->isRemote()) {
+            $table->save();
+            js()->log($table->getToken());
+            $options += [
+                'ajax' => route('datatable'),
+                'processing' => true,
+                'serverSide' => true,
+                'deferLoading' => $table->getItemsTotal()
+            ];
+        }
+
+        js('onload', '#' . $table->getAttribute('id'), 'dtt', $options);
         return '';
     }
 }

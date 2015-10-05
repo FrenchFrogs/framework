@@ -64,6 +64,18 @@ class Table
      */
     public function __construct()
     {
+        /*
+         * Default configuration
+         */
+        if (!$this->hasRenderer()) {
+            $class = configurator()->get('table.renderer.class');
+            $this->setRenderer(new $class);
+        }
+
+        if (!$this->hasUrl()){
+            $this->setUrl(request()->url());
+        }
+
         // if method "init" exist, we call it.
         if (method_exists($this, 'init')) {
             call_user_func_array([$this, 'init'], func_get_args());
@@ -76,16 +88,8 @@ class Table
             $this->addAttribute('id', 'table-' . rand());
         }
 
-        /*
-         * Default configuration
-         */
-        if (!$this->hasRenderer()) {
-            $class = configurator()->get('table.renderer.class');
-            $this->setRenderer(new $class);
-        }
-
-        if (!$this->hasUrl()){
-            $this->setUrl(request()->url());
+        if(static::class != self::class) {
+            $this->enableRemote();
         }
     }
 
