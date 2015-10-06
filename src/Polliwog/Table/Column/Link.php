@@ -83,7 +83,7 @@ class Link extends Text
      *
      * @return $this
      */
-    public function remote()
+    public function enableRemote()
     {
         $this->setRemote(true);
         return $this;

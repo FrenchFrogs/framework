@@ -1,11 +1,12 @@
 <?php namespace FrenchFrogs\Polliwog\Form\Element;
 
+use FrenchFrogs\Core;
 
-class Submit extends Element
+class Submit extends Button
 {
 
     /**
-     * Constructror
+     * Constructor
      *
      * @param $name
      * @param string $label
@@ -13,8 +14,7 @@ class Submit extends Element
      */
     public function __construct($name, $attr = [] )
     {
-        $this->setAttributes($attr);
-        $this->setName($name);
+        parent::__construct($name, $name, $attr);
         $this->addAttribute('type', 'submit');
     }
 

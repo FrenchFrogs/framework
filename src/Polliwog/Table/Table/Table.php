@@ -218,11 +218,27 @@ class Table
      * Return the $name column from $column container
      *
      * @param $name
-     * @return mixed
+     * @return Column\Column $column
      */
     public function getColumn($name)
     {
         return $this->columns[$name];
+    }
+
+    /**
+     * Return the column from his index
+     *
+     * @return Column\Column $column
+     */
+    public function getColumnByIndex($index)
+    {
+        $keys = array_keys($this->columns);
+
+        if (empty($keys[$index]) || $this->columns[$keys[$index]]) {
+            throw new \InvalidArgumentException('Table don\'t have a column index : ' . $index);
+        }
+
+        return $this->getColumn($keys[$index]);
     }
 
 

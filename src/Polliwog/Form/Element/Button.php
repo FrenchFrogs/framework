@@ -1,8 +1,12 @@
 <?php namespace FrenchFrogs\Polliwog\Form\Element;
 
+use FrenchFrogs\Core;
 
 class Button extends Element
 {
+
+    use Core\Button;
+
     /**
      * Constructror
      *
@@ -15,6 +19,8 @@ class Button extends Element
         $this->setAttributes($attr);
         $this->setName($name);
         $this->setLabel($label);
+        $this->setOptionAsDefault();
+        $this->disableIconOnly();
     }
 
     /**

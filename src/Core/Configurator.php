@@ -1,6 +1,7 @@
 <?php namespace FrenchFrogs\Core;
 
 use FrenchFrogs\Polliwog;
+use FrenchFrogs\Model;
 
 
 class Configurator
@@ -16,9 +17,16 @@ class Configurator
     protected $config = [
         'panel.class' => Polliwog\Panel\Panel\Panel::class,
         'panel.renderer.class' =>  Polliwog\Panel\Renderer\Bootstrap::class,
+
+
         'table.class' => Polliwog\Table\Table\Table::class,
         'table.renderer.class' => Polliwog\Table\Renderer\Bootstrap::class,
-        'modal.class' => Polliwog\Modal\Modal\Bootstrap::class,
+
+        'form.renderer.class' => Polliwog\Form\Renderer\Bootstrap::class,
+        'form.validator.class' => Model\Validator\Validator::class,
+        'form.filterer.class' => Model\Filterer\Filterer::class,
+
+        'modal.class' => Polliwog\Modal\Modal\Modal::class,
         'modal.renderer.class' => Polliwog\Modal\Renderer\Bootstrap::class,
         'modal.closeButtonLabel' => 'Fermer',
         'modal.backdrop' => true,

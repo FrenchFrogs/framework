@@ -125,7 +125,7 @@ function table(...$args)
 function modal(...$args)
 {
     // retrieve the good class
-    $class = configurator()->get('modal.class', Polliwog\Modal\Modal\Bootstrap::class);
+    $class = configurator()->get('modal.class', Polliwog\Modal\Modal\Modal::class);
 
     // build the instance
     $reflection = new ReflectionClass($class);

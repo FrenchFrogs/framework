@@ -1,21 +1,15 @@
 <?php namespace FrenchFrogs\Polliwog\Modal\Renderer;
 
 
+use FrenchFrogs\Core\FrenchFrogsServiceProvider;
 use FrenchFrogs\Model\Renderer\Renderer;
 use FrenchFrogs\Polliwog\Modal\Modal;
 use FrenchFrogs\Polliwog\Form\Element;
+use FrenchFrogs\Model\Renderer\Style\Style;
 
 
 class Bootstrap extends Renderer
 {
-
-    const MODAL_CLASS = 'modal fade';
-    const MODAL_DIALOG_CLASS = 'modal-dialog';
-    const MODAL_CONTENT_CLASS = 'modal-content';
-    const MODAL_HEADER_CLASS = 'modal-header';
-    const MODAL_HEADER_TITLE_CLASS = 'modal-title';
-    const MODAL_BODY_CLASS = 'modal-body';
-    const MODAL_FOOTER_CLASS = 'modal-footer';
 
     /**
      *
@@ -25,6 +19,7 @@ class Bootstrap extends Renderer
      */
     protected $renderers = [
         'modal' => '_modal',
+        'action' => '_action',
         'modal_remote' => '_modal_remote'
     ];
 
@@ -32,10 +27,10 @@ class Bootstrap extends Renderer
     /**
      * Render a modal
      *
-     * @param \FrenchFrogs\Polliwog\Modal\Modal\Bootstrap $modal
+     * @param \FrenchFrogs\Polliwog\Modal\Modal\Modal $modal
      * @return string
      */
-    public function _modal(Modal\Bootstrap $modal)
+    public function _modal(Modal\Modal $modal)
     {
 
         $html = '';
@@ -46,15 +41,14 @@ class Bootstrap extends Renderer
         }
 
         if ($modal->hasTitle()) {
-            $html .= html('h4', ['class' => static::MODAL_HEADER_TITLE_CLASS], $modal->getTitle());
+            $html .= html('h4', ['class' => Style::MODAL_HEADER_TITLE_CLASS], $modal->getTitle());
         }
 
-        $html = html('div', ['class' => static::MODAL_HEADER_CLASS], $html);
+        $html = html('div', ['class' => Style::MODAL_HEADER_CLASS], $html);
 
 
         // body
-        $html .= html('div', ['class' => static::MODAL_BODY_CLASS], $modal->getBody());
-
+        $html .= html('div', ['class' => Style::MODAL_BODY_CLASS], $modal->getBody());
 
         // footer
         if ($modal->hasActions()) {
@@ -67,29 +61,61 @@ class Bootstrap extends Renderer
 
             foreach ($modal->getActions() as $action) {
                 /** @var Element\Button $action */
-                $actions .= html('button', $action->getAttributes(), $action->getLabel());
+                $actions .= $this->render('action', $action);
             }
 
-            $html .= html('div', ['class' => static::MODAL_FOOTER_CLASS], $actions);
+            $html .= html('div', ['class' => Style::MODAL_FOOTER_CLASS], $actions);
         }
 
         // container
         if (!$modal->isRemote()) {
-            $html = html('div', ['class' => static::MODAL_CONTENT_CLASS, ], $html);
-            $html = html('div', ['class' => static::MODAL_DIALOG_CLASS, 'role' => 'document'], $html);
-            $html = html('div', ['class' => static::MODAL_CLASS,'role' => 'dialog'], $html);
+            $html = html('div', ['class' => Style::MODAL_CONTENT_CLASS, ], $html);
+            $html = html('div', ['class' => Style::MODAL_DIALOG_CLASS, 'role' => 'document'], $html);
+            $html = html('div', ['class' => Style::MODAL_CLASS,'role' => 'dialog'], $html);
         }
 
         return $html;
     }
 
 
-    public function _modal_remote(Modal\Bootstrap $modal)
+    public function _action(Element\Button $action)
     {
 
-        $html = html('div', ['class' => static::MODAL_CONTENT_CLASS, ], '');
-        $html = html('div', ['class' => static::MODAL_DIALOG_CLASS, 'role' => 'document'], $html);
-        $html = html('div', ['class' => static::MODAL_CLASS,'role' => 'dialog', 'id' => $modal->getRemoteId()], $html);
+        if ($action->hasOption()) {
+            $action->addClass(constant(  Style::class . '::' . $action->getOption()));
+        }
+
+        if ($action->hasSize()) {
+            $action->addClass(constant(  Style::class . '::' . $action->getSize()));
+        }
+
+
+        $action->addClass(Style::BUTTON_CLASS);
+
+        $label = '';
+        if ($action->hasIcon()) {
+            $label .= html('i', ['class' => $action->getIcon()]);
+        }
+
+        $name = $action->getLabel();
+        if ($action->isIconOnly()) {
+            $action->addAttribute('data-toggle', 'tooltip');
+        } else {
+            $label .= $name;
+        }
+
+        $html = html('button',$action->getAttributes(), $label );
+
+        return $html;
+    }
+
+
+    public function _modal_remote(Modal\Modal $modal)
+    {
+
+        $html = html('div', ['class' => Style::MODAL_CONTENT_CLASS, ], '');
+        $html = html('div', ['class' => Style::MODAL_DIALOG_CLASS, 'role' => 'document'], $html);
+        $html = html('div', ['class' => Style::MODAL_CLASS,'role' => 'dialog', 'id' => $modal->getRemoteId()], $html);
 
         return $html;
     }

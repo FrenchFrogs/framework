@@ -1,7 +1,7 @@
 <?php namespace FrenchFrogs\Core;
 use FrenchFrogs;
 use Illuminate\Support\ServiceProvider;
-use Response, Request;
+use Response, Request, Route, Input;
 
 /**
  * Service provider for frenchfrogs
@@ -24,6 +24,7 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
     }
 
 
+
     public function boot()
     {
         Response::macro('modal', function($title, $body = '', $actions  = [])
@@ -36,7 +37,7 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
             $modal->setCloseButton(false);
 
             // As it's an ajax request, we render only the content
-            $modal->remote();
+            $modal->enableRemote();
             return $modal;
         });
     }

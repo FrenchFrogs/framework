@@ -27,6 +27,33 @@ trait Datatable
      */
     protected $token;
 
+
+    /**
+     * If a single token if set, it mean that this class can only have a single instance
+     *
+     * @var
+     */
+    static protected $singleToken;
+
+
+    /**
+     * @return bool
+     */
+    static public function hasSingleToken()
+    {
+        return !empty(static::$singleToken);
+    }
+
+    /**
+     *
+     * @return mixed
+     */
+    static public function getSingleToken()
+    {
+        return static::$singleToken;
+    }
+
+
     /**
      * Set TRUE to $is_remote
      *
@@ -125,11 +152,22 @@ trait Datatable
         return $this;
     }
 
+
+    /**
+     * Return TRUE if the datatble have a token
+     *
+     * @return bool
+     */
     public function hasToken()
     {
         return isset($this->token);
     }
 
+    /**
+     * Generate a token and fill it
+     *
+     * @return $this
+     */
     public function generateToken()
     {
         $this->token = 'table.' . md5(static::class . microtime());
@@ -137,12 +175,17 @@ trait Datatable
     }
 
     /**
+     * Save the Table configuration in Session
      *
      */
     public function save() {
 
         if(!$this->hasToken()) {
-            $this->generateToken();
+            if (static::hasSingleToken()) {
+                $this->setToken(static::getSingleToken());
+            } else {
+                $this->generateToken();
+            }
         }
 
         Session::push($this->getToken(), json_encode(['class' => static::class]));
@@ -150,10 +193,25 @@ trait Datatable
     }
 
 
-    static public function load($token)
+    /**
+     * Load a datable from a token
+     *
+     * @param $token
+     * @return object
+     */
+    static public function load($token = null)
     {
+
+        if (is_null($token) && static::hasSingleToken()) {
+            $token = static::getSingleToken();
+        }
+
         if (!Session::has($token)){
-            throw new \InvalidArgumentException('Token "' . $token .'" is not valid');
+            if (static::hasSingleToken()) {
+                Session::push($token, json_encode(['class' => static::class]));
+            } else {
+                throw new \InvalidArgumentException('Token "' . $token . '" is not valid');
+            }
         }
 
         $config = Session::get($token);

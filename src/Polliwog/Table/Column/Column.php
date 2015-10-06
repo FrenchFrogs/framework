@@ -1,6 +1,7 @@
 <?php namespace FrenchFrogs\Polliwog\Table\Column;
 
 use FrenchFrogs\Core;
+use FrenchFrogs\Polliwog;
 
 
 /**
@@ -19,7 +20,7 @@ abstract class Column
     /**
      *
      *
-     * @var \FrenchFrogs\Polliwog\Table\Table
+     * @var Polliwog\Table\Table\Table
      */
     protected $table;
 

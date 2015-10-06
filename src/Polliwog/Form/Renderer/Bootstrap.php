@@ -14,7 +14,7 @@ class Bootstrap extends FormAbstract {
     //@TODO manage horizontal inline form
 
 
-    function _form(Form\Form\Bootstrap $form)
+    function _form(Form\Form\Form $form)
     {
 
         $html = '';
@@ -27,16 +27,20 @@ class Bootstrap extends FormAbstract {
         }
 
         // Actions
-        $action = $form->getActions();
-        if (count($action)) {
+
+        if ($form->hasActions()) {
             $html .= '<div class="text-right">';
-            foreach ($action as $e) {
+            foreach ($form->getAction() as $e) {
                 $html .= $e->render();
             }
             $html .= "</div>";
         }
 
         $html = html('form', $form->getAttributes(), $html);
+
+        if ($form->hasPanel()) {
+            $html = $form->getPanel()->setBody($html)->render();
+        }
 
         return $html;
     }
@@ -93,11 +97,10 @@ class Bootstrap extends FormAbstract {
 
     public function _submit(Form\Element\Submit $element)
     {
-        $element->addClass('btn btn-default');
         $html = html('input', $element->getAttributes());
-
         return $html;
     }
+
 
     public function _checkbox(Form\Element\Checkbox $element)
     {

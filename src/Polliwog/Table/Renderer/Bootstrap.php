@@ -2,38 +2,10 @@
 
 use FrenchFrogs\Polliwog\Table\Column;
 use FrenchFrogs\Polliwog\Table\Table;
+use FrenchFrogs\Model\Renderer\Style\Style;
 
 class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
 {
-
-    /**
-     * Classes for table element
-     *
-     */
-    const TABLE_CLASS_STRIPED = 'table-striped';
-    const TABLE_CLASS_BORDERED = 'table-bordered';
-    const TABLE_CLASS_HOVER = 'table-hover';
-    const TABLE_CLASS_CONDENSED = 'table-condensed';
-    const TABLE_CLASS_RESPONSIVE = 'table-responsive';
-    const TABLE_CLASS = 'table';
-
-
-    /**
-     * Classes for button element
-     *
-     */
-    const BUTTON_CLASS = 'btn';
-    const BUTTON_OPTION_CLASS_DEFAULT = 'btn-default';
-    const BUTTON_OPTION_CLASS_PRIMARY = 'btn-primary';
-    const BUTTON_OPTION_CLASS_SUCCESS = 'btn-success';
-    const BUTTON_OPTION_CLASS_INFO = 'btn-info';
-    const BUTTON_OPTION_CLASS_WARNING = 'btn-warning';
-    const BUTTON_OPTION_CLASS_DANGER = 'btn-danger';
-    const BUTTON_OPTION_CLASS_LINK = 'btn-link';
-    const BUTTON_SIZE_CLASS_LARGE = 'btn-lg';
-    const BUTTON_SIZE_CLASS_SMALL = 'btn-sm';
-    const BUTTON_SIZE_CLASS_EXTRA_SMALL = 'btn-xs';
-
     /**
      *
      * Available renderer
@@ -105,29 +77,29 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
 
 
         // Bootstrap class management
-        $table->addClass(static::TABLE_CLASS);
+        $table->addClass(Style::TABLE_CLASS);
 
         if ($table->isStriped()){
-            $table->addClass(static::TABLE_CLASS_STRIPED);
+            $table->addClass(Style::TABLE_CLASS_STRIPED);
         }
 
         if ($table->isBordered()) {
-            $table->addClass(static::TABLE_CLASS_BORDERED);
+            $table->addClass(Style::TABLE_CLASS_BORDERED);
         }
 
         if ($table->isCondensed()) {
-            $table->addClass(static::TABLE_CLASS_CONDENSED);
+            $table->addClass(Style::TABLE_CLASS_CONDENSED);
         }
 
         if ($table->hasHover()) {
-            $table->addClass(static::TABLE_CLASS_HOVER);
+            $table->addClass(Style::TABLE_CLASS_HOVER);
         }
 
         $html =  html('table', $table->getAttributes(), html('thead', [], $head) . html('tbody', [], $body) . $footer);
 
         // responsive
         if ($table->isResponsive()){
-            $html = html('div', ['class' => static::TABLE_CLASS_RESPONSIVE], $html);
+            $html = html('div', ['class' => Style::TABLE_CLASS_RESPONSIVE], $html);
         }
 
         if ($table->hasPanel()) {
@@ -161,15 +133,15 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
     {
 
         if ($column->hasOption()) {
-            $column->addClass(constant( 'static::' . $column->getOption()));
+            $column->addClass(constant(  Style::class . '::' . $column->getOption()));
         }
 
         if ($column->hasSize()) {
-            $column->addClass(constant( 'static::' . $column->getSize()));
+            $column->addClass(constant(  Style::class . '::' . $column->getSize()));
         }
 
 
-        $column->addClass(static::BUTTON_CLASS);
+        $column->addClass(Style::BUTTON_CLASS);
         $column->addAttribute('href',$column->getBindedLink($row));
 
 
@@ -212,7 +184,7 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
             $table->save();
             js()->log($table->getToken());
             $options += [
-                'ajax' => route('datatable'),
+                'ajax' => ['url' => route('datatable'), 'data' => ['token' => $table->getToken()]],
                 'processing' => true,
                 'serverSide' => true,
                 'deferLoading' => $table->getItemsTotal()

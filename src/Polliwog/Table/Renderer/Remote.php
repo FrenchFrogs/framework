@@ -2,10 +2,8 @@
 
 use FrenchFrogs\Polliwog\Table\Table;
 
-class Json extends Bootstrap
+class Remote extends Bootstrap
 {
-
-
     public function _table(Table\Table $table)
     {
 

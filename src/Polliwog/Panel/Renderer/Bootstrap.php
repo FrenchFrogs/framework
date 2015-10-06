@@ -2,23 +2,10 @@
 
 use FrenchFrogs\Model\Renderer\Renderer;
 use FrenchFrogs\Polliwog\Panel;
+use FrenchFrogs\Model\Renderer\Style\Style;
 
 class Bootstrap extends Renderer
 {
-
-
-    const PANEL_CLASS = 'panel';
-    const PANEL_CLASS_DEFAULT = 'panel-default';
-    const PANEL_CLASS_PRIMARY = 'panel-primary';
-    const PANEL_CLASS_SUCCESS = 'panel-success';
-    const PANEL_CLASS_INFO = 'panel-info';
-    const PANEL_CLASS_WARNING = 'panel-warning';
-    const PANEL_CLASS_DANGER = 'panel-danger';
-    const PANEL_HEAD_CLASS = 'panel-heading';
-    const PANEL_HEAD_CLASS_TITLE = 'panel-title';
-    const PANEL_HEAD_CLASS_ACTIONS = '';
-    const PANEL_BODY_CLASS = 'panel-body';
-
 
     /**
      *
@@ -38,18 +25,18 @@ class Bootstrap extends Renderer
     {
 
         $html = '';
-        $html .= html('div', ['class' => static::PANEL_HEAD_CLASS_TITLE], $panel->getTitle());
-        $html = html('div', ['class' => static::PANEL_HEAD_CLASS], $html);
+        $html .= html('div', ['class' => Style::PANEL_HEAD_CLASS_TITLE], $panel->getTitle());
+        $html = html('div', ['class' => Style::PANEL_HEAD_CLASS], $html);
 
         //@todo Action render
         //@todo footer render
 
-        $html .= html('div', ['class' => static::PANEL_BODY_CLASS], $panel->getBody());
+        $html .= html('div', ['class' => Style::PANEL_BODY_CLASS], $panel->getBody());
 
-        $panel->addClass(static::PANEL_CLASS);
+        $panel->addClass(Style::PANEL_CLASS);
 
         if ($panel->hasContext()) {
-            $panel->addClass(constant( 'static::' . $panel->getContext()));
+            $panel->addClass(constant( Style::class . '::' . $panel->getContext()));
         }
 
         return html('div', $panel->getAttributes(), $html);

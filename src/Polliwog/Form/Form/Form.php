@@ -3,6 +3,8 @@
 use FrenchFrogs\Core;
 use InvalidArgumentException;
 use FrenchFrogs;
+use FrenchFrogs\Polliwog\Form\Element;
+use FrenchFrogs\Polliwog\Form\Renderer;
 
 /**
  * Form pollywog
@@ -10,12 +12,13 @@ use FrenchFrogs;
  * Class Form
  * @package FrenchFrogs\Polliwog\Form\Form
  */
-class Bootstrap
+class Form
 {
     use Core\Html;
     use Core\Renderer;
     use Core\Validator;
     use Core\Filterer;
+    use Core\Panel;
 
     /**
      * Elements container
@@ -33,6 +36,48 @@ class Bootstrap
 
 
     /**
+     * Legend of the form (title)
+     *
+     * @var
+     */
+    protected $legend;
+
+
+    /**
+     * Setter for $legend attribute
+     *
+     * @param $legend
+     * @return $this
+     */
+    public function setLegend($legend)
+    {
+        $this->legend = strval($legend);
+        return $this;
+    }
+
+    /**
+     * Getter for $legend attribute
+     *
+     * @return mixed
+     */
+    public function getLegend()
+    {
+        return $this->legend;
+    }
+
+    /**
+     * Return TRUE if $$legend attribute is set
+     *
+     * @return bool
+     */
+    public function hasLegend()
+    {
+        return isset($this->legend);
+    }
+
+
+
+    /**
      * Constructor
      *
      * @param string $url
@@ -40,6 +85,24 @@ class Bootstrap
      */
     public function __construct($url = '', $method = 'POST')
     {
+        /*
+        * Default configuration
+        */
+        if (!$this->hasRenderer()) {
+            $class = configurator()->get('form.renderer.class');
+            $this->setRenderer(new $class);
+        }
+
+        if (!$this->hasValidator()) {
+            $class = configurator()->get('form.validator.class');
+            $this->setValidator(new $class);
+        }
+
+        if (!$this->hasFilterer()) {
+            $class = configurator()->get('form.filterer.class');
+            $this->setFilterer(new $class);
+        }
+
         $this->setUrl($url);
         $this->setMethod($method);
     }
@@ -183,6 +246,16 @@ class Bootstrap
     {
         $this->actions = [];
         return $this;
+    }
+
+    /**
+     * Return TRU is $action container has at leas one element
+     *
+     * @return bool
+     */
+    public function hasActions()
+    {
+        return count($this->actions) > 0;
     }
 
     /**

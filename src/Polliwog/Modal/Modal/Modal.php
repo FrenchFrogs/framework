@@ -4,7 +4,7 @@ use FrenchFrogs\Core;
 use FrenchFrogs\Polliwog;
 
 
-class Bootstrap
+class Modal
 {
 
     use Core\Renderer;
@@ -98,14 +98,26 @@ class Bootstrap
         return $this->remoteId;
     }
 
+
     /**
      * Set $is_remote as TRUE
      *
      * @return $this
      */
-    public function remote()
+    public function enableRemote()
     {
         $this->setRemote(true);
+        return $this;
+    }
+
+    /**
+     * Set $is_remote as FALSE
+     *
+     * @return $this
+     */
+    public function disableRemote()
+    {
+        $this->setRemote(false);
         return $this;
     }
 
