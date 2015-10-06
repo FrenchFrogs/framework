@@ -4,8 +4,7 @@ use FrenchFrogs\Core;
 
 class Button extends Link
 {
-
-    use Core\Button;
+	use Core\Button;
 
     /**
      *

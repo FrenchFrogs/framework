@@ -59,12 +59,22 @@ class Link extends Text
     /**
      * Setter for $is_remoter attribute
      *
-     * @param $remote
      * @return $this
      */
-    public function setRemote($remote)
+    public function enableRemote()
     {
-        $this->is_remote = (bool) $remote;
+        $this->is_remote = true;
+        return $this;
+    }
+
+    /**
+     * Setter for $is_remoter attribute
+     *
+     * @return $this
+     */
+    public function disableRemote()
+    {
+        $this->is_remote = false;
         return $this;
     }
 
@@ -83,9 +93,9 @@ class Link extends Text
      *
      * @return $this
      */
-    public function enableRemote()
+    public function remote()
     {
-        $this->setRemote(true);
+        $this->enableRemote();
         return $this;
     }
 

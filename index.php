@@ -73,7 +73,7 @@ use FrenchFrogs\Core;
         $form->addSeparator();
         $form->addRadio('radio','Radio', ['titi', 'toto', 'tutu'])->getValidator()->addRule('required');
         $form->addSelect('select','Select', ['titi', 'toto', 'tutu'])->setPlaceholder('Le select')->getValidator()->addRule('required');
-        $form->addSelect('multiselect','MultiSelect', ['titi', 'toto', 'tutu'])->setMultiple()->getValidator()->addRule('required');
+        $form->addSelect('multiselect','MultiSelect', ['titi', 'toto', 'tutu'])->enableMultiple()->getValidator()->addRule('required');
         $form->addTitle('Perso');
         $form->addLabel('label', 'Label');
         $form->addContent('Content', '<button class="btn">Button</button> Et oui ca marche');

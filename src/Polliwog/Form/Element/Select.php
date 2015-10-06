@@ -72,23 +72,27 @@ class Select extends Element
         return '-- ' . $this->getAttribute('placeholder') . ' --';
     }
 
-
     /**
-     * Setter pour le multiple
+     * Enabler pour le multiple
      *
-     * @param bool $bool
      * @return $this
      */
-    public function setMultiple($bool = true)
+    public function enableMultiple()
     {
-        if ($bool) {
-            $this->addAttribute('multiple', 'multiple');
-        } else {
-            $this->removeAttribute('multiple');
-        }
+        $this->addAttribute('multiple', 'multiple');
         return $this;
     }
 
+    /**
+     * Disabler pour le multiple
+     *
+     * @return $this
+     */
+    public function disableMultiple()
+    {
+        $this->removeAttribute('multiple');
+        return $this;
+    }
 
     /**
      * Renvoie si le select est multiple

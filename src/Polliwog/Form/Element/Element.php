@@ -349,7 +349,7 @@ abstract class Element
     /**
      * Ajoute un filtre
      *
-     * @param $filterer
+     * @param $filter
      * @param null $method
      * @return $this
      */
@@ -362,10 +362,10 @@ abstract class Element
     /**
      * Renvoie true si lee va
      *
-     * @param $rule
+     * @param $filter
      * @return bool
      */
-    public function hasFilter($filterer)
+    public function hasFilter($filter)
     {
         $this->getFilterer()->hasFilter($filter);
         return $this;
@@ -375,7 +375,7 @@ abstract class Element
     /**
      * Suppression d'un regle
      *
-     * @param $rule
+     * @param $filter
      * @return $this
      */
     public function removeFilter($filter)
@@ -396,17 +396,25 @@ abstract class Element
         return  $this->getFilterer()->filter($this->getValue());
     }
 
+    /**
+     * Enable if the element has to be treated during global process
+     *
+     * @return \FrenchFrogs\Polliwog\Form\Element\Element
+     */
+    public function enableDiscreet()
+    {
+        $this->is_discreet = true;
+        return $this;
+    }
 
     /**
-     * Setter for is_discreet boolean
+     * Disable if the element has to be treated during global process
      *
-     * @param bool|true $discreet
-     * @return $this
+     * @return \FrenchFrogs\Polliwog\Form\Element\Element
      */
-    public function setDiscreet($discreet = true)
+    public function disableDiscreet()
     {
-        $this->is_discreet = $discreet;
-
+        $this->is_discreet = false;
         return $this;
     }
 

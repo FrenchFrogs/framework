@@ -57,12 +57,22 @@ trait Bootstrap
     /**
      * Setter for $is_stripped attribute
      *
-     * @param bool|true $stripped
      * @return $this
      */
-    public function setStriped($stripped = true)
+    public function enableStriped()
     {
-        $this->is_striped = (bool) $stripped;
+        $this->is_striped = true;
+        return $this;
+    }
+
+    /**
+     * Setter for $is_stripped attribute
+     *
+     * @return $this
+     */
+    public function disableStriped()
+    {
+        $this->is_striped = false;
         return $this;
     }
 
@@ -79,12 +89,22 @@ trait Bootstrap
     /**
      * Setter for $is_bordered attribute
      *
-     * @param bool|true $borderer
      * @return $this
      */
-    public function setBordered($borderer = true)
+    public function enableBordered()
     {
-        $this->is_bordered = (bool) $borderer;
+        $this->is_bordered = true;
+        return $this;
+    }
+
+    /**
+     * Setter for $is_bordered attribute
+     *
+     * @return $this
+     */
+    public function disableBordered()
+    {
+        $this->is_bordered = false;
         return $this;
     }
 
@@ -102,12 +122,22 @@ trait Bootstrap
     /**
      * Setter for $is_condensed attribute
      *
-     * @param bool|true $condensed
      * @return $this
      */
-    public function setCondensed($condensed = true)
+    public function enableCondensed()
     {
-        $this->is_condensed = (bool) $condensed;
+        $this->is_condensed = true;
+        return $this;
+    }
+
+    /**
+     * Setter for $is_condensed attribute
+     *
+     * @return $this
+     */
+    public function disableCondensed()
+    {
+        $this->is_condensed = false;
         return $this;
     }
 
@@ -124,12 +154,22 @@ trait Bootstrap
     /**
      * Setter for $is_responsive attribute
      *
-     * @param bool|true $responsive
      * @return $this
      */
-    public function setResponsive($responsive = true)
+    public function enableResponsive()
     {
-        $this->is_responsive = (bool) $responsive;
+        $this->is_responsive = true;
+        return $this;
+    }
+
+    /**
+     * Setter for $is_responsive attribute
+     *
+     * @return $this
+     */
+    public function disableResponsive()
+    {
+        $this->is_responsive = false;
         return $this;
     }
 
@@ -146,12 +186,22 @@ trait Bootstrap
     /**
      * Setter for $has_hover attribute
      *
-     * @param bool|true $hover
      * @return $this
      */
-    public function setHover($hover = true)
+    public function enableHover()
     {
-        $this->has_hover = $hover;
+        $this->has_hover = true;
+        return $this;
+    }
+
+    /**
+     * Setter for $has_hover attribute
+     *
+     * @return $this
+     */
+    public function disableHover()
+    {
+        $this->has_hover = false;
         return $this;
     }
 

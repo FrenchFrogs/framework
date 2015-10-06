@@ -98,31 +98,6 @@ class Modal
         return $this->remoteId;
     }
 
-
-    /**
-     * Set $is_remote as TRUE
-     *
-     * @return $this
-     */
-    public function enableRemote()
-    {
-        $this->setRemote(true);
-        return $this;
-    }
-
-    /**
-     * Set $is_remote as FALSE
-     *
-     * @return $this
-     */
-    public function disableRemote()
-    {
-        $this->setRemote(false);
-        return $this;
-    }
-
-
-
     /**
      * Setter for $closeButtonLabel Attribute
      *
@@ -146,17 +121,26 @@ class Modal
     }
 
     /**
-     * Setter for $is_closeButton attribute
+     * Enabler for $is_closeButton attribute
      *
-     * @param bool|true $bool
      * @return $this
      */
-    public function setCloseButton($bool = true)
+    public function enableCloseButton()
     {
-        $this->has_closeButton = (bool) $bool;
+        $this->has_closeButton = true;
         return $this;
     }
 
+    /**
+     * Disabler for $is_closeButton attribute
+     *
+     * @return $this
+     */
+    public function disableCloseButton()
+    {
+        $this->has_closeButton = false;
+        return $this;
+    }
 
     /**
      * Return TRUE if the close button will be render
@@ -169,14 +153,24 @@ class Modal
     }
 
     /**
-     * Setter for $is_onlyContent attribute
+     * Enabler for $is_onlyContent attribute
      *
-     * @param bool|true $bool
      * @return $this
      */
-    public function setRemote($bool = true)
+    public function enableRemote()
     {
-        $this->is_remote = (bool) $bool;
+        $this->is_remote = true;
+        return $this;
+    }
+
+    /**
+     * Disabler for $is_onlyContent attribute
+     *
+     * @return $this
+     */
+    public function disableRemote()
+    {
+        $this->is_remote = false;
         return $this;
     }
 
@@ -190,8 +184,6 @@ class Modal
         return $this->is_remote;
     }
 
-
-
     /**
      * Constructeur
      *
@@ -201,13 +193,12 @@ class Modal
      */
     public function __construct($title = null, $body = null, $actions = null)
     {
-        $this->setBackdrop(configurator()->get('modal.backdrop'));
-        $this->setEscToClose( configurator()->get('modal.backdrop'));
+        (configurator()->get('modal.backdrop')) ? $this->enableBackdrop()   : $this->disableBackdrop();
+        (configurator()->get('modal.backdrop')) ? $this->enableEscToClose() : $this->disableEscToClose();
         $this->setCloseButtonLabel(configurator()->get('modal.closeButtonLabel', $this->closeButtonLabel));
 
+        (configurator()->get('modal.is_remote')) ? $this->enableRemote()    : $this->disableRemote();
         $this->setRemoteId(configurator()->get('modal.remote.id', $this->remoteId));
-        $this->setRemote(configurator()->get('modal.is_remote', $this->remoteId));
-
 
         if (!is_null($title)) {
             $this->setTitle($title);
@@ -227,17 +218,27 @@ class Modal
         $this->setRenderer(new $renderer);
     }
 
-
     /**
-     * Setter for $backdrop attribute
+     * Enabler for $backdrop attribute
      *
-     * @param $backdrop
      * @return $this
      *
      */
-    public function setBackdrop($backdrop)
+    public function enableBackdrop()
     {
-        $this->backdrop = $backdrop;
+        $this->backdrop = true;
+        return $this;
+    }
+
+    /**
+     * Disabler for $backdrop attribute
+     *
+     * @return $this
+     *
+     */
+    public function disableBackdrop()
+    {
+        $this->backdrop = false;
         return $this;
     }
 
@@ -252,7 +253,6 @@ class Modal
         return $this;
     }
 
-
     /**
      * Return TRUE if $backdrop attribute is set
      *
@@ -263,7 +263,6 @@ class Modal
     {
         return isset($this->backdrop);
     }
-
 
     /**
      * Getter for $backdrop attribute
@@ -276,17 +275,26 @@ class Modal
     }
 
     /**
-     * Setter for $is_escToClose attribute
+     * Enabler for $is_escToClose attribute
      *
-     * @param $is_escToClose
      * @return $this
      */
-    public function setEscToClose($is_escToClose)
+    public function enableEscToClose()
     {
-        $this->is_escToClose = (bool) $is_escToClose;
+        $this->is_escToClose = true;
         return $this;
     }
 
+    /**
+     * Disabler for $is_escToClose attribute
+     *
+     * @return $this
+     */
+    public function disableEscToClose()
+    {
+        $this->is_escToClose = false;
+        return $this;
+    }
 
     /**
      * return TRUE if $is_escToClose is TRUE

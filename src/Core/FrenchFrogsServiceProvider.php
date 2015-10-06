@@ -34,7 +34,7 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
             } else {
                 $modal = modal($title, $body, $actions);
             }
-            $modal->setCloseButton(false);
+            $modal->disableCloseButton();
 
             // As it's an ajax request, we render only the content
             $modal->enableRemote();

@@ -11,8 +11,6 @@ namespace FrenchFrogs\Core;
 
 trait Button
 {
-
-
     /**
      * Class of the button
      *
@@ -58,7 +56,7 @@ trait Button
     public function icon($icon, $is_icon_only = true)
     {
         $this->setIcon($icon);
-        $this->setIconOnly($is_icon_only);
+        ($is_icon_only) ? $this->enableIconOnly() : $this->disableIconOnly();
         return $this;
     }
 
