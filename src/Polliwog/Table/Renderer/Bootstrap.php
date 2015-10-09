@@ -159,7 +159,7 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
 
         if ($column->isRemote()) {
             $column->addAttribute('data-target', '#' . $column->getRemoteId())
-                    ->addAttribute('data-toggle', 'modal');
+                    ->addClass('modal-remote');
         }
 
         $column->addAttribute('title', $name);

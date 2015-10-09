@@ -156,5 +156,17 @@ function js($namespace = null, $selector = null, $function = null, ...$params)
     return $container;
 }
 
+/**
+ * Return action form url
+ *
+ * @param $controller
+ * @param string $action
+ * @param array $params
+ * @return string
+ */
+function action_url($controller, $action = 'getIndex', $params = [])
+{
+    return URL::action('\\' . $controller . '@' . $action, $params);
+}
 
 
