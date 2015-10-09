@@ -26,6 +26,9 @@ class Configurator
         'form.validator.class' => Model\Validator\Validator::class,
         'form.filterer.class' => Model\Filterer\Filterer::class,
 
+        'form.default.method' => 'POST',
+        'form.default.has_csrfToken' => true,
+
         'modal.class' => Polliwog\Modal\Modal\Modal::class,
         'modal.renderer.class' => Polliwog\Modal\Renderer\Bootstrap::class,
         'modal.closeButtonLabel' => 'Fermer',

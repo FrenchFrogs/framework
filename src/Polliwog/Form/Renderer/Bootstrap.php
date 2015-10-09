@@ -21,16 +21,19 @@ class Bootstrap extends FormAbstract {
         $form->addAttribute('role', 'form');
 
         // Elements
+        if ($form->hasCsrfToken()) {
+            $html .= csrf_field();
+        }
+
         foreach ($form->getElements() as $e) {
             /** @var $e \FrenchFrogs\Polliwog\Form\Element\Element */
             $html .= $e->render();
         }
 
         // Actions
-
         if ($form->hasActions()) {
             $html .= '<div class="text-right">';
-            foreach ($form->getAction() as $e) {
+            foreach ($form->getActions() as $e) {
                 $html .= $e->render();
             }
             $html .= "</div>";

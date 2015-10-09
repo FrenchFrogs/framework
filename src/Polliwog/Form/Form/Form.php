@@ -19,6 +19,7 @@ class Form
     use Core\Validator;
     use Core\Filterer;
     use Core\Panel;
+    use Remote;
 
     /**
      * Elements container
@@ -41,6 +42,46 @@ class Form
      * @var
      */
     protected $legend;
+
+
+    /**
+     * Specify if the form will render csrf token
+     *
+     * @var
+     */
+    protected $has_csrfToken;
+
+    /**
+     * Set $has_csrfToken to TRUE
+     *
+     * @return $this
+     */
+    public function enableCsrfToken()
+    {
+        $this->has_csrfToken = true;
+        return $this;
+    }
+
+    /**
+     * Set $has_csrfToken to FALSE
+     *
+     * @return $this
+     */
+    public function disableCsrfToken()
+    {
+        $this->has_csrfToken = false;
+        return $this;
+    }
+
+    /**
+     * Getter for $has_csrfToken
+     *
+     * @return mixed
+     */
+    public function hasCsrfToken()
+    {
+        return $this->has_csrfToken;
+    }
 
 
     /**
@@ -83,28 +124,40 @@ class Form
      * @param string $url
      * @param string $method
      */
-    public function __construct($url = '', $method = 'POST')
+    public function __construct($url = null, $method = null)
     {
         /*
-        * Default configuration
+        * Configure polliwog
         */
-        if (!$this->hasRenderer()) {
-            $class = configurator()->get('form.renderer.class');
-            $this->setRenderer(new $class);
+        $c = configurator();
+        $class = $c->get('form.renderer.class');
+        $this->setRenderer(new $class);
+
+        $class = $c->get('form.validator.class');
+        $this->setValidator(new $class);
+
+        $class = $c->get('form.filterer.class');
+        $this->setFilterer(new $class);
+
+        $this->has_csrfToken = $c->get('form.default.has_csrfToken', true);
+
+
+        //default configuration
+        $this->addAttribute('id', 'form-' . rand());
+
+        // if method "init" exist, we call it.
+        if (method_exists($this, 'init')) {
+            $this->setMethod($c->get('form.default.method', 'POST'));
+            call_user_func_array([$this, 'init'], func_get_args());
+        } else {
+            $this->setUrl($url);
+            $this->setMethod(is_null($method) ? $c->get('form.default.method', 'POST') : $method);
         }
 
-        if (!$this->hasValidator()) {
-            $class = configurator()->get('form.validator.class');
-            $this->setValidator(new $class);
+        // default url
+        if (empty($this->getUrl())) {
+            $this->setUrl(\Request::fullUrl());
         }
-
-        if (!$this->hasFilterer()) {
-            $class = configurator()->get('form.filterer.class');
-            $this->setFilterer(new $class);
-        }
-
-        $this->setUrl($url);
-        $this->setMethod($method);
     }
 
     /**
@@ -545,6 +598,7 @@ class Form
     public function addSubmit($name, $attr = [])
     {
         $e = new Element\Submit($name, $attr);
+        $e->setOptionAsPrimary();
         $this->addAction($e);
         return $e;
     }
