@@ -288,6 +288,7 @@ class Table
         if ($source instanceof \Illuminate\Database\Eloquent\Builder){
             /** @var $source \Illuminate\Database\Eloquent\Builder */
             $this->itemsTotal = $source->count();
+
             $source = $source->skip($this->getItemsOffset())->take($this->getItemsPerPage())->get()->toArray();
             $source = new \ArrayIterator($source);
 
@@ -405,6 +406,24 @@ class Table
     {
 
         $c = new Column\Text($name, $label, $attr);
+        $this->addColumn($c);
+
+        return $c;
+    }
+
+
+    /**
+     * Add Boolean column to $columns container
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Polliwog\Table\Column\Text
+     */
+    public function addBoolean($name, $label = '', $attr = [])
+    {
+
+        $c = new Column\Boolean($name, $label, $attr);
         $this->addColumn($c);
 
         return $c;

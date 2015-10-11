@@ -143,7 +143,7 @@ trait Pagination
      */
     public function getItemsOffset()
     {
-        return  ceil($this->getPage() * $this->getItemsPerPage());
+        return  ceil(($this->getPage() - 1) * $this->getItemsPerPage());
     }
 
     /**

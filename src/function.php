@@ -166,7 +166,8 @@ function js($namespace = null, $selector = null, $function = null, ...$params)
  */
 function action_url($controller, $action = 'getIndex', $params = [])
 {
-    return URL::action('\\' . $controller . '@' . $action, $params);
+    $controller = substr($controller, 0,3) == 'App' ?  '\\' . $controller : $controller;
+    return URL::action($controller . '@' . $action, $params);
 }
 
 

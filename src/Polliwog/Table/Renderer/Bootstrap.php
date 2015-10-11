@@ -17,9 +17,22 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
         'table.text' => '_text',
         'table.link' => '_link',
         'table.button' => '_button',
-        'datatable' => '_datatable'
+        'datatable' => '_datatable',
+        'boolean' =>'boolean',
     ];
 
+
+
+    public function boolean(Column\Boolean $column, array $row)
+    {
+
+        $html = '';
+        if(isset($row[$column->getName()]) && !empty($row[$column->getName()])) {
+            $html .= '<i class="fa fa-check"></i>';
+        }
+
+        return $html;
+    }
 
     /*
      * ************************
