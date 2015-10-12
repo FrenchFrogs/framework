@@ -59,7 +59,7 @@ class Radio extends Element
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.radio', $this);
+            $render = $this->getRenderer()->render('radio', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

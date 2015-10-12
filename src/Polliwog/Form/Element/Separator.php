@@ -12,7 +12,7 @@ class Separator extends Element
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.separator', $this);
+            $render = $this->getRenderer()->render('separator', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

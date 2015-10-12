@@ -25,7 +25,7 @@ class Title extends Element
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.title', $this);
+            $render = $this->getRenderer()->render('title', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

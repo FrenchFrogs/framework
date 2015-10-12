@@ -1,13 +1,11 @@
 <?php namespace FrenchFrogs\Polliwog\Form\Form;
 
 use FrenchFrogs\Core;
-use InvalidArgumentException;
 use FrenchFrogs;
-use FrenchFrogs\Polliwog\Form\Element;
 use FrenchFrogs\Polliwog\Form\Renderer;
 
 /**
- * Form pollywog
+ * Form polliwog
  *
  * Class Form
  * @package FrenchFrogs\Polliwog\Form\Form
@@ -20,21 +18,8 @@ class Form
     use Core\Filterer;
     use Core\Panel;
     use Remote;
-
-    /**
-     * Elements container
-     *
-     * @var array
-     */
-    protected $elements = [];
-
-    /**
-     * Action (form submission) containers
-     *
-     * @var array
-     */
-    protected $actions = [];
-
+    use Element;
+    use Modal;
 
     /**
      * Legend of the form (title)
@@ -158,198 +143,6 @@ class Form
         if (empty($this->getUrl())) {
             $this->setUrl(\Request::fullUrl());
         }
-    }
-
-    /**
-     * Add a single element to the elements container
-     *
-     * @param Element\Element $element
-     * @return $this
-     */
-    public function addElement(Element\Element $element, Renderer\FormAbstract $renderer = null)
-    {
-        // Join element to the form
-        $element->setForm($this);
-
-        // Add renderer to element if it didn't has one
-        if (!$element->hasRenderer() || !is_null($renderer)) {
-            $element->setRenderer($this->getRenderer());
-        }
-
-        // Add validator to element if it didn't has one
-        if (!$element->hasValidator()){
-            $element->setValidator(clone $this->getValidator());
-        }
-
-        // Add validator to element if it didn't has one
-        if (!$element->hasFilterer()){
-            $element->setFilterer($this->getFilterer());
-        }
-
-        $this->elements[$element->getName()] = $element;
-
-        return $this;
-    }
-
-    /**
-     * Remove element $name from elements container
-     *
-     * @param $name
-     * @return $this
-     */
-    public function removeElement($name)
-    {
-
-        if (isset($this->elements[$name])) {
-            unset($this->elements[$name]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Clear the elements container
-     *
-     * @return $this
-     */
-    public function clearElements()
-    {
-
-        $this->elements = [];
-
-        return $this;
-    }
-
-    /**
-     * Return the element $name from the elements container
-     *
-     * @param $name
-     * @throws InvalidArgumentException
-     * @return Element\Element
-     */
-    public function getElement($name)
-    {
-
-        if (!isset($this->elements[$name])) {
-            throw new InvalidArgumentException(" Element not found : {$name}");
-        }
-
-        return $this->elements[$name];
-    }
-
-    /*
-     * Return the elemen container as an array
-     *
-     * @return array
-     */
-    public function getElements()
-    {
-        return $this->elements;
-    }
-
-
-    /**
-     * Set the action container
-     *
-     * @param array $actions
-     * @return $this
-     */
-    public function setActions(array $actions)
-    {
-        $this->actions = $actions;
-        return $this;
-    }
-
-
-    /**
-     * Add an action to the action container
-     *
-     * @param Element\Element $element
-     * @return $this
-     */
-    public function addAction(Element\Element $element)
-    {
-        $element->setRenderer($this->getRenderer());
-        $this->actions[$element->getName()] = $element;
-        return $this;
-    }
-
-    /**
-     * Remove the action $name from the actions container
-     *
-     * @param $name
-     * @return $this
-     */
-    public function removeAction($name)
-    {
-
-        if (isset($this->actions[$name])) {
-            unset($this->actions[$name]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Clear all the actions from the action container
-     *
-     * @return $this
-     */
-    public function clearActions()
-    {
-        $this->actions = [];
-        return $this;
-    }
-
-    /**
-     * Return TRU is $action container has at leas one element
-     *
-     * @return bool
-     */
-    public function hasActions()
-    {
-        return count($this->actions) > 0;
-    }
-
-    /**
-     * Return the $name element from the actions container
-     *
-     * @param $name
-     * @throws InvalidArgumentException
-     * @return Element\Element
-     */
-    public function getAction($name)
-    {
-
-        if (!isset($this->actions[$name])) {
-            throw new InvalidArgumentException("Action not found : {$name}");
-        }
-
-        return $this->actions[$name];
-    }
-
-    /**
-     * Return actions container as an array
-     *
-     * @return array
-     */
-    public function getActions()
-    {
-        return $this->actions;
-    }
-
-    /**
-     *
-     * Factory
-     *
-     * @param string $url action attributes
-     * @param string $method method Attributes
-     * @return Form
-     */
-    static public function create($url = '', $method = 'POST')
-    {
-        $form = new static($url, $method);
-        return $form;
     }
 
     /**
@@ -497,6 +290,7 @@ class Form
         $values = [];
         foreach($this->getElements() as $name => $e) {
             /** @var $e \FrenchFrogs\Polliwog\Form\Element\Element */
+            if ($e->isDiscreet()) {continue;}
             $values[$name] = $e->getValue();
         }
 
@@ -527,286 +321,11 @@ class Form
         $values = [];
         foreach($this->getElements() as $name => $e){
             /** @var \FrenchFrogs\Polliwog\Form\Element\Element $e */
+            if ($e->isDiscreet()) {continue;}
             $values[$name] = $e->getFilteredValue();
         }
         return $values;
     }
-
-
-
-    /*
-     * ***********************************
-     *
-     * ELEMENTS
-     *
-     * ***********************************
-     */
-
-
-    /**
-     * Add a input:text element
-     *
-     * @param $name
-     * @param string $label
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Text
-     */
-    public function addText($name, $label = '', $attr = [] )
-    {
-        $e = new Element\Text($name, $label, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-
-    /**
-     * Add input:password element
-     *
-     * @param $name
-     * @param string $label
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Password
-     */
-    public function addPassword($name, $label = '', $attr = [] )
-    {
-        $e = new Element\Password($name, $label, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-
-    /**
-     * Add textarea element
-     *
-     * @param $name
-     * @param string $label
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Textarea
-     */
-    public function addTextarea($name, $label = '', $attr = [] )
-    {
-        $e = new Element\Textarea($name, $label, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-    
-    /**
-     * Add action button
-     *
-     * @param $name
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Submit
-     */
-    public function addSubmit($name, $attr = [])
-    {
-        $e = new Element\Submit($name, $attr);
-        $e->setOptionAsPrimary();
-        $this->addAction($e);
-        return $e;
-    }
-
-
-    /**
-     * Add input checkbox element
-     *
-     * @param $name
-     * @param string $label
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Checkbox
-     */
-    public function addCheckbox($name, $label = '', $multi  = [], $attr = [] )
-    {
-        $e = new Element\Checkbox($name, $label, $multi, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-
-
-    /**
-     * Add phone element
-     *
-     * @param $name
-     * @param string $label
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Tel
-     */
-    public function addTel($name, $label = '', $attr = [] )
-    {
-        $e = new Element\Tel($name, $label, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-
-    /**
-     * Add input:mail element
-     *
-     * @param $name
-     * @param string $label
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Email
-     */
-    public function addEmail($name, $label = '', $attr = [] )
-    {
-        $e = new Element\Email($name, $label, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-
-
-    /**
-     * Add input:hidden element
-     *
-     *
-     * @param $name
-     * @param array $attr
-     * @return  \FrenchFrogs\Polliwog\Form\Element\Hidden
-     */
-    public function addHidden($name, $attr = [])
-    {
-        $e = new Element\Hidden($name, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-
-    /**
-     * Add label element (read-only element)
-     *
-     * @param $name
-     * @param string $label
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Label
-     */
-    public function addLabel($name, $label = '', $attr = [] )
-    {
-        $e = new Element\Label($name, $label, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-
-
-    /**
-     * Add button element
-     *
-     * @param $label
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Button
-     */
-    public function addButton($name, $label, $attr = [] )
-    {
-        $e = new Element\Button($name, $label, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-
-
-    /**
-     * Add separation
-     *
-     * @return \FrenchFrogs\Polliwog\Form\Element\Separator
-     */
-    public function addSeparator()
-    {
-        $e = new Element\Separator();
-        $this->addElement($e);
-        return $e;
-    }
-
-
-    /**
-     * Add a Title element
-     *
-     * @param $name
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Title
-     */
-    public function addTitle($name, $attr = [])
-    {
-        $e = new Element\Title($name, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-
-
-    /**
-     * Add format content
-     *
-     * @param $label
-     * @param string $content
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Content
-     */
-    public function addContent($label, $value = '', $attr = [])
-    {
-        $e = new Element\Content($label, $value, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-
-
-    /**
-     * Add input:number element
-     *
-     * @param $name
-     * @param string $label
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Number
-     */
-    public function addNumber($name, $label = '', $attr = [] )
-    {
-        $e = new Element\Number($name, $label, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-
-
-    /**
-     * Add input:radio element
-     *
-     * @param $name
-     * @param string $label
-     * @param array $multi
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Radio
-     */
-    public function addRadio($name, $label = '', $multi  = [], $attr = [] )
-    {
-        $e = new Element\Radio($name, $label, $multi, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-
-
-    /**
-     * Add select element
-     *
-     *
-     * @param $name
-     * @param $label
-     * @param array $multi
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Select
-     */
-    public function addSelect($name, $label, $multi = [], $attr = [])
-    {
-        $e = new Element\Select($name, $label, $multi, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-
-
-    /**
-     * Add file element
-     *
-     * @param $name
-     * @param string $label
-     * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\File
-     */
-    public function addFile($name, $label = '', $attr = [])
-    {
-        $e = new Element\File($name, $label, $attr);
-        $this->addElement($e);
-        return $e;
-    }
-
 
     /**
      * *********************
@@ -820,13 +339,23 @@ class Form
      * Valid all the form elements
      *
      * @param array $values
+     * @param bool|true $populate
      * @return $this
      */
-    public function valid(array $values)
+    public function valid(array $values, $populate = true)
     {
         foreach($values as $index => $value){
 
+            // if element is not set, we pass
+            if (!$this->hasElement($index)) {continue;}
+
+            // element validation
             $element = $this->getElement($index)->valid($value);
+
+            // populate value
+            if ($populate) {
+                $element->setValue($value);
+            }
 
             if (!$element->isValid()) {
                 $this->getValidator()->addError($index, $element->getErrorAsString());
@@ -849,29 +378,5 @@ class Form
             $errors[] = sprintf('%s:%s %s', $index, PHP_EOL, $message);
         }
         return implode(PHP_EOL, $errors);
-    }
-
-
-    /**
-     *
-     * *************************
-     *
-     * FILTERER
-     *
-     * *************************
-     */
-
-
-
-    public function filter(array $values)
-    {
-
-        foreach($values as $index => $value){
-            $this->getElement($index)->filter($value);
-        }
-
-        // @todo return fitered values
-
-        return $this;
     }
 }

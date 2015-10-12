@@ -117,10 +117,26 @@ function table(...$args)
 }
 
 /**
+ * Return a new form polliwog instance
+ *
+ * @param ...$args
+ * @return  Polliwog\Form\Form\Form
+ */
+function form(...$args)
+{
+    // retrieve the good class
+    $class = configurator()->get('form.class', Polliwog\Form\Form\Form::class);
+
+    // build the instance
+    $reflection = new ReflectionClass($class);
+    return $reflection->newInstanceArgs($args);
+}
+
+/**
  * Return new modal polliwog
  *
  * @param ...$args
- * @return Polliwog\modal\Modal\Bootstrap
+ * @return Polliwog\modal\Modal\Modal
  */
 function modal(...$args)
 {

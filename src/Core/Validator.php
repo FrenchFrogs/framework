@@ -66,6 +66,7 @@ trait Validator
         // set up params
         array_unshift($params, $method);
         array_unshift($params, $index);
+
         call_user_func_array([$this->getValidator(), 'addRule'], $params);
 
         // Message management

@@ -28,7 +28,7 @@ class Password extends Text
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.password', $this);
+            $render = $this->getRenderer()->render('password', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

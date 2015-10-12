@@ -26,7 +26,7 @@ class Hidden extends Text
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.hidden', $this);
+            $render = $this->getRenderer()->render('hidden', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

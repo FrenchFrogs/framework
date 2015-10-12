@@ -26,7 +26,7 @@ class Submit extends Button
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.submit', $this);
+            $render = $this->getRenderer()->render('submit', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

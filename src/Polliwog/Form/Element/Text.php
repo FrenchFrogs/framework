@@ -48,7 +48,7 @@ class Text extends Element
     {
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.text', $this);
+            $render = $this->getRenderer()->render('text', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

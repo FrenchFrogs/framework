@@ -9,12 +9,42 @@ use FrenchFrogs\Polliwog\Form;
  * Class Bootstrap
  * @package FrenchFrogs\Polliwog\Form\Renderer
  */
-class Bootstrap extends FormAbstract {
+class Bootstrap extends Renderer\Renderer {
 
     //@TODO manage horizontal inline form
 
 
-    function _form(Form\Form\Form $form)
+    /**
+     *
+     *
+     * @var array
+     */
+    protected $renderers = [
+        'form',
+        'modal',
+        'text' => 'text',
+        'textarea',
+        'submit',
+        'checkbox',
+        'checkboxmulti',
+        'tel',
+        'email',
+        'hidden',
+        'label',
+        'button',
+        'separator',
+        'title',
+        'content',
+        'number',
+        'radio',
+        'select',
+        'password',
+        'file'
+    ];
+
+
+
+    function form(Form\Form\Form $form)
     {
 
         $html = '';
@@ -50,7 +80,7 @@ class Bootstrap extends FormAbstract {
 
 
 
-    public function _text(Form\Element\Text $element)
+    public function text(Form\Element\Text $element)
     {
         // Error
         if($hasError = !$element->getValidator()->isValid()){
@@ -74,7 +104,7 @@ class Bootstrap extends FormAbstract {
         return $html;
     }
 
-    public function _textarea(Form\Element\Textarea $element)
+    public function textarea(Form\Element\Textarea $element)
     {
 
         //error
@@ -98,14 +128,14 @@ class Bootstrap extends FormAbstract {
     }
 
 
-    public function _submit(Form\Element\Submit $element)
+    public function submit(Form\Element\Submit $element)
     {
         $html = html('input', $element->getAttributes());
         return $html;
     }
 
 
-    public function _checkbox(Form\Element\Checkbox $element)
+    public function checkbox(Form\Element\Checkbox $element)
     {
         if(!$element->getValidator()->isValid()){
             $element->addClass('form-error');
@@ -131,7 +161,7 @@ class Bootstrap extends FormAbstract {
         return $html;
     }
 
-    public function _checkboxmulti(Form\Element\Checkbox $element)
+    public function checkboxmulti(Form\Element\Checkbox $element)
     {
 
         // error
@@ -173,23 +203,23 @@ class Bootstrap extends FormAbstract {
         return $html;
     }
 
-    public function _tel(Form\Element\Tel $element)
+    public function tel(Form\Element\Tel $element)
     {
         return $this->_text($element);
     }
 
-    public function _email(Form\Element\Email $element)
+    public function email(Form\Element\Email $element)
     {
         return $this->_text($element);
     }
 
-    public function _hidden(Form\Element\Hidden $element)
+    public function hidden(Form\Element\Hidden $element)
     {
         $html = html('input', $element->getAttributes());
         return $html;
     }
 
-    public function _label(Form\Element\Label $element)
+    public function label(Form\Element\Label $element)
     {
 
         $html = '<div class="form-group">';
@@ -201,7 +231,7 @@ class Bootstrap extends FormAbstract {
         return $html;
     }
 
-    public function _button(Form\Element\Button $element)
+    public function button(Form\Element\Button $element)
     {
 
         $element->addClass('btn btn-default');
@@ -211,17 +241,17 @@ class Bootstrap extends FormAbstract {
         return $html;
     }
 
-    public function _separator(Form\Element\Separator $element)
+    public function separator(Form\Element\Separator $element)
     {
         return '<hr>';
     }
 
-    public function _title(Form\Element\Title $element)
+    public function title(Form\Element\Title $element)
     {
         return '<h2>' . $element->getName() . '</h2>';
     }
 
-    public function _content(Form\Element\Content $element)
+    public function content(Form\Element\Content $element)
     {
 
         $html = '<div class="form-group">';
@@ -234,7 +264,7 @@ class Bootstrap extends FormAbstract {
 
     }
 
-    public function _number(Form\Element\Number $element)
+    public function number(Form\Element\Number $element)
     {
         if(!$element->getValidator()->isValid()){
             $element->addClass('form-error');
@@ -254,7 +284,7 @@ class Bootstrap extends FormAbstract {
         return $html;
     }
 
-    public function _radio(Form\Element\Radio $element)
+    public function radio(Form\Element\Radio $element)
     {
         $html =  '<div class="form-group">';
         $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . '</label>';
@@ -282,7 +312,7 @@ class Bootstrap extends FormAbstract {
         return $html;
     }
 
-    public function _select(Form\Element\Select $element)
+    public function select(Form\Element\Select $element)
     {
         if(!$element->getValidator()->isValid()){
             $element->addClass('form-error');
@@ -319,12 +349,12 @@ class Bootstrap extends FormAbstract {
         return $html;
     }
 
-    public function _password(Form\Element\Password $element)
+    public function password(Form\Element\Password $element)
     {
         return $this->_text($element);
     }
 
-    public function _file(Form\Element\File $element)
+    public function file(Form\Element\File $element)
     {
         if(!$element->getValidator()->isValid()){
             $element->addClass('form-error');

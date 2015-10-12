@@ -26,7 +26,7 @@ class Textarea extends Element
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.textarea', $this);
+            $render = $this->getRenderer()->render('textarea', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

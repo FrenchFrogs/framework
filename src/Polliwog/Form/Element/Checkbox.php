@@ -71,7 +71,7 @@ class Checkbox extends Element
 
         $render = '';
         try {
-            $renderer = $this->isMultiple() ? 'form.checkboxmulti' : 'form.checkbox';
+            $renderer = $this->isMultiple() ? 'checkboxmulti' : 'checkbox';
             $render = $this->getRenderer()->render($renderer, $this);
         } catch(\Exception $e){
             dd($e->getMessage());

@@ -345,7 +345,7 @@ class Validator
     public function valid($value)
     {
 
-        foreach($this->getAllRule() as $index => $rule) {
+        foreach($this->getRules() as $index => $rule) {
 
             // extract params
             list($method, $params) = $rule;

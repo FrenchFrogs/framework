@@ -113,7 +113,7 @@ class Select extends Element
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.select', $this);
+            $render = $this->getRenderer()->render('select', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

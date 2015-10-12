@@ -4,6 +4,8 @@
 class Label extends Text
 {
 
+    protected $is_discreet = true;
+
     /**
      * Constructror
      *
@@ -26,7 +28,7 @@ class Label extends Text
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.label', $this);
+            $render = $this->getRenderer()->render('label', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

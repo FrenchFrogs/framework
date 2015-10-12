@@ -29,7 +29,7 @@ class Email extends Text
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.email', $this);
+            $render = $this->getRenderer()->render('email', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

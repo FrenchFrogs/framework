@@ -19,6 +19,28 @@ class Renderer {
     protected $renderers = [];
 
 
+
+    public function init()
+    {
+
+        // get all the renderer
+        $renderer = $this->getRenderers();
+
+        // Clear the container
+        $this->clearRenderers();
+
+        // ,rebuild renderer
+        foreach ($renderer as $index => $method) {
+
+            if (is_numeric($index)) {
+                $this->addRenderer($method);
+            } else {
+                $this->addRenderer($index,$method);
+            }
+        }
+    }
+
+
     /**
      * Constructor
      *
@@ -52,9 +74,9 @@ class Renderer {
      * @param $method
      * @return $this
      */
-    public function addRenderer($index, $method)
+    public function addRenderer($index, $method = null)
     {
-        $this->renderers[$index] = $method;
+        $this->renderers[$index] = is_null($method) ?  $index : $method;
         return $this;
     }
 
@@ -79,7 +101,7 @@ class Renderer {
      *
      * @return $this
      */
-    public function clearRenderer()
+    public function clearRenderers()
     {
         $this->renderers = [];
 
@@ -135,7 +157,7 @@ class Renderer {
         $renderer = $this->getRenderer($index);
 
         // If it's a anonymous function
-        if (is_callable($renderer)) {
+        if (!is_string($renderer)  && is_callable($renderer)) {
             $render = call_user_func_array($renderer, $params);
 
             // if it's a local method

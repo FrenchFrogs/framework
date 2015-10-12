@@ -26,7 +26,7 @@ class File extends Text
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.file', $this);
+            $render = $this->getRenderer()->render('file', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

@@ -27,7 +27,7 @@ class Number extends Text
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.number', $this);
+            $render = $this->getRenderer()->render('number', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

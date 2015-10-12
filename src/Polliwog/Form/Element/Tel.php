@@ -28,7 +28,7 @@ class Tel extends Text
 
         $render = '';
         try {
-            $render = $this->getRenderer()->render('form.tel', $this);
+            $render = $this->getRenderer()->render('tel', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

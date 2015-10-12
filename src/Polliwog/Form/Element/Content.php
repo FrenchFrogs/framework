@@ -26,7 +26,7 @@ class Content extends Element
         $render = '';
         try {
 
-            $render = $this->getRenderer()->render('form.content', $this);
+            $render = $this->getRenderer()->render('content', $this);
         } catch(\Exception $e){
             dd($e->getMessage());
         }
