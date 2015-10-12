@@ -18,9 +18,9 @@ class Bootstrap extends Renderer
      * @var array
      */
     protected $renderers = [
-        'modal' => '_modal',
-        'action' => '_action',
-        'modal_remote' => '_modal_remote'
+        'modal',
+        'action',
+        'modal_remote'
     ];
 
 
@@ -30,7 +30,7 @@ class Bootstrap extends Renderer
      * @param \FrenchFrogs\Polliwog\Modal\Modal\Modal $modal
      * @return string
      */
-    public function _modal(Modal\Modal $modal)
+    public function modal(Modal\Modal $modal)
     {
 
         $html = '';
@@ -45,7 +45,6 @@ class Bootstrap extends Renderer
         }
 
         $html = html('div', ['class' => Style::MODAL_HEADER_CLASS], $html);
-
 
         // body
         $html .= html('div', ['class' => Style::MODAL_BODY_CLASS], $modal->getBody());
@@ -78,7 +77,7 @@ class Bootstrap extends Renderer
     }
 
 
-    public function _action(Element\Button $action)
+    public function action(Element\Button $action)
     {
 
         if ($action->hasOption()) {
@@ -110,7 +109,7 @@ class Bootstrap extends Renderer
     }
 
 
-    public function _modal_remote(Modal\Modal $modal)
+    public function modal_remote(Modal\Modal $modal)
     {
 
         $html = html('div', ['class' => Style::MODAL_CONTENT_CLASS, ], '');

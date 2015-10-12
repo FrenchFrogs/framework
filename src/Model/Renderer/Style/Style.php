@@ -60,4 +60,11 @@ class Style
     const MODAL_HEADER_TITLE_CLASS = 'modal-title';
     const MODAL_BODY_CLASS = 'modal-body';
     const MODAL_FOOTER_CLASS = 'modal-footer';
+
+
+    const FORM_GROUP_CLASS = 'form-group';
+    const FORM_GROUP_ERROR = 'has-error';
+    const FORM_GROUP_CHECKBOX = 'checkbox';
+    const FORM_ELEMENT_CONTROL = 'form-control';
+    const FORM_ELEMENT_CHECKBOX_INLINE = 'checkbox-inline';
 }

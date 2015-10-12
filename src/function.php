@@ -91,7 +91,6 @@ function configurator($namespace = null)
  */
 function panel(...$args)
 {
-
     // retrieve the good class
     $class = configurator()->get('panel.class', Polliwog\Panel\Panel\Panel::class);
 
@@ -185,5 +184,3 @@ function action_url($controller, $action = 'getIndex', $params = [])
     $controller = substr($controller, 0,3) == 'App' ?  '\\' . $controller : $controller;
     return URL::action($controller . '@' . $action, $params);
 }
-
-

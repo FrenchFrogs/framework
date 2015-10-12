@@ -36,21 +36,6 @@ trait Element
         // Join element to the form
         $element->setForm($this);
 
-        // Add renderer to element if it didn't has one
-        if (!$element->hasRenderer() || !is_null($renderer)) {
-            $element->setRenderer($this->getRenderer());
-        }
-
-        // Add validator to element if it didn't has one
-        if (!$element->hasValidator()){
-            $element->setValidator(clone $this->getValidator());
-        }
-
-        // Add validator to element if it didn't has one
-        if (!$element->hasFilterer()){
-            $element->setFilterer($this->getFilterer());
-        }
-
         $this->elements[$element->getName()] = $element;
 
         return $this;
@@ -146,7 +131,7 @@ trait Element
      */
     public function addAction(Form\Element\Element $element)
     {
-        $element->setRenderer($this->getRenderer());
+        $element->setForm($this);
         $this->actions[$element->getName()] = $element;
         return $this;
     }
@@ -278,6 +263,7 @@ trait Element
     public function addSubmit($name, $attr = [])
     {
         $e = new Form\Element\Submit($name, $attr);
+        $e->setValue($name);
         $e->setOptionAsPrimary();
         $this->addAction($e);
         return $e;

@@ -36,6 +36,11 @@ class Configurator
         'modal.escToclose' => true,
         'modal.is_remote' => false,
         'modal.remote.id' => 'modal-remote',
+
+        'toastr.success.default' => 'Action realised with success',
+        'toastr.error.default' => 'Oups, something bad happened',
+        'toastr.warning.default' => 'Something happened....',
+
     ];
 
     /**

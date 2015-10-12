@@ -2,6 +2,7 @@
 
 use FrenchFrogs\Model\Renderer;
 use FrenchFrogs\Polliwog\Form;
+use FrenchFrogs\Model\Renderer\Style\Style;
 
 /**
  * Form render using bootstrap
@@ -10,9 +11,6 @@ use FrenchFrogs\Polliwog\Form;
  * @package FrenchFrogs\Polliwog\Form\Renderer
  */
 class Bootstrap extends Renderer\Renderer {
-
-    //@TODO manage horizontal inline form
-
 
     /**
      *
@@ -69,6 +67,10 @@ class Bootstrap extends Renderer\Renderer {
             $html .= "</div>";
         }
 
+        if ($form->isRemote()) {
+            $form->addClass('form-remote');
+        }
+
         $html = html('form', $form->getAttributes(), $html);
 
         if ($form->hasPanel()) {
@@ -95,11 +97,16 @@ class Bootstrap extends Renderer\Renderer {
         }
 
         // rendu principal
-        $element->addClass('form-control');
-        $html =  '<div class="form-group '. ($hasError ? 'has-error' : '' ).'">';
-        $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
+        $element->addClass(Style::FORM_ELEMENT_CONTROL);
+        $html = '<label for="'.$element->getName().'">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
         $html .= html('input', $element->getAttributes());
-        $html .= '</div>';
+
+        $class =  Style::FORM_GROUP_CLASS;
+        if ($hasError) {
+            $class .= ' ' .Style::FORM_GROUP_ERROR;
+        }
+
+        $html = html('div', compact('class'), $html);
 
         return $html;
     }
@@ -108,7 +115,7 @@ class Bootstrap extends Renderer\Renderer {
     {
 
         //error
-        if(!$element->getValidator()->isValid()){
+        if($hasError = !$element->getValidator()->isValid()){
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
@@ -118,11 +125,17 @@ class Bootstrap extends Renderer\Renderer {
             $element->addAttribute('data-original-title',$message);
         }
 
-        $element->addClass('form-control');
-        $html =  '<div class="form-group">';
-        $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . '</label>';
+        $element->addClass(Style::FORM_ELEMENT_CONTROL);
+        $html = '<label for="'.$element->getName().'">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
         $html .= html('textarea', $element->getAttributes(), $element->getValue());
-        $html .= '</div>';
+
+
+        $class =  Style::FORM_GROUP_CLASS;
+        if ($hasError) {
+            $class .= ' ' .Style::FORM_GROUP_ERROR;
+        }
+
+        $html = html('div', compact('class'), $html);
 
         return $html;
     }
@@ -130,14 +143,44 @@ class Bootstrap extends Renderer\Renderer {
 
     public function submit(Form\Element\Submit $element)
     {
-        $html = html('input', $element->getAttributes());
+
+        if ($element->hasOption()) {
+            $element->addClass(constant(  Style::class . '::' . $element->getOption()));
+        }
+
+        if ($element->hasSize()) {
+            $element->addClass(constant(  Style::class . '::' . $element->getSize()));
+        }
+
+
+        $element->addClass(Style::BUTTON_CLASS);
+
+        $label = '';
+        if ($element->hasIcon()) {
+            $label .= html('i', ['class' => $element->getIcon()]);
+        }
+
+        $name = $element->getLabel();
+        if ($element->isIconOnly()) {
+            $element->addAttribute('data-toggle', 'tooltip');
+        } else {
+            $label .= $name;
+        }
+
+        $element->addAttribute('type', 'submit');
+        $element->addAttribute('value', $label);
+
+        $html = html('input',$element->getAttributes());
+
         return $html;
     }
 
 
     public function checkbox(Form\Element\Checkbox $element)
     {
-        if(!$element->getValidator()->isValid()){
+
+
+        if($hasError = !$element->getValidator()->isValid()){
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
@@ -147,8 +190,7 @@ class Bootstrap extends Renderer\Renderer {
             $element->addAttribute('data-original-title',$message);
         }
 
-        $html =  '<div class="checkbox">';
-        $html .= '<label for="'.$element->getName().'">';
+        $html = '<label for="'.$element->getName().'">';
         if ($element->getValue() == true){
             $element->addAttribute('checked', 'checked');
         }
@@ -156,7 +198,13 @@ class Bootstrap extends Renderer\Renderer {
         $html .= html('input', $element->getAttributes());
         $html .= $element->getLabel();
         $html .= '</label>';
-        $html .= '</div>';
+
+        $class =  Style::FORM_GROUP_CHECKBOX;
+        if ($hasError) {
+            $class .= ' ' .Style::FORM_GROUP_ERROR;
+        }
+
+        $html = html('div', compact('class'), $html);
 
         return $html;
     }
@@ -165,7 +213,7 @@ class Bootstrap extends Renderer\Renderer {
     {
 
         // error
-        if(!$element->getValidator()->isValid()){
+        if($hasError = !$element->getValidator()->isValid()){
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
@@ -175,16 +223,13 @@ class Bootstrap extends Renderer\Renderer {
             $element->addAttribute('data-original-title',$message);
         }
 
-        $html =  '<div class="form-group">';
-        $html .= '<label for="'.$element->getName().'[]">' . $element->getLabel() . '</label>';
+        $html = '<label for="'.$element->getName().'[]">' . $element->getLabel() . '</label>';
 
         $options = '';
         foreach($element->getOptions() as $value => $label){
 
-            $options .= '<label class="checkbox-inline">';
-
+            $options .= '<label class="'.Style::FORM_ELEMENT_CHECKBOX_INLINE.'">';
             $attr = ['type' => 'checkbox', 'name' => $element->getName() . '[]', 'value' => $value];
-
 
             // value
             if (!is_null( $element->getValue()) && in_array($value, $element->getValue())) {
@@ -198,19 +243,25 @@ class Bootstrap extends Renderer\Renderer {
 
 
         $html .= html('div', $element->getAttributes(), $options);
-        $html .= '</div>';
+
+        $class =  Style::FORM_GROUP_CLASS;
+        if ($hasError) {
+            $class .= ' ' .Style::FORM_GROUP_ERROR;
+        }
+
+        $html = html('div', compact('class'), $html);
 
         return $html;
     }
 
     public function tel(Form\Element\Tel $element)
     {
-        return $this->_text($element);
+        return $this->text($element);
     }
 
     public function email(Form\Element\Email $element)
     {
-        return $this->_text($element);
+        return $this->text($element);
     }
 
     public function hidden(Form\Element\Hidden $element)
@@ -222,11 +273,11 @@ class Bootstrap extends Renderer\Renderer {
     public function label(Form\Element\Label $element)
     {
 
-        $html = '<div class="form-group">';
-        $html .= '<label>' . $element->getLabel() . '</label>';
+        $html = '<label>' . $element->getLabel() . '</label>';
         $html .= '<p>' . $element->getValue() . '</p>';
-        $html .= '</div>';
 
+        $class = Style::FORM_GROUP_CLASS;
+        $html = html('div', compact('class'), $html);
 
         return $html;
     }
@@ -234,6 +285,7 @@ class Bootstrap extends Renderer\Renderer {
     public function button(Form\Element\Button $element)
     {
 
+        //@todo prendre en compte les option et les size
         $element->addClass('btn btn-default');
         $html = '<div class="form-group">';
         $html .= html('button', $element->getAttributes(), $element->getLabel());
@@ -254,11 +306,11 @@ class Bootstrap extends Renderer\Renderer {
     public function content(Form\Element\Content $element)
     {
 
-        $html = '<div class="form-group">';
-        $html .= '<label>' . $element->getLabel() . '</label>';
+        $html = '<label>' . $element->getLabel() . '</label>';
         $html .= '<p class="well">' . $element->getValue() . '</p>';
-        $html .= '</div>';
 
+        $class = Style::FORM_GROUP_CLASS;
+        $html = html('div', compact('class'), $html);
 
         return $html;
 
@@ -276,7 +328,7 @@ class Bootstrap extends Renderer\Renderer {
             $element->addAttribute('data-original-title',$message);
         }
 
-        $element->addClass('form-control');
+        $element->addClass(Style::FORM_ELEMENT_CONTROL);
         $html =  '<div class="form-group">';
         $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . '</label>';
         $html .= html('input', $element->addAttribute('type', 'number')->getAttributes());
@@ -324,7 +376,7 @@ class Bootstrap extends Renderer\Renderer {
             $element->addAttribute('data-original-title',$message);
         }
 
-        $element->addClass('form-control');
+        $element->addClass(Style::FORM_ELEMENT_CONTROL);
         $html =  '<div class="form-group">';
         $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . '</label>';
 
@@ -351,7 +403,7 @@ class Bootstrap extends Renderer\Renderer {
 
     public function password(Form\Element\Password $element)
     {
-        return $this->_text($element);
+        return $this->text($element);
     }
 
     public function file(Form\Element\File $element)

@@ -359,7 +359,7 @@ class Modal
      */
     public function setBody($body)
     {
-        $this->body = strval($body);
+        $this->body = $body;
         return $this;
     }
 

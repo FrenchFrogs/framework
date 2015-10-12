@@ -90,4 +90,70 @@ class Javascript extends Container
         return $this;
     }
 
+
+    /**
+     * Add toastr warning message
+     *
+     * @param $body
+     * @param string $title
+     * @return $this
+     */
+    public function warning($body = '', $title = '')
+    {
+        $body = empty($body) ?  configurator()->get('toastr.warning.default') : $body;
+        $this->append(sprintf('toastr.warning("%s", "%s")', $body, $title));
+        return $this;
+    }
+
+    /**
+     * Add toastr success message
+     *
+     * @param $body
+     * @param string $title
+     * @return $this
+     */
+    public function success($body = '', $title = '')
+    {
+        $body = empty($body) ?  configurator()->get('toastr.success.default') : $body;
+        $this->append(sprintf('toastr.success("%s", "%s")', $body, $title));
+        return $this;
+    }
+
+
+    /**
+     * Add toastr success message
+     *
+     * @param $body
+     * @param string $title
+     * @return $this
+     */
+    public function error($body = '', $title = '')
+    {
+        $body = empty($body) ?  configurator()->get('toastr.error.default') : $body;
+        $this->append(sprintf('toastr.error("%s", "%s")', $body, $title));
+        return $this;
+    }
+
+    /**
+     * Close the remote modal
+     *
+     * @return $this
+     */
+    public function closeRemoteModal()
+    {
+        $this->appendJs('#modal-remote', 'modal', 'hide');
+        return $this;
+    }
+
+    /**
+     * ReloadAjaxDatatable
+     *
+     * @param bool|false $resetPaging
+     * @return $this
+     */
+    public function reloadDataTable($resetPaging = false)
+    {
+        $this->append('jQuery(".dataTable").DataTable().ajax.reload(null, '. ($resetPaging ?  'true' : 'false') .')');
+        return $this;
+    }
 }

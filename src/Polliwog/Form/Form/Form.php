@@ -19,7 +19,6 @@ class Form
     use Core\Panel;
     use Remote;
     use Element;
-    use Modal;
 
     /**
      * Legend of the form (title)

@@ -258,6 +258,54 @@ abstract class Element
 
 
     /**
+     * Getter for form renderer
+     *
+     * @return \FrenchFrogs\Model\Renderer\Renderer|null
+     */
+    public function getRenderer()
+    {
+        if ($this->hasForm()) {
+            return $this->getForm()->getRenderer();
+        } elseif($this->hasRenderer()) {
+            return $this->renderer;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * getter for form validator
+     *
+     * @return \FrenchFrogs\Model\Validator\Validator|null
+     */
+    public function getValidator()
+    {
+        if ($this->hasForm()) {
+            return $this->getForm()->getValidator();
+        } elseif($this->hasValidator()) {
+            return $this->validator;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Getter for form filterer
+     *
+     * @return \FrenchFrogs\Model\Filterer\Filterer|null
+     */
+    public function getFilterer()
+    {
+        if ($this->hasForm()) {
+            return $this->getForm()->getFilterer();
+        } elseif($this->hasFilterer()) {
+            return $this->filterer;
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * **************
      *
      * VALIDATOR
