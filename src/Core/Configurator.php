@@ -23,6 +23,7 @@ class Configurator
         'table.renderer.class' => Polliwog\Table\Renderer\Bootstrap::class,
 
         'form.renderer.class' => Polliwog\Form\Renderer\Bootstrap::class,
+        'form.renderer.modal.class' => Polliwog\Form\Renderer\Modal::class,
         'form.validator.class' => Model\Validator\Validator::class,
         'form.filterer.class' => Model\Filterer\Filterer::class,
 

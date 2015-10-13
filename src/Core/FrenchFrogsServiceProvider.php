@@ -49,26 +49,16 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
         Response::macro('modal', function($title, $body = '', $actions  = [])
         {
             if ($title instanceof FrenchFrogs\Polliwog\Modal\Modal\Modal) {
-                $modal = $title;
+                $modal = $title->enableRemote();
             } elseif($title instanceof FrenchFrogs\Polliwog\Form\Form\Form) {
-                $actions = (array) $title->getActions();
-                $title->clearActions();
-
-                foreach($actions as $submit) {
-                    if ($submit instanceof FrenchFrogs\Polliwog\Form\Element\Submit) {
-                        $submit->addAttribute('data-target', '#'.$title->getAttribute('id'))->addClass('form-remote');
-                    }
-                }
-
-                $modal = modal($title->getLegend(), $title, $actions);
+                $renderer = configurator()->get('form.renderer.modal.class');
+                $modal = $title->setRenderer(new $renderer());
             } else {
-                $modal = modal($title, $body, $actions);
+                $modal = modal($title, $body, $actions)->enableRemote();
             }
 
-            $modal->disableCloseButton();
+            $modal .= '<script>jQuery(function() {'.js('onload').'});</script>';
 
-            // As it's an ajax request, we render only the content
-            $modal->enableRemote();
             return $modal;
         });
 

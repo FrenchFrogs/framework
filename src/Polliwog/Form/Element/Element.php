@@ -35,6 +35,13 @@ abstract class Element
     protected $value;
 
 
+    /**
+     * Descreiption for element
+     *
+     * @var string
+     */
+    protected $description;
+
 
     /**
      * If the element has to be treat during global action
@@ -254,6 +261,51 @@ abstract class Element
     public function removeplaceholder()
     {
         return $this->removeAttribute('placeholder');
+    }
+
+
+
+    /**
+     * Setter for $description attribute
+     *
+     * @param $description
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * Getter for $description attribute
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Return TRUE if $description attribute is set
+     *
+     * @return bool
+     */
+    public function hasDescription()
+    {
+        return isset($this->description);
+    }
+
+    /**
+     * Unset $description attribute
+     *
+     * @return $this
+     */
+    public function removeDescription()
+    {
+        unset($this->description);
+        return $this;
     }
 
 

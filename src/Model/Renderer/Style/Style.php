@@ -62,6 +62,7 @@ class Style
     const MODAL_FOOTER_CLASS = 'modal-footer';
 
 
+    const FORM_HORIZONTAL_CLASS = 'form-horizontal';
     const FORM_GROUP_CLASS = 'form-group';
     const FORM_GROUP_ERROR = 'has-error';
     const FORM_GROUP_CHECKBOX = 'checkbox';
