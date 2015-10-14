@@ -184,3 +184,18 @@ function action_url($controller, $action = 'getIndex', $params = [])
     $controller = substr($controller, 0,3) == 'App' ?  '\\' . $controller : $controller;
     return URL::action($controller . '@' . $action, $params);
 }
+
+
+/**
+ * Return ruler polliwog
+ *
+ * @return \FrenchFrogs\Polliwog\Ruler\Ruler\Container
+ */
+function ruler()
+{
+
+    // retrieve the good class
+    $class = configurator()->get('ruler.class', Polliwog\Ruler\Ruler\Ruler::class);
+
+    return $class::getInstance();
+}

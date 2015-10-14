@@ -38,6 +38,10 @@ class Configurator
         'modal.is_remote' => false,
         'modal.remote.id' => 'modal-remote',
 
+
+        'ruler.class' => Polliwog\Ruler\Ruler\Ruler::class,
+        'ruler.renderer.class' => Polliwog\Ruler\Renderer\Conquer::class,
+
         'toastr.success.default' => 'Action realised with success',
         'toastr.error.default' => 'Oups, something bad happened',
         'toastr.warning.default' => 'Something happened....',
@@ -90,6 +94,25 @@ class Configurator
             return $this->config[$index];
         }
         return $default;
+    }
+
+
+    /**
+     * Return an instantiated object
+     *
+     * @param $index
+     * @param null $default
+     * @return mixed
+     * @throws \Exception
+     */
+    public function build($index, $default = null)
+    {
+        $class = $this->get($index, $default);
+        if (!class_exists($class)) {
+            throw new \Exception('Class doesn\'t exist for the index : ' .$index);
+        }
+
+        return new $class;
     }
 
     /**

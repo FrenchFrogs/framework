@@ -1,4 +1,4 @@
-<?php namespace FrenchFrogs\Polliwog\Navigation\Page;
+<?php namespace FrenchFrogs\Polliwog\Ruler\Navigation;
 
 use InvalidArgumentException;
 
@@ -37,6 +37,31 @@ class Page
      * @var array
      */
     protected $children = [];
+
+    /**
+     * Constructeur
+     *
+     * @param $link
+     * @param null $label
+     * @param null $permission
+     * @param array $children
+     */
+    public function __construct($link, $label = null, $permission = null, array $children = [])
+    {
+
+        $this->setLink($link);
+
+        if(!is_null($label)) {
+            $this->setLabel($label);
+        }
+
+        if(!is_null($permission)) {
+            $this->setPermission($permission);
+        }
+
+        $this->setChildren($children);
+    }
+
 
     /**
      * Getter for $label attribute
@@ -99,7 +124,7 @@ class Page
      */
     public function setLink($link)
     {
-        $this->link = strval($link);
+        $this->link = strval(url($link));
         return $this;
     }
 
@@ -216,7 +241,7 @@ class Page
      * Add $pag to $children container
      *
      * @param $index
-     * @param \FrenchFrogs\Polliwog\Navigation\Page\Page $page
+     * @param \FrenchFrogs\Polliwog\Ruler\Navigation\Page $page
      * @return $this
      */
     public function addChild($index, Page $page)
@@ -267,6 +292,16 @@ class Page
         unset($this->children[$index]);
 
         return $this;
+    }
+
+    /**
+     * Return TRUE if the current page is this page
+     *
+     * @return bool
+     */
+    public function isCurrent()
+    {
+        return \URL::current() == $this->getLink();
     }
 
 }
