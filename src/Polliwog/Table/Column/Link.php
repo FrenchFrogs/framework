@@ -255,7 +255,7 @@ class Link extends Text
     {
         $render = '';
         try {
-            $render = $this->getRenderer()->render('table.link', $this, $row);
+            $render = $this->getRenderer()->render('link', $this, $row);
         } catch(\Exception $e){
             dd($e->getMessage());
         }

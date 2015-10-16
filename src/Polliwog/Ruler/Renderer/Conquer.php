@@ -26,7 +26,7 @@ class Conquer extends Renderer
         $start = false;
 
         foreach ($rule->getPages() as $page) {
-            /**@var Ruler\Navigation\Page $page*/
+            /**@var Ruler\Page\Page $page*/
 
             if (!$start) {
                 $page->addClass('start');
@@ -54,7 +54,7 @@ class Conquer extends Renderer
 
     }
 
-    public function page(Ruler\Navigation\Page $page)
+    public function page(Ruler\Page\Page $page)
     {
 
         // attribute initialization
@@ -74,7 +74,7 @@ class Conquer extends Renderer
             $indicator .= ' arrow';
 
             foreach($page->getChildren() as $p) {
-                /**@var Ruler\Navigation\Page $p*/
+                /**@var Ruler\Page\Page $p*/
                 $class = '';
                 if ($p->isCurrent()) {
                     $page->addClass('active');// active for parent page

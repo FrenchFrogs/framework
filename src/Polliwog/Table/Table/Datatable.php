@@ -37,6 +37,14 @@ trait Datatable
 
 
     /**
+     * String for remote constructor
+     *
+     * @var string
+     */
+    protected $constructor;
+
+
+    /**
      * @return bool
      */
     static public function hasSingleToken()
@@ -175,6 +183,50 @@ trait Datatable
     }
 
     /**
+     * Getter for $constructor attribute
+     *
+     * @return string
+     */
+    public function getConstructor()
+    {
+        return $this->constructor;
+    }
+
+    /**
+     * Setter for $constructor attribute
+     *
+     * @param $constructor
+     * @return $this
+     */
+    public function setConstructor($constructor)
+    {
+        $this->constructor = $constructor;
+        return $this;
+    }
+
+    /**
+     * Unset $constructor attribute
+     *
+     * @return $this
+     */
+    public function removeConstructor()
+    {
+        unset($this->constructor);
+        return $this;
+    }
+
+
+    /**
+     * Return TRUE if $constructor attribute is set
+     *
+     * @return bool
+     */
+    public function hasConstructor()
+    {
+        return isset($this->constructor);
+    }
+
+    /**
      * Save the Table configuration in Session
      *
      */
@@ -188,7 +240,11 @@ trait Datatable
             }
         }
 
-        Session::push($this->getToken(), json_encode(['class' => static::class]));
+        if (!$this->hasConstructor()) {
+            $this->setConstructor(static::class);
+        }
+
+        Session::push($this->getToken(), json_encode(['constructor' => $this->getConstructor()]));
         return $this;
     }
 
@@ -208,7 +264,7 @@ trait Datatable
 
         if (!Session::has($token)){
             if (static::hasSingleToken()) {
-                Session::push($token, json_encode(['class' => static::class]));
+                Session::push($token, json_encode(['constructor' => static::class]));
             } else {
                 throw new \InvalidArgumentException('Token "' . $token . '" is not valid');
             }
@@ -217,7 +273,7 @@ trait Datatable
         $config = Session::get($token);
         $config = json_decode($config[0]);
 
-        $instance = new \ReflectionClass($config->class);
+        $instance = new \ReflectionClass($config->constructor);
         return $instance->newInstance();
     }
 }

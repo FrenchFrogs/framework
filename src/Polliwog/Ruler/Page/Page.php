@@ -1,4 +1,4 @@
-<?php namespace FrenchFrogs\Polliwog\Ruler\Navigation;
+<?php namespace FrenchFrogs\Polliwog\Ruler\Page;
 
 use InvalidArgumentException;
 
@@ -124,7 +124,7 @@ class Page
      */
     public function setLink($link)
     {
-        $this->link = strval(url($link));
+        $this->link = strval($link);
         return $this;
     }
 
@@ -241,7 +241,7 @@ class Page
      * Add $pag to $children container
      *
      * @param $index
-     * @param \FrenchFrogs\Polliwog\Ruler\Navigation\Page $page
+     * @param \FrenchFrogs\Polliwog\Ruler\Page\Page $page
      * @return $this
      */
     public function addChild($index, Page $page)

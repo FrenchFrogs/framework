@@ -13,12 +13,12 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
      * @var array
      */
     protected $renderers = [
-        'table' => '_table',
-        'table.text' => '_text',
-        'table.link' => '_link',
-        'table.button' => '_button',
-        'datatable' => '_datatable',
-        'boolean' =>'boolean',
+        'table' ,
+        'text',
+        'link',
+        'button',
+        'datatable',
+        'boolean',
     ];
 
 
@@ -41,7 +41,7 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
      *
      */
 
-    public function _table(Table\Table $table)
+    public function table(Table\Table $table)
     {
 
         // Headers
@@ -123,13 +123,13 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
     }
 
 
-    public function _text(Column\Text $column, array $row)
+    public function text(Column\Text $column, array $row)
     {
         return isset($row[$column->getName()]) ? $row[$column->getName()] : '';
     }
 
 
-    public function _link(Column\Link $column, array $row)
+    public function link(Column\Link $column, array $row)
     {
 
         if ($column->isRemote()) {
@@ -142,7 +142,7 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
     }
 
 
-    public function _button(Column\Button $column, array $row)
+    public function button(Column\Button $column, array $row)
     {
 
         if ($column->hasOption()) {
@@ -188,13 +188,15 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
      * @param \FrenchFrogs\Polliwog\Table\Table\Table $table
      * @return string
      */
-    public function _datatable(Table\Table $table)
+    public function datatable(Table\Table $table)
     {
+
         $options = [];
 
         // Is remote loading
         if ($table->isRemote()) {
             $table->save();
+
             js()->log($table->getToken());
             $options += [
                 'ajax' => ['url' => route('datatable'), 'data' => ['token' => $table->getToken()]],

@@ -1,13 +1,13 @@
 <?php namespace FrenchFrogs\Polliwog\Ruler\Ruler;
 
-use FrenchFrogs\Polliwog\Ruler\Navigation\Page;
+use FrenchFrogs\Polliwog\Ruler\Page\Page;
 
 trait Navigation
 {
 
 
     /**
-     * Navigation container
+     * Page container
      *
      * @var array
      */

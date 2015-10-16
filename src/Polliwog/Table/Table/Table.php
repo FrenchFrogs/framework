@@ -87,10 +87,6 @@ class Table
         if (!$this->hasAttribute('id')) {
             $this->addAttribute('id', 'table-' . rand());
         }
-
-        if(static::class != self::class) {
-            $this->enableRemote();
-        }
     }
 
 
@@ -283,13 +279,18 @@ class Table
     protected function extractRows()
     {
         $source = $this->source;
-
         // Laravel query builder case
-        if ($source instanceof \Illuminate\Database\Eloquent\Builder){
+        if ($source instanceof \Illuminate\Database\Eloquent\Builder) {
             /** @var $source \Illuminate\Database\Eloquent\Builder */
             $this->itemsTotal = $source->count();
 
             $source = $source->skip($this->getItemsOffset())->take($this->getItemsPerPage())->get()->toArray();
+            $source = new \ArrayIterator($source);
+        } elseif(  $source instanceof \Illuminate\Database\Query\Builder)  {
+            /** @var $source \Illuminate\Database\Query\Builder */
+            $this->itemsTotal = $source->count();
+
+            $source = $source->skip($this->getItemsOffset())->take($this->getItemsPerPage())->get();
             $source = new \ArrayIterator($source);
 
             // Array case

@@ -20,7 +20,7 @@ class Button extends Link
                 $this->disableIconOnly();
             }
 //            $this->addClass($this->getOption())->addClass($this->getSize());
-            $render = $this->getRenderer()->render('table.button', $this, $row);
+            $render = $this->getRenderer()->render('button', $this, $row);
         } catch(\Exception $e){
             dd($e->getMessage());
         }
