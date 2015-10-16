@@ -256,9 +256,26 @@ class Page
      * @param $index
      * @return bool
      */
-    public function hasChild($index)
+    public function hasChild($index, $is_recursive = true)
     {
-        return isset($this->children[$index]);
+
+        $recursive = function(Page $page) use ($index, &$recursive) {
+            foreach ($page->getChildren() as $k => $p ) {
+
+                /**@var Page $p*/
+                if ($index == $k) {
+                    return true;
+                }
+
+                if ($p->hasChildren()) {
+                    if ($recursive($p)) {
+                        return true;
+                    }
+                }
+            }
+        };
+
+        return $recursive($this);
     }
 
     /**
@@ -267,13 +284,31 @@ class Page
      * @param $index
      * @return mixed
      */
-    public function getChild($index)
+    public function getChild($index, $is_recursive = true)
     {
-        if (!$this->hasChild($index)) {
+
+
+        if (!$this->hasChild($index, $is_recursive)) {
             throw new InvalidArgumentException('Child doesn\'t exist : ' . $index);
         }
 
-        return $this->children[$index];
+        $recursive = function(Page $page) use ($index, &$recursive) {
+            foreach ($page->getChildren() as $k => $p ) {
+
+                /**@var Page $p*/
+                if ($index == $k) {
+                    return $p;
+                }
+
+                if ($p->hasChildren()) {
+                    if ($pp = $recursive($p)) {
+                        return $pp;
+                    }
+                }
+            }
+        };
+
+        return $recursive($this);
     }
 
 

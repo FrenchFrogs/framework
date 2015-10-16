@@ -50,7 +50,6 @@ class Conquer extends Renderer
                 . $pages .
             '</ul>';
 
-
         return $html;
 
     }
@@ -58,47 +57,43 @@ class Conquer extends Renderer
     public function page(Ruler\Navigation\Page $page)
     {
 
+        // attribute initialization
+        $indicator = $children = '';
 
-        $html = '';
+        // label
+        $html = '<span class="title">'.$page->getLabel().'</span>';
 
-        $current = $page->isCurrent();
-        $html .= '<span class="title">'.$page->getLabel().'</span>';
-
-        $indicator = '';
-        if ($current) {
+        if ($current = $page->isCurrent()) {
             $indicator .= ' selected';
         }
 
-        $children = '';
+        // Render child page
         if ($page->hasChildren()) {
 
+            // add arrow icon
             $indicator .= ' arrow';
 
             foreach($page->getChildren() as $p) {
                 /**@var Ruler\Navigation\Page $p*/
-
                 $class = '';
                 if ($p->isCurrent()) {
-                    $page->addClass('active');
+                    $page->addClass('active');// active for parent page
                     $class = 'class="active"';
                 }
-
 
                 $children .= '<li '.$class.'>'.html('a', ['href' => $p->getLink()], $p->getLabel()).'</li>';
             }
 
             $children = '<ul class="sub-menu">' . $children .'</ul>';
 
+            // overcharge link for javascript opening menu
             $page->setLink('javascript:;');
-
-        } else {
-
-
         }
 
+        // render all
         $html .= '<span class="'.$indicator.'"></span>';
-        $html .= $children;
         $html = html('a', ['href' => $page->getLink()], $html);
+        $html .= $children;
 
         return $html;
     }

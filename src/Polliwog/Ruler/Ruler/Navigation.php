@@ -70,9 +70,22 @@ trait Navigation
      * @param $index
      * @return bool
      */
-    public function hasPage($index)
+    public function hasPage($index, $is_recursive = true)
     {
-        return isset($this->pages[$index]);
+        if (isset($this->pages[$index])) {
+            return true;
+        }
+
+        if ($is_recursive) {
+            foreach ($this->pages as $page) {
+                /**@var $page Page */
+                if ($page->hasChild($index, $is_recursive)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -81,13 +94,28 @@ trait Navigation
      * @param $index
      * @return Page
      */
-    public function getPage($index)
+    public function getPage($index, $is_recursive = true)
     {
-        if (!$this->hasPage($index)){
-            throw new \InvalidArgumentException('The page "'.$index.'" doesn\'t exists');
+        if (!$this->hasPage($index, $is_recursive)) {
+            throw new \InvalidArgumentException('The page "' . $index . '" doesn\'t exists');
         }
 
+        if (isset($this->pages[$index])) {
+            return $this->pages[$index];
+        } else {
+            foreach ($this->pages as $page) {
+                /**@var $page Page */
+                if ($page->getChild($index, $is_recursive)) {
+                    return true;
+                }
+            }
+        }
+
+
+
         return $this->pages[$index];
+
+
     }
 
     /**
