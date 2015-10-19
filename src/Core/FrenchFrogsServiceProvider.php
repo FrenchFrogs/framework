@@ -3,7 +3,7 @@
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Mail;
 use FrenchFrogs;
-use Response, Request, Route, Input, Blade;
+use Response, Request, Route, Input, Blade, Auth;
 
 class FrenchFrogsServiceProvider  extends ServiceProvider
 {
@@ -19,12 +19,15 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
         foreach(config('frenchfrogs') as $namespace => $config) {
             configurator($namespace)->merge($config);
         }
+
+
     }
 
 
 
     public function boot()
     {
+
         /**
          * Datatable render
          *

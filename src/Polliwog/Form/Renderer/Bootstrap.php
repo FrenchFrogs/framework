@@ -40,8 +40,6 @@ class Bootstrap extends Renderer\Renderer {
         'file'
     ];
 
-
-
     function form(Form\Form\Form $form)
     {
 
@@ -226,6 +224,7 @@ class Bootstrap extends Renderer\Renderer {
 
         $options = '';
         foreach($element->getOptions() as $value => $label){
+
 
             $options .= '<label class="'.Style::FORM_ELEMENT_CHECKBOX_INLINE.'">';
             $attr = ['type' => 'checkbox', 'name' => $element->getName() . '[]', 'value' => $value];
