@@ -3,14 +3,33 @@
 
 class Checkbox extends Element
 {
-
     /**
-     * Valeur pour le select
-     *
+     * Options values
      *
      * @var array
      */
     protected $options = [];
+
+    /**
+     * Value when checked
+     *
+     * @var string
+     */
+    protected $checkedValue = '1';
+
+    /**
+     * Value when not checked
+     *
+     * @var string
+     */
+    protected $uncheckedValue = '0';
+
+    /**
+     * Current value
+     *
+     * @var string 0 or 1
+     */
+    protected $value = '0';
 
     /**
      * Constructror
@@ -30,19 +49,54 @@ class Checkbox extends Element
     }
 
     /**
-     * Setter pour les options
+     * Override of parent class
      *
-     * @param $options
+     * @param mixed $value
      * @return $this
      */
-    public function setOptions($options)
+    public function setValue($value)
     {
-        $this->options = $options;
+        if ($value == $this->getCheckedValue()) {
+            parent::setValue($value);
+            $this->checked = true;
+        } else {
+            parent::setValue($this->getUncheckedValue());
+            $this->checked = false;
+        }
         return $this;
     }
 
     /**
-     * Getter pour les options
+     * Set the options
+     *
+     * @param $options
+     * @return $this
+     */
+    public function setOptions(array $options)
+    {
+        if (array_key_exists('checkedValue', $options)) {
+            $this->setCheckedValue($options['checkedValue']);
+            unset($options['checkedValue']);
+        }
+        if (array_key_exists('uncheckedValue', $options)) {
+            $this->setUncheckedValue($options['uncheckedValue']);
+            unset($options['uncheckedValue']);
+        }
+        $this->options = $options;
+
+        $curValue = $this->getValue();
+
+        $test = array($this->getCheckedValue(), $this->getUncheckedValue());
+
+        if (!in_array($curValue, $test)) {
+            $this->setValue($curValue);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the options
      *
      * @return array
      */
@@ -50,6 +104,53 @@ class Checkbox extends Element
     {
         return $this->options;
     }
+
+    /**
+     * Set the checked value
+     *
+     * @param $value
+     * @return $this
+     */
+    public function setCheckedValue($value)
+    {
+        $this->checkedValue = (string) $value;
+        $this->options['checkedValue'] = $value;
+        return $this;
+    }
+
+    /**
+     * Get value when checked
+     *
+     * @return string
+     */
+    public function getCheckedValue()
+    {
+        return $this->checkedValue;
+    }
+
+    /**
+     * Set the unchecked value
+     *
+     * @param $value
+     * @return $this
+     */
+    public function setUncheckedValue($value)
+    {
+        $this->uncheckedValue = (string) $value;
+        $this->options['uncheckedValue'] = $value;
+        return $this;
+    }
+
+    /**
+     * Get value when not checked
+     *
+     * @return string
+     */
+    public function getUncheckedValue()
+    {
+        return $this->uncheckedValue;
+    }
+
 
 
     /**

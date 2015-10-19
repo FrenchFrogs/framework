@@ -294,6 +294,8 @@ class Table
 
             // Array case
         } elseif(is_array($source)) {
+            $this->itemsTotal = count($source);
+
             $source = array_slice($source, $this->getItemsOffset(), $this->getItemsPerPage());
             $source = new \ArrayIterator($source);
         }

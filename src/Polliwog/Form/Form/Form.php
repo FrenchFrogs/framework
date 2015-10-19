@@ -361,6 +361,18 @@ class Form
             }
         }
 
+        foreach($this->getElements() as $e) {
+            if($e instanceof FrenchFrogs\Polliwog\Form\Element\Checkbox) {
+                $element = $this->getElement($e->getName());
+                if(array_key_exists($e->getName(), $values)) {
+                    $element->setValue(1);
+                }
+                else {
+                    $element->setValue(0);
+                }
+            }
+        }
+
         return $this;
     }
 

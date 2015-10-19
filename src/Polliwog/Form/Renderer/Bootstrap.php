@@ -178,8 +178,6 @@ class Bootstrap extends Renderer\Renderer {
 
     public function checkbox(Form\Element\Checkbox $element)
     {
-
-
         if($hasError = !$element->getValidator()->isValid()){
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
@@ -191,6 +189,7 @@ class Bootstrap extends Renderer\Renderer {
         }
 
         $html = '<label for="'.$element->getName().'">';
+        $element->addAttribute('value', $element->getValue());
         if ($element->getValue() == true){
             $element->addAttribute('checked', 'checked');
         }

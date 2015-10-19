@@ -104,6 +104,23 @@ class Select extends Element
         return $this->getAttribute('multiple') == 'multiple';
     }
 
+    /**
+     * Get filtered value of select
+     *
+     * @return mixed
+     */
+    public function getFilteredValue()
+    {
+        $data = $this->getValue();
+        if($this->isMultiple()) {
+            $value = $data;
+        }
+        else {
+            $value = $data[0];
+        }
+
+        return $value;
+    }
 
     /**
      * @return string
