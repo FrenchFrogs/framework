@@ -118,7 +118,7 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
         $html = '';
         foreach($column->getColumns() as $c) {
             /** @var Column\Column $c */
-            $html .= '<span style="padding:0px .2em">' . $c->render($row) . '</span>';
+            $html .= '<span class="ff-padding">' . $c->render($row) . '</span>';
         }
 
         return $html;

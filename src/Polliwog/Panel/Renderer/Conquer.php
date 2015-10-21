@@ -2,6 +2,7 @@
 
 use FrenchFrogs\Polliwog\Panel;
 use FrenchFrogs\Polliwog\Form\Element;
+use FrenchFrogs\Model\Renderer\Style\Conquer as Style;
 
 /**
  * Renderer for portlet conquer template
@@ -13,15 +14,39 @@ use FrenchFrogs\Polliwog\Form\Element;
  */
 class Conquer extends Bootstrap
 {
-    const PANEL_CLASS = 'portlet';
-    const PANEL_CLASS_DEFAULT = '';
-    const PANEL_CLASS_PRIMARY = '';
-    const PANEL_CLASS_SUCCESS = '';
-    const PANEL_CLASS_INFO = '';
-    const PANEL_CLASS_WARNING = '';
-    const PANEL_CLASS_DANGER = '';
-    const PANEL_HEAD_CLASS = 'portlet-title';
-    const PANEL_HEAD_CLASS_TITLE = 'caption';
-    const PANEL_HEAD_CLASS_ACTIONS = 'actions';
-    const PANEL_BODY_CLASS = 'portlet-body';
+
+    /**
+     * Main renderer
+     *
+     * @param \FrenchFrogs\Polliwog\Panel\Panel\Panel $panel
+     */
+    public function panel(Panel\Panel\Panel $panel)
+    {
+
+        $html = '';
+
+        //@todo Action render
+        $actions = '';
+        foreach($panel->getActions() as $action) {
+            $actions .= $action->render() . PHP_EOL;
+        }
+
+
+        $html .= html('div', ['class' => Style::PANEL_HEAD_CLASS_TITLE], $panel->getTitle());
+        $html .= html('div', ['class' => Style::PANEL_HEAD_CLASS_ACTIONS], $actions);
+        $html = html('div', ['class' => Style::PANEL_HEAD_CLASS], $html);
+
+
+        //@todo footer render
+        $html .= html('div', ['class' => Style::PANEL_BODY_CLASS], $panel->getBody());
+
+        $panel->addClass(Style::PANEL_CLASS);
+
+        if ($panel->hasContext()) {
+            $panel->addClass(constant( Style::class . '::' . $panel->getContext()));
+        }
+
+        return html('div', $panel->getAttributes(), $html);
+    }
+
 }

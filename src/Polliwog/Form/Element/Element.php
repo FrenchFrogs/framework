@@ -36,7 +36,7 @@ abstract class Element
 
 
     /**
-     * Descreiption for element
+     * Description for element
      *
      * @var string
      */

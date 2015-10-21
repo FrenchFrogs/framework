@@ -2,9 +2,8 @@
 
 
 use FrenchFrogs\Core;
-use FrenchFrogs\Polliwog\Form\Element;
+use FrenchFrogs\Polliwog\Panel\Action;
 use InvalidArgumentException;
-use FrenchFrogs\Polliwog\Panel\Renderer\Bootstrap;
 
 /**
  *  Helper to generate a panel
@@ -182,10 +181,10 @@ class Panel
     /**
      * Add an action to the action container
      *
-     * @param Element\Element $element
+     * @param Action\Action $element
      * @return $this
      */
-    public function addAction(Element\Element $element)
+    public function addAction(Action\Action $element)
     {
         if (!$element->hasRenderer()) {
             $element->setRenderer($this->getRenderer());
@@ -227,7 +226,7 @@ class Panel
      *
      * @param $name
      * @throws InvalidArgumentException
-     * @return Element\Element
+     * @return Action\Action
      */
     public function getAction($name)
     {
@@ -263,16 +262,19 @@ class Panel
 
 
     /**
-     * Add Button to âctions container
+     *
+     * Add Button to $actions container
      *
      * @param $name
      * @param $label
+     * @param string $href
      * @param array $attr
-     * @return \FrenchFrogs\Polliwog\Form\Element\Button
+     * @return \FrenchFrogs\Polliwog\Panel\Action\Button
      */
-    public function addButton($name, $label, $attr = [] )
+    public function addButton($name, $label, $href = '#', $attr = [] )
     {
-        $e = new Element\Button($name, $label, $attr);
+        $e = new Action\Button($name, $label, $attr);
+        $e->addAttribute('href', $href);
         $this->addAction($e);
         return $e;
     }
