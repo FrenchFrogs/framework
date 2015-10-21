@@ -258,10 +258,12 @@ trait Datatable
     static public function load($token = null)
     {
 
+        // if single token is set, we keep it
         if (is_null($token) && static::hasSingleToken()) {
             $token = static::getSingleToken();
         }
 
+        // if no session are set, we set a new one only is class has a singleToken
         if (!Session::has($token)){
             if (static::hasSingleToken()) {
                 Session::push($token, json_encode(['constructor' => static::class]));
@@ -270,10 +272,24 @@ trait Datatable
             }
         }
 
+        // load configuration
         $config = Session::get($token);
-        $config = json_decode($config[0]);
+        $config = json_decode($config[0], true);
+        $constructor = $config['constructor'];
 
-        $instance = new \ReflectionClass($config->constructor);
-        return $instance->newInstance();
+        // construct Table polliwog
+        if (preg_match('#(?<class>.+)::(?<method>.+)#', $constructor, $match)) {
+           $table =  call_user_func([$match['class'], $match['method']]);
+        } else {
+            $instance = new \ReflectionClass($config->constructor);
+            $table = $instance->newInstance();
+        }
+
+        // validate that instance is viable
+        if (!($table instanceof static)) {
+            throw new \Exception('Loaded instance is not viable');
+        }
+
+        return $table;
     }
 }

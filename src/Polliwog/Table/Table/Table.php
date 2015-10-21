@@ -296,7 +296,6 @@ class Table
             // Array case
         } elseif(is_array($source)) {
             $this->itemsTotal = count($source);
-
             $source = array_slice($source, $this->getItemsOffset(), $this->getItemsPerPage());
             $source = new \ArrayIterator($source);
         }
@@ -305,7 +304,6 @@ class Table
         if (!($source instanceof \Iterator)) {
             throw new \InvalidArgumentException("Source must be an array or an Iterator");
         }
-
 
         if (!is_null($source)) {
             $this->setRows($source);

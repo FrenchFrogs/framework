@@ -4,9 +4,15 @@ use FrenchFrogs\Polliwog\Table\Table;
 
 class Remote extends Bootstrap
 {
-    public function _table(Table\Table $table)
-    {
 
+    /**
+     * Overload render for array data output
+     *
+     * @param \FrenchFrogs\Polliwog\Table\Table\Table $table
+     * @return array
+     */
+    public function table(Table\Table $table)
+    {
         $data = [];
         foreach($table->getRows() as $row) {
 
