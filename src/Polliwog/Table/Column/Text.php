@@ -36,8 +36,4 @@ class Text extends Column
 
         return $render;
     }
-
-
-
-
 }

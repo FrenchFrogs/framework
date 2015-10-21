@@ -19,20 +19,10 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
         'button',
         'datatable',
         'boolean',
+        'container'
     ];
 
 
-
-    public function boolean(Column\Boolean $column, array $row)
-    {
-
-        $html = '';
-        if(isset($row[$column->getName()]) && !empty($row[$column->getName()])) {
-            $html .= '<i class="fa fa-check"></i>';
-        }
-
-        return $html;
-    }
 
     /*
      * ************************
@@ -117,6 +107,29 @@ class Bootstrap extends \FrenchFrogs\Model\Renderer\Renderer
 
         if ($table->hasPanel()) {
             $html = $table->getPanel()->setBody($html)->render();
+        }
+
+        return $html;
+    }
+
+
+    public function container(Column\Container $column, array $row) {
+
+        $html = '';
+        foreach($column->getColumns() as $c) {
+            /** @var Column\Column $c */
+            $html .= '<span style="padding:0px .2em">' . $c->render($row) . '</span>';
+        }
+
+        return $html;
+    }
+
+    public function boolean(Column\Boolean $column, array $row)
+    {
+
+        $html = '';
+        if(isset($row[$column->getName()]) && !empty($row[$column->getName()])) {
+            $html .= '<i class="fa fa-check"></i>';
         }
 
         return $html;
