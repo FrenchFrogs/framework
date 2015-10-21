@@ -384,7 +384,6 @@ class Bootstrap extends Renderer\Renderer {
             $options .= html('option', ['value' => null], $element->getPlaceholder());
         }
 
-
         foreach($element->getOptions() as $value => $label){
             $attr = ['value' => $value];
             if ($element->hasValue() && in_array($value, $element->getValue())){
@@ -393,8 +392,17 @@ class Bootstrap extends Renderer\Renderer {
             $options .= html('option', $attr, $label);
         }
 
+        if($element->isMultiple())
+        {
+            $element->setName($element->getName() . '[]');
+        }
+
         $html .= html('select', $element->getAttributes(), $options);
         $html .= '</div>';
+
+        if($element->isMultiple()){
+            $element->setName(chop($element->getName(), '[]'));
+        }
 
         return $html;
     }

@@ -28,7 +28,6 @@ class Select extends Element
         $this->setOptions($options);
     }
 
-
     /**
      * Setter pour les options
      *
