@@ -371,6 +371,7 @@ trait Element
     public function addSeparator()
     {
         $e = new Form\Element\Separator();
+        $e->setName('separator-' . rand(1111, 9999));
         $e->enableDiscreet();
         $this->addElement($e);
         return $e;
