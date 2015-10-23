@@ -1,7 +1,6 @@
 <?php namespace FrenchFrogs\Core;
 
-use FrenchFrogs\Polliwog;
-use FrenchFrogs\Model;
+use FrenchFrogs;
 
 
 class Configurator
@@ -15,23 +14,23 @@ class Configurator
      * @var array
      */
     protected $config = [
-        'panel.class' => Polliwog\Panel\Panel\Panel::class,
-        'panel.renderer.class' =>  Polliwog\Panel\Renderer\Bootstrap::class,
+        'panel.class' => FrenchFrogs\Panel\Panel\Panel::class,
+        'panel.renderer.class' =>  FrenchFrogs\Panel\Renderer\Bootstrap::class,
 
 
-        'table.class' => Polliwog\Table\Table\Table::class,
-        'table.renderer.class' => Polliwog\Table\Renderer\Bootstrap::class,
+        'table.class' => FrenchFrogs\Table\Table\Table::class,
+        'table.renderer.class' => FrenchFrogs\Table\Renderer\Bootstrap::class,
 
-        'form.renderer.class' => Polliwog\Form\Renderer\Bootstrap::class,
-        'form.renderer.modal.class' => Polliwog\Form\Renderer\Modal::class,
-        'form.validator.class' => Model\Validator\Validator::class,
-        'form.filterer.class' => Model\Filterer\Filterer::class,
+        'form.renderer.class' => FrenchFrogs\Form\Renderer\Bootstrap::class,
+        'form.renderer.modal.class' => FrenchFrogs\Form\Renderer\Modal::class,
+        'form.validator.class' => FrenchFrogs\Validator\Validator::class,
+        'form.filterer.class' => FrenchFrogs\Filterer\Filterer::class,
 
         'form.default.method' => 'POST',
         'form.default.has_csrfToken' => true,
 
-        'modal.class' => Polliwog\Modal\Modal\Modal::class,
-        'modal.renderer.class' => Polliwog\Modal\Renderer\Bootstrap::class,
+        'modal.class' => FrenchFrogs\Modal\Modal\Modal::class,
+        'modal.renderer.class' => FrenchFrogs\Modal\Renderer\Bootstrap::class,
         'modal.closeButtonLabel' => 'Fermer',
         'modal.backdrop' => true,
         'modal.escToclose' => true,
@@ -39,8 +38,8 @@ class Configurator
         'modal.remote.id' => 'modal-remote',
 
 
-        'ruler.class' => Polliwog\Ruler\Ruler\Ruler::class,
-        'ruler.renderer.class' => Polliwog\Ruler\Renderer\Conquer::class,
+        'ruler.class' => FrenchFrogs\Ruler\Ruler\Ruler::class,
+        'ruler.renderer.class' => FrenchFrogs\Ruler\Renderer\Conquer::class,
 
         'toastr.success.default' => 'Action realised with success',
         'toastr.error.default' => 'Oups, something bad happened',

@@ -12,7 +12,7 @@ trait Validator
     /**
      * Validator container
      *
-     * @var \FrenchFrogs\Model\Validator\Validator
+     * @var \FrenchFrogs\Validator\Validator
      */
     protected $validator;
 
@@ -20,7 +20,7 @@ trait Validator
     /**
      * Getter
      *
-     * @return \FrenchFrogs\Model\Validator\Validator
+     * @return \FrenchFrogs\Validator\Validator
      */
     public function getValidator()
     {
@@ -31,10 +31,10 @@ trait Validator
     /**
      * Setter
      *
-     * @param \FrenchFrogs\Model\Validator\Validator $validator
+     * @param \FrenchFrogs\Validator\Validator $validator
      * @return $this
      */
-    public function setValidator(\FrenchFrogs\Model\Validator\Validator $validator)
+    public function setValidator(\FrenchFrogs\Validator\Validator $validator)
     {
 
         $this->validator = $validator;

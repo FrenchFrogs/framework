@@ -1,7 +1,6 @@
 <?php
 
 use FrenchFrogs\Core\Configurator;
-use FrenchFrogs\Polliwog;
 
 if (!function_exists('html')) {
     /**
@@ -87,12 +86,12 @@ function configurator($namespace = null)
  * Return new panel polliwog instance
  *
  * @param ...$args
- * @return Polliwog\Panel\Panel\Panel
+ * @return FrenchFrogs\Panel\Panel\Panel
  */
 function panel(...$args)
 {
     // retrieve the good class
-    $class = configurator()->get('panel.class', Polliwog\Panel\Panel\Panel::class);
+    $class = configurator()->get('panel.class', FrenchFrogs\Panel\Panel\Panel::class);
 
     // build the instance
     $reflection = new ReflectionClass($class);
@@ -103,12 +102,12 @@ function panel(...$args)
  * Return new table polliwog instance
  *
  * @param ...$args
- * @return Polliwog\Table\Table\Table
+ * @return FrenchFrogs\Table\Table\Table
  */
 function table(...$args)
 {
     // retrieve the good class
-    $class = configurator()->get('table.class', Polliwog\Table\Table\Table::class);
+    $class = configurator()->get('table.class', FrenchFrogs\Table\Table\Table::class);
 
     // build the instance
     $reflection = new ReflectionClass($class);
@@ -119,12 +118,12 @@ function table(...$args)
  * Return a new form polliwog instance
  *
  * @param ...$args
- * @return  Polliwog\Form\Form\Form
+ * @return  FrenchFrogs\Form\Form\Form
  */
 function form(...$args)
 {
     // retrieve the good class
-    $class = configurator()->get('form.class', Polliwog\Form\Form\Form::class);
+    $class = configurator()->get('form.class', FrenchFrogs\Form\Form\Form::class);
 
     // build the instance
     $reflection = new ReflectionClass($class);
@@ -135,12 +134,12 @@ function form(...$args)
  * Return new modal polliwog
  *
  * @param ...$args
- * @return Polliwog\modal\Modal\Modal
+ * @return FrenchFrogs\modal\Modal\Modal
  */
 function modal(...$args)
 {
     // retrieve the good class
-    $class = configurator()->get('modal.class', Polliwog\Modal\Modal\Modal::class);
+    $class = configurator()->get('modal.class', FrenchFrogs\Modal\Modal\Modal::class);
 
     // build the instance
     $reflection = new ReflectionClass($class);
@@ -154,12 +153,12 @@ function modal(...$args)
  * @param null $selector
  * @param null $function
  * @param ...$params
- * @return \FrenchFrogs\Polliwog\Container\Javascript
+ * @return \FrenchFrogs\Container\Javascript
  */
 function js($namespace = null, $selector = null, $function = null, ...$params)
 {
-    /** @var $container Polliwog\Container\Javascript */
-    $container = Polliwog\Container\Javascript::getInstance($namespace);
+    /** @var $container FrenchFrogs\Container\Javascript */
+    $container = FrenchFrogs\Container\Javascript::getInstance($namespace);
 
     if (!is_null($function)){
         array_unshift($params, $selector, $function);
@@ -189,13 +188,13 @@ function action_url($controller, $action = 'getIndex', $params = [])
 /**
  * Return ruler polliwog
  *
- * @return \FrenchFrogs\Polliwog\Ruler\Ruler\Container
+ * @return \FrenchFrogs\Ruler\Ruler\Container
  */
 function ruler()
 {
 
     // retrieve the good class
-    $class = configurator()->get('ruler.class', Polliwog\Ruler\Ruler\Ruler::class);
+    $class = configurator()->get('ruler.class', FrenchFrogs\Ruler\Ruler\Ruler::class);
 
     return $class::getInstance();
 }

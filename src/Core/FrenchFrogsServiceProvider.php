@@ -15,29 +15,25 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
      */
     public function register()
     {
-
         foreach(config('frenchfrogs') as $namespace => $config) {
             configurator($namespace)->merge($config);
         }
-
-
     }
 
 
 
     public function boot()
     {
-
         /**
          * Datatable render
          *
          */
         Route::get('/datatable', function() {
-            $table = \FrenchFrogs\Polliwog\Table\Table\Table::load(request()->get('token'));
+            $table = \FrenchFrogs\Table\Table\Table::load(request()->get('token'));
 
             $table->setItemsPerPage(Input::get('length'));
             $table->setPageFromItemsOffset(Input::get('start'));
-            $table->setRenderer(new \FrenchFrogs\Polliwog\Table\Renderer\Remote());
+            $table->setRenderer(new \FrenchFrogs\Table\Renderer\Remote());
 
             $data = [];
             foreach($table->render() as $row){
@@ -51,9 +47,9 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
 
         Response::macro('modal', function($title, $body = '', $actions  = [])
         {
-            if ($title instanceof FrenchFrogs\Polliwog\Modal\Modal\Modal) {
+            if ($title instanceof FrenchFrogs\Modal\Modal\Modal) {
                 $modal = $title->enableRemote();
-            } elseif($title instanceof FrenchFrogs\Polliwog\Form\Form\Form) {
+            } elseif($title instanceof FrenchFrogs\Form\Form\Form) {
                 $renderer = configurator()->get('form.renderer.modal.class');
                 $modal = $title->setRenderer(new $renderer());
             } else {
