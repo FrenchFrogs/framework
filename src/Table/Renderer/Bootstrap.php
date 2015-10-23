@@ -39,7 +39,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         $headers = [];
         foreach($table->getColumns() as $column) {
             /** @var Column\Column $column */
-            $head .= html('th', [], $column->getLabel());
+            $head .= html('th', ['class' => 'text-center'], $column->getLabel());
             $headers[] = $column->getName();
         }
 
@@ -50,7 +50,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
             $line = '';
             foreach($table->getColumns() as $name => $column) {
-                $line .= html('td', [], $column->render((array) $row));
+                $line .= html('td', $column->getAttributes(), $column->render((array) $row));
             }
 
             $body .= html('tr', [],$line );

@@ -8,6 +8,22 @@ class Button extends Link
     use Element\Button;
 
     /**
+     * Constructor
+     *
+     * @param $name
+     * @param string $label
+     * @param string $link
+     * @param array $binds
+     * @param array $attr
+     */
+    public function __construct($name, $label = '%s', $link = '#', $binds = [], $attr = [] )
+    {
+        parent::__construct($name, $label, $link, $binds, $attr );
+        $this->setSizeAsExtraSmall();
+    }
+
+
+    /**
      *
      *
      * @return string

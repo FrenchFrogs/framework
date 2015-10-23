@@ -69,6 +69,8 @@ class Table
             $this->setUrl(request()->url());
         }
 
+        $this->enableBordered();
+
         // if method "init" exist, we call it.
         if (method_exists($this, 'init')) {
             call_user_func_array([$this, 'init'], func_get_args());

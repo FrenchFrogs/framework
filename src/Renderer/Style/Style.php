@@ -68,4 +68,8 @@ class Style
     const FORM_GROUP_CHECKBOX = 'checkbox';
     const FORM_ELEMENT_CONTROL = 'form-control';
     const FORM_ELEMENT_CHECKBOX_INLINE = 'checkbox-inline';
+
+    const TEXT_RIGHT = 'text-right';
+    const TEXT_LEFT = 'text-left';
+    const TEXT_CENTER = 'text-center';
 }

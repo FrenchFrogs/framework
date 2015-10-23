@@ -1,5 +1,7 @@
 <?php namespace FrenchFrogs\Html;
 
+use FrenchFrogs\Renderer\Style\Style;
+
 /**
  * Trait for Html element management polymorphisme
  *
@@ -398,5 +400,44 @@ Trait Html
     public function toHtml()
     {
         return html($this->tag, $this->attributes, $this->content);
+    }
+
+    /**
+     * Add text position class for right positionning
+     *
+     * @return $this
+     */
+    public function right()
+    {
+        $this->removeClass(Style::TEXT_LEFT);
+        $this->removeClass(Style::TEXT_CENTER);
+        $this->addClass(Style::TEXT_RIGHT);
+        return $this;
+    }
+
+    /**
+     * Add text position class for left positionning
+     *
+     * @return $this
+     */
+    public function left()
+    {
+        $this->removeClass(Style::TEXT_RIGHT);
+        $this->removeClass(Style::TEXT_CENTER);
+        $this->addClass(Style::TEXT_LEFT);
+        return $this;
+    }
+
+    /**
+     * Add text position class for center positionning
+     *
+     * @return $this
+     */
+    public function center()
+    {
+        $this->removeClass(Style::TEXT_RIGHT);
+        $this->removeClass(Style::TEXT_LEFT);
+        $this->addClass(Style::TEXT_CENTER);
+        return $this;
     }
 }
