@@ -194,6 +194,49 @@ trait Columns
     }
 
     /**
+     * Add default edit button
+     *
+     * @param string $link
+     * @param array $binds
+     * @param array $attr
+     * @return \FrenchFrogs\Table\Column\Button
+     */
+    public function addButtonEdit($link = '#', $binds = [], $is_remote = true)
+    {
+        $c = new Column\Button(configurator()->get('button.edit.name'), configurator()->get('button.edit.label'), $link, $binds);
+        $c->setOptionAsPrimary();
+        $c->icon(configurator()->get('button.edit.icon'));
+        if ($is_remote) {
+            $c->enableRemote();
+        }
+
+        $this->addColumn($c);
+        return $c;
+    }
+
+    /**
+     * Add default delete button
+     *
+     * @param string $link
+     * @param array $binds
+     * @param array $attr
+     * @return \FrenchFrogs\Table\Column\Button
+     */
+    public function addButtonDelete($link = '#', $binds = [], $is_remote = true)
+    {
+        $c = new Column\Button(configurator()->get('button.delete.name'), configurator()->get('button.delete.label'), $link, $binds);
+        $c->setOptionAsDanger();
+        $c->icon(configurator()->get('button.delete.icon'));
+        if ($is_remote) {
+            $c->enableRemote();
+        }
+        $this->addColumn($c);
+        return $c;
+    }
+
+
+
+    /**
      * Add a container columns
      *
      * @param $name

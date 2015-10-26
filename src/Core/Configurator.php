@@ -45,6 +45,16 @@ class Configurator
         'toastr.error.default' => 'Oups, something bad happened',
         'toastr.warning.default' => 'Something happened....',
 
+
+        'button.edit.icon' => 'fa fa-pencil',
+        'button.edit.name' => 'ff_edit',
+        'button.edit.label' => 'Edit',
+
+        'button.delete.icon' => 'fa fa-trash-o',
+        'button.delete.name' => 'ff_delete',
+        'button.delete.label' => 'Delete',
+
+
     ];
 
     /**
