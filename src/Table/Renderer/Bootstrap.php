@@ -50,7 +50,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
             $line = '';
             foreach($table->getColumns() as $name => $column) {
-                $line .= html('td', $column->getAttributes(), $column->render((array) $row));
+                $line .= html('td', $column->getAttributes(), $column->render((array) $row)) . PHP_EOL;
             }
 
             $body .= html('tr', [],$line );
@@ -118,7 +118,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         $html = '';
         foreach($column->getColumns() as $c) {
             /** @var Column\Column $c */
-            $html .= '<span class="ff-padding">' . $c->render($row) . '</span>';
+            $html .= $c->render($row) . PHP_EOL;
         }
 
         return $html;
