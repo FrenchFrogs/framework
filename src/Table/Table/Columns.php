@@ -139,6 +139,22 @@ trait Columns
 
 
     /**
+     * Add Date column to $columns container
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Table\Column\Text
+     */
+    public function addDate($name, $label = '', $format = null, $attr = [])
+    {
+        $c = new Column\Date($name, $label, $format, $attr);
+        $this->addColumn($c);
+        return $c;
+    }
+
+
+    /**
      * Add Boolean column to $columns container
      *
      * @param $name

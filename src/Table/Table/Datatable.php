@@ -1,5 +1,6 @@
 <?php namespace FrenchFrogs\Table\Table;
 
+use InvalidArgumentException;
 use Session;
 
 trait Datatable
@@ -42,6 +43,79 @@ trait Datatable
      * @var string
      */
     protected $constructor;
+
+
+    /**
+     * Search function
+     *
+     * @var Callable
+     */
+    protected $search;
+
+
+    /**
+     * Setter for $search callable function
+     *
+     * @param $function
+     * @return $this
+     */
+    public function setSearch($function)
+    {
+        if (is_string($function)) {
+
+            $field = $function;
+            $function = function (Table $table, $query) use ($field) {
+
+                // verify that source is a query
+                if (!$this->isSourceQueryBuilder()) {
+                    throw new \Exception('Tale source is not an instance of query builder');
+                }
+
+                $table->getSource()->where($field, 'LIKE', $query . '%');
+            };
+
+        }
+
+        if (!is_callable($function)) {
+            throw new InvalidArgumentException('Search function is not callable');
+        }
+
+        $this->search = $function;
+        return $this;
+    }
+
+    public function removeSearch()
+    {
+        unset($this->search);
+        return $this;
+    }
+
+    public function hasSearch()
+    {
+        return isset($this->search);
+    }
+
+    /**
+     *  lance la recherche
+     *
+     * @param null $query
+     */
+    public function search($query)
+    {
+
+        if ($this->hasSearch()) {
+
+            $search = $this->search;
+
+            // If it's a anonymous function
+            if (!is_string($search)  && is_callable($search)) {
+                call_user_func($search, $this, $query);
+            }
+        }
+
+        return $this;
+
+    }
 
 
     /**
@@ -253,7 +327,7 @@ trait Datatable
      * Load a datable from a token
      *
      * @param $token
-     * @return object
+     * @return Table
      */
     static public function load($token = null)
     {

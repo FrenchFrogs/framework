@@ -11,6 +11,7 @@ class Javascript extends Container
 
     const NAMESPACE_DEFAULT = 'onload';
 
+
     /**
      * Build a jquery call javascript code
      *
@@ -25,7 +26,7 @@ class Javascript extends Container
 
         foreach($params as $p) {
             if (is_array($p)) {
-                $attributes[] = json_encode($p, JSON_FORCE_OBJECT);
+                $attributes[] = json_encode($p, JSON_PRETTY_PRINT );
             } elseif (substr($p,0,7) == 'function') {
                 $attributes[] = str_replace('"', '\"', $p);
             } else {

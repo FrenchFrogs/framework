@@ -14,8 +14,7 @@ abstract class Column
 
     use \FrenchFrogs\Html\Html;
     use Core\Renderer;
-    //use Core\Filterer;
-
+    use Core\Filterer;
 
     /**
      *
@@ -42,43 +41,21 @@ abstract class Column
 
 
     /**
-     * Filter for the column
      *
-     * @var
-     */
-    protected $filter;
-
-
-    /**
-     * Return TRUE if the column has a filter
      *
-     * @return bool
+     * @param $index
+     * @param null $method
+     * @param ...$params
      */
-    public function hasFilter()
+    public function addFilter($index, $method = null, ...$params)
     {
-        return isset($this->filter);
-    }
+        if (!$this->hasFilterer()) {
+            $this->setFilterer(configurator()->build('table.filterer.class'));
+        }
 
-    /**
-     *
-     * Getter for $filter attribute
-     *
-     * @return mixed
-     */
-    public function getFilter()
-    {
-        return $this->filter;
-    }
+        array_unshift($params, $index, $method);
 
-    /**
-     * Setter for filter attribute
-     *
-     * @param $filter
-     * @return $this
-     */
-    public function setFilter($filter)
-    {
-        $this->filter = $filter;
+        call_user_func_array([$this->getFilterer(),'addFilter'], $params);
         return $this;
     }
 

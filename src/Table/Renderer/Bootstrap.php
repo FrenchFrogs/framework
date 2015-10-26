@@ -138,7 +138,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
     public function text(Column\Text $column, array $row)
     {
-        return isset($row[$column->getName()]) ? $row[$column->getName()] : '';
+        return $column->getValue($row);
     }
 
 
@@ -217,6 +217,25 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
                 'serverSide' => true,
                 'deferLoading' => $table->getItemsTotal()
             ];
+        }
+
+        if ($table->hasSearch()) {
+            $options += ['searching' => true];
+        }
+
+        $columns = [];
+        foreach($table->getColumns() as $c) {
+            /**@var Column\Column $c */
+            $class = $c->getClasses();
+            if (empty($class)) {
+                $columns[] = null;
+            } else {
+                $columns[] = ['className' => $class ];
+            }
+        }
+
+        if (!empty($columns)) {
+           $options += ['columns' => $columns];
         }
 
         js('onload', '#' . $table->getAttribute('id'), 'dtt', $options);

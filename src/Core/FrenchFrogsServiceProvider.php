@@ -34,6 +34,10 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
             $table->setItemsPerPage(Input::get('length'));
             $table->setPageFromItemsOffset(Input::get('start'));
             $table->setRenderer(new \FrenchFrogs\Table\Renderer\Remote());
+            $search = request()->get('search');
+            if ( !empty($search['value']) ) {
+                $table->search($search['value']);
+            }
 
             $data = [];
             foreach($table->render() as $row){

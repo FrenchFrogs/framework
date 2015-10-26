@@ -191,4 +191,17 @@ class Filterer
     {
         return strtolower($value);
     }
+
+
+    /**
+     * Format a date
+     *
+     * @param $value
+     * @param string $format
+     * @return string
+     */
+    public function dateFormat($value, $format = 'd/m/Y')
+    {
+        return \Carbon\Carbon::parse($value)->format($format);
+    }
 }

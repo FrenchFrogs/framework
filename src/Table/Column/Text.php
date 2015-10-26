@@ -20,6 +20,16 @@ class Text extends Column
         $this->setLabel($label);
     }
 
+    public function getValue($row) {
+
+        $value = isset($row[$this->getName()]) ? $row[$this->getName()] : '';
+        if ($this->hasFilterer()) {
+            $value = $this->getFilterer()->filter($value);
+        }
+
+        return $value;
+    }
+
     /**
      *
      *

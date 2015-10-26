@@ -18,6 +18,7 @@ class Table
 {
 
     use Core\Renderer;
+    use Core\Filterer;
     use \FrenchFrogs\Html\Html;
     use Core\Panel;
     use Pagination;
@@ -63,6 +64,11 @@ class Table
         if (!$this->hasRenderer()) {
             $class = configurator()->get('table.renderer.class');
             $this->setRenderer(new $class);
+        }
+
+        if (!$this->hasFilterer()) {
+            $class = configurator()->get('table.filterer.class');
+            $this->setFilterer(new $class);
         }
 
         if (!$this->hasUrl()){
@@ -162,14 +168,9 @@ class Table
     protected function extractRows()
     {
         $source = $this->source;
-        // Laravel query builder case
-        if ($source instanceof \Illuminate\Database\Eloquent\Builder) {
-            /** @var $source \Illuminate\Database\Eloquent\Builder */
-            $this->itemsTotal = $source->count();
 
-            $source = $source->skip($this->getItemsOffset())->take($this->getItemsPerPage())->get()->toArray();
-            $source = new \ArrayIterator($source);
-        } elseif(  $source instanceof \Illuminate\Database\Query\Builder)  {
+        // Laravel query builder case
+        if(  $this->isSourceQueryBuilder())  {
             /** @var $source \Illuminate\Database\Query\Builder */
             $this->itemsTotal = $source->count();
 
@@ -194,6 +195,17 @@ class Table
 
         return $this;
     }
+
+    /**
+     * Return true if the source is an instance of \Illuminate\Database\Query\Builder
+     *
+     * @return bool
+     */
+    public function isSourceQueryBuilder()
+    {
+        return $this->getSource() instanceof \Illuminate\Database\Query\Builder;
+    }
+
 
     /**
      * Set $has_footer attribute to TRUE

@@ -20,6 +20,9 @@ class Configurator
 
         'table.class' => FrenchFrogs\Table\Table\Table::class,
         'table.renderer.class' => FrenchFrogs\Table\Renderer\Bootstrap::class,
+        'table.filterer.class' => FrenchFrogs\Filterer\Filterer::class,
+
+        'table.column.date.format' => 'd/m/Y',
 
         'form.renderer.class' => FrenchFrogs\Form\Renderer\Bootstrap::class,
         'form.renderer.modal.class' => FrenchFrogs\Form\Renderer\Modal::class,
