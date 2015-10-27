@@ -111,5 +111,11 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
                 });
             }
         });
+
+
+        // Asset management
+        $this->publishes([
+            __DIR__.'/../../assets' => base_path('resources/assets'),
+        ], 'frenchfrogs');
     }
 }
