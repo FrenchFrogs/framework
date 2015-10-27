@@ -8,7 +8,7 @@
         "type": "git",
         "reference": "origin/master"
     },
-    "keywords": ["laravel", "french", "frogs", "datagrid", "table", "form", "plugins"],
+    "keywords": ["laravel", "french", "frogs", "datagrid", "datatable", "framework", "bootstrap", "table", "form", "plugins"],
     "homepage": "https://github.com/FrenchFrogs/Framework",
     "licence": "GPL-3.0+",
     "authors": [
