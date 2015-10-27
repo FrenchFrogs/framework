@@ -44,6 +44,68 @@ abstract class Element
 
 
     /**
+     * Name of belong element
+     *
+     * @var string
+     */
+    protected $belongTo;
+
+
+    /**
+     * Setter for $belongTo attribute
+     *
+     * @param $name
+     * @return $this
+     */
+    public function setBelongTo($name)
+    {
+        $this->belongTo = $name;
+        return $this;
+    }
+
+
+    /**
+     * Getter $belongTo attribute
+     *
+     * @return mixed
+     */
+    public function getBelongTo()
+    {
+        return $this->belongTo;
+    }
+
+    /**
+     * Return TRUE if $belongTo attribute is set
+     *
+     * @return bool
+     */
+    public function hasBelongTo()
+    {
+        return isset($this->belongTo);
+    }
+
+    /**
+     * Getter  render Name
+     *
+     * @return mixed|string
+     */
+    public function getRenderName()
+    {
+        return $this->hasBelongTo() ? $this->getBelongTo() : $this->getName();
+    }
+
+    /**
+     * unset $belongTo attribute
+     *
+     * @return $this
+     */
+    public function removeBelongTo()
+    {
+        unset($this->belongTo);
+        return $this;
+    }
+
+    /**
      * If the element has to be treat during global action
      *
      */
@@ -481,7 +543,13 @@ abstract class Element
      */
     public function getFilteredValue()
     {
-        return $this->getFilterer()->filter($this->getValue());
+        if ($this->hasFilterer()) {
+            $value = $this->getFilterer()->filter($this->getValue());
+        } else {
+            $value = $this->getValue();
+        }
+
+        return $value;
     }
 
     /**

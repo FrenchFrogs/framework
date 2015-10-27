@@ -1,4 +1,4 @@
-
+french
 $.fn.extend({
 
     /**
@@ -109,6 +109,8 @@ $.fn.extend({
         jQuery(this).find('.date-picker').datepicker({
             autoclose: true
         });
+
+        $jQuery(this).find('input[type=checkbox].make-switch').bootstrapSwitch();
 
 
         // decoration datatable

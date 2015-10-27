@@ -297,9 +297,15 @@ class Bootstrap extends Renderer\Renderer {
         return '<hr>';
     }
 
+    /**
+     * Render title
+     *
+     * @param \FrenchFrogs\Form\Element\Title $element
+     * @return string
+     */
     public function title(Form\Element\Title $element)
     {
-        return '<h2>' . $element->getName() . '</h2>';
+        return '<h3>' . $element->getName() . '</h3>';
     }
 
     public function content(Form\Element\Content $element)

@@ -4,6 +4,8 @@
 class Title extends Element
 {
 
+    protected $is_discreet = true;
+
     /**
      * Constructror
      *

@@ -307,6 +307,14 @@ trait Element
     }
 
 
+    public function addBoolean($name, $label = '', $attr = [] )
+    {
+        $e = new Form\Element\Boolean($name, $label, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+
     /**
      * Add phone element
      *
