@@ -29,6 +29,9 @@ class Configurator
         'form.validator.class' => FrenchFrogs\Validator\Validator::class,
         'form.filterer.class' => FrenchFrogs\Filterer\Filterer::class,
 
+        'form.element.date.formatjs' => 'yyyy-mm-dd',
+        'form.element.date.format' => 'Y-m-d',
+
         'form.default.method' => 'POST',
         'form.default.has_csrfToken' => true,
 

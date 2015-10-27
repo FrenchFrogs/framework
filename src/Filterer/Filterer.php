@@ -140,7 +140,6 @@ class Filterer
     public function filter($value)
     {
         foreach($this->getFilters() as $index => $filter) {
-
             // Extract the params
             list($method, $params) = $filter;
 

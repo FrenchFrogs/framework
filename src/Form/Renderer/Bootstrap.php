@@ -37,7 +37,8 @@ class Bootstrap extends Renderer\Renderer {
         'radio',
         'select',
         'password',
-        'file'
+        'file',
+        'date'
     ];
 
     function form(Form\Form\Form $form)
@@ -429,6 +430,40 @@ class Bootstrap extends Renderer\Renderer {
         $element->addAttribute('type', 'file');
         $html .= html('input', $element->getAttributes());
         $html .= '</div>';
+
+        return $html;
+    }
+
+
+
+    public function date(Form\Element\Date $element)
+    {
+        // Error
+        if($hasError = !$element->getValidator()->isValid()){
+
+            if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
+            $message = '';
+            foreach($element->getValidator()->getErrors() as $error){
+                $message .= $error . ';';
+            }
+            $element->addAttribute('data-original-title',$message);
+            $element->addAttribute('data-toggle', 'tooltip');
+        }
+
+        $element->addClass('date-picker');
+
+        // rendu principal
+        $element->addClass(Style::FORM_ELEMENT_CONTROL);
+        $html = '<label for="'.$element->getName().'">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
+
+        $html .= html('input', ['value' => $element->getFilteredValue()] + $element->getAttributes());
+
+        $class =  Style::FORM_GROUP_CLASS;
+        if ($hasError) {
+            $class .= ' ' .Style::FORM_GROUP_ERROR;
+        }
+
+        $html = html('div', compact('class'), $html);
 
         return $html;
     }

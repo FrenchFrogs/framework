@@ -20,6 +20,13 @@ class Text extends Column
         $this->setLabel($label);
     }
 
+    /**
+     *
+     *
+     * @param $row
+     * @return mixed|string
+     * @throws \Exception
+     */
     public function getValue($row) {
 
         $value = isset($row[$this->getName()]) ? $row[$this->getName()] : '';

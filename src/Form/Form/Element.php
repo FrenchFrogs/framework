@@ -223,6 +223,27 @@ trait Element
         return $e;
     }
 
+
+    /**
+     * Add a input:text with datepicker element
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Text
+     */
+    public function addDate($name, $label = '', $is_mandatory = true)
+    {
+        $e = new Form\Element\Date($name, $label);
+        $this->addElement($e);
+
+        if ($is_mandatory) {
+            $e->addRule('required');
+        }
+
+        return $e;
+    }
+
     /**
      * Add input:password element
      *
@@ -474,5 +495,8 @@ trait Element
         $this->addElement($e);
         return $e;
     }
+
+
+
 
 }

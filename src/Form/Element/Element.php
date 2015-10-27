@@ -342,22 +342,6 @@ abstract class Element
     }
 
     /**
-     * Getter for form filterer
-     *
-     * @return \FrenchFrogs\Filterer\Filterer|null
-     */
-    public function getFilterer()
-    {
-        if ($this->hasForm()) {
-            return $this->getForm()->getFilterer();
-        } elseif($this->hasFilterer()) {
-            return $this->filterer;
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * **************
      *
      * VALIDATOR
@@ -453,9 +437,13 @@ abstract class Element
      * @param null $method
      * @return $this
      */
-    public function addFilter($filter, $method = null)
+    public function addFilter($filter, $method = null, ...$params)
     {
-        $this->getFilterer()->addFilter($filter, $method);
+        if (!$this->hasFilterer()) {
+            $this->setFilterer(configurator()->build('form.filterer.class'));
+        }
+
+        call_user_func_array([$this->getFilterer(), 'addFilter'], func_get_args());
         return $this;
     }
 
@@ -493,7 +481,7 @@ abstract class Element
      */
     public function getFilteredValue()
     {
-        return  $this->getFilterer()->filter($this->getValue());
+        return $this->getFilterer()->filter($this->getValue());
     }
 
     /**
