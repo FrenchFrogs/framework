@@ -63,7 +63,7 @@ class Conquer extends Bootstrap
      * @param \FrenchFrogs\Form\Element\Checkbox $element
      * @return string
      */
-    public function checkboxmulti(Form\Element\Checkbox $element)
+    public function checkbox(Form\Element\Checkbox $element)
     {
 
         // error
@@ -89,7 +89,6 @@ class Conquer extends Bootstrap
 
             $values = (array) $element->getValue();
 
-            dd($element->getName(), $values);
             if (!is_null( $element->getValue()) && in_array($value, $values)) {
                 $attr['checked'] = 'checked';
             }

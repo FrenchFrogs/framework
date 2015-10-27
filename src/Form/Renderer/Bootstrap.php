@@ -177,38 +177,6 @@ class Bootstrap extends Renderer\Renderer {
 
     public function checkbox(Form\Element\Checkbox $element)
     {
-        if($hasError = !$element->getValidator()->isValid()){
-            $element->addClass('form-error');
-            if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
-            $message = '';
-            foreach($element->getValidator()->getErrors() as $error){
-                $message .= $error . ' ';
-            }
-            $element->addAttribute('data-original-title',$message);
-        }
-
-        $html = '<label for="'.$element->getName().'">';
-        $element->addAttribute('value', $element->getValue());
-        if ($element->getValue() == true){
-            $element->addAttribute('checked', 'checked');
-        }
-
-        $html .= html('input', $element->getAttributes());
-        $html .= $element->getLabel();
-        $html .= '</label>';
-
-        $class =  Style::FORM_GROUP_CHECKBOX;
-        if ($hasError) {
-            $class .= ' ' .Style::FORM_GROUP_ERROR;
-        }
-
-        $html = html('div', compact('class'), $html);
-
-        return $html;
-    }
-
-    public function checkboxmulti(Form\Element\Checkbox $element)
-    {
 
         // error
         if($hasError = !$element->getValidator()->isValid()){
