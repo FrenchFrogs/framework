@@ -225,13 +225,20 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
         $columns = [];
         foreach($table->getColumns() as $c) {
+
+            $data = [];
+
             /**@var Column\Column $c */
-            $class = $c->getClasses();
-            if (empty($class)) {
-                $columns[] = null;
-            } else {
-                $columns[] = ['className' => $class ];
+                $class = $c->getClasses();
+            if (!empty($class)) {
+                $data['className'] = $class;
             }
+
+            if ($c->hasWidth()) {
+                $data['width'] = $c->getWidth();
+            }
+
+            $columns[] = empty($data) ? null : $data;
         }
 
         if (!empty($columns)) {

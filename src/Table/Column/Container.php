@@ -19,6 +19,9 @@ class Container extends Column
         $this->setAttributes($attr);
         $this->setName($name);
         $this->setLabel($label);
+
+        // default center
+        $this->center();
     }
 
 

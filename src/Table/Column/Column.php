@@ -41,6 +41,60 @@ abstract class Column
 
 
     /**
+     * Width of the datatable columns
+     *
+     * @var
+     */
+    protected $width;
+
+
+    /**
+     * Setter for $width attribute
+     *
+     * @param $width
+     * @return $this
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+        return $this;
+    }
+
+    /**
+     * Getter for $width attribute
+     *
+     * @return mixed
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+
+    /**
+     * Return TRUE if $width attribute is set
+     *
+     * @return bool
+     */
+    public function hasWidth()
+    {
+        return isset($this->width);
+    }
+
+
+    /**
+     * Unset $width attribute
+     *
+     * @return $this
+     */
+    public function removeWidth()
+    {
+        unset($this->width);
+        return $this;
+    }
+
+
+    /**
      *
      *
      * @param $index
