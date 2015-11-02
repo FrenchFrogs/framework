@@ -48,7 +48,7 @@ abstract class Element
      *
      * @var string
      */
-    protected $belongTo;
+    protected $alias;
 
 
     /**
@@ -57,9 +57,9 @@ abstract class Element
      * @param $name
      * @return $this
      */
-    public function setBelongTo($name)
+    public function setAlias($name)
     {
-        $this->belongTo = $name;
+        $this->alias = $name;
         return $this;
     }
 
@@ -69,9 +69,9 @@ abstract class Element
      *
      * @return mixed
      */
-    public function getBelongTo()
+    public function getAlias()
     {
-        return $this->belongTo;
+        return $this->alias;
     }
 
     /**
@@ -79,20 +79,11 @@ abstract class Element
      *
      * @return bool
      */
-    public function hasBelongTo()
+    public function hasAlias()
     {
-        return isset($this->belongTo);
+        return isset($this->alias);
     }
 
-    /**
-     * Getter  render Name
-     *
-     * @return mixed|string
-     */
-    public function getRenderName()
-    {
-        return $this->hasBelongTo() ? $this->getBelongTo() : $this->getName();
-    }
 
     /**
      * unset $belongTo attribute
@@ -101,7 +92,7 @@ abstract class Element
      */
     public function removeBelongTo()
     {
-        unset($this->belongTo);
+        unset($this->alias);
         return $this;
     }
 

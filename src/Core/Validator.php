@@ -36,7 +36,6 @@ trait Validator
      */
     public function setValidator(\FrenchFrogs\Validator\Validator $validator)
     {
-
         $this->validator = $validator;
         return $this;
     }

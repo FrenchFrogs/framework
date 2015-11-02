@@ -254,11 +254,13 @@ class Form
      * @param array $values
      * @return $this
      */
-    public function populate(array $values)
+    public function populate(array $values, $alias = false)
     {
-        foreach($values as $name => $value) {
-            if(!empty($this->elements[$name])) {
-                $this->elements[$name]->setValue($value);
+        foreach($this->getElements() as $e) {
+            /** @var $e \FrenchFrogs\Form\Element\Element */
+            $name = $alias && $e->hasAlias()? $e->getAlias() : $e->getName();
+            if (array_key_exists($name, $values)) {
+                $e->setValue($values[$name]);
             }
         }
 
@@ -326,6 +328,31 @@ class Form
         return $values;
     }
 
+
+    public function getFilteredAliasValues()
+    {
+
+        $values = [];
+        foreach($this->getElements() as $name => $e){
+            /** @var \FrenchFrogs\Form\Element\Element $e */
+            if ($e->isDiscreet()) {continue;}
+            $name = $e->hasAlias() ? $e->getAlias() : $name;
+
+            if ($e instanceof \FrenchFrogs\Form\Element\Checkbox) {
+                if(empty($values[$name])) {
+                    $values[$name] = [];
+                }
+
+                foreach((array) $e->getFilteredValue() as $value) {
+                    $values[$name][] = $value;
+                }
+            } else {
+                $values[$name] = $e->getFilteredValue();
+            }
+        }
+        return $values;
+    }
+
     /**
      * *********************
      *
@@ -345,31 +372,18 @@ class Form
     {
         foreach($values as $index => $value){
 
+
             // if element is not set, we pass
             if (!$this->hasElement($index)) {continue;}
 
             // element validation
             $element = $this->getElement($index)->valid($value);
-
             // populate value
             if ($populate) {
                 $element->setValue($value);
             }
-
             if (!$element->isValid()) {
                 $this->getValidator()->addError($index, $element->getErrorAsString());
-            }
-        }
-
-        foreach($this->getElements() as $e) {
-            if($e instanceof FrenchFrogs\Form\Element\Checkbox) {
-                $element = $this->getElement($e->getName());
-                if(array_key_exists($e->getName(), $values)) {
-                    $element->setValue(1);
-                }
-                else {
-                    $element->setValue(0);
-                }
             }
         }
 
