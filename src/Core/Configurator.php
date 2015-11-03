@@ -9,6 +9,12 @@ class Configurator
     const NAMESPACE_DEFAULT = 'default';
 
     /**
+     * Namespace default
+     * @var string
+     */
+    protected static $namespace_default;
+
+    /**
      * Config
      *
      * @var array
@@ -78,7 +84,7 @@ class Configurator
      */
     public static function getInstance($namespace = null) {
 
-        $namespace = is_null($namespace) ? static::NAMESPACE_DEFAULT : $namespace;
+        $namespace = is_null($namespace) ? static::getNamespaceDefault() : $namespace;
 
         if (!array_key_exists($namespace, self::$instances)) {
             static::$instances[$namespace] = new static();
@@ -206,5 +212,21 @@ class Configurator
     public function clearAll()
     {
         $this->config = [];
+    }
+
+    /**
+     * @return string
+     */
+    public static function getNamespaceDefault()
+    {
+        return empty(self::$namespace_default) ? static::NAMESPACE_DEFAULT : self::$namespace_default;
+    }
+
+    /**
+     * @param string $current_namespace
+     */
+    public static function setNamespaceDefault($namespace_default)
+    {
+        static::$namespace_default = $namespace_default;
     }
 }

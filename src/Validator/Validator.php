@@ -330,6 +330,7 @@ class Validator
      */
     public function formatError($index, $params)
     {
+
         $pattern = $this->hasMessage($index) ? $this->getMessage($index) : static::MESSAGE_DEFAULT_PATTERN;
 
         return vsprintf($pattern, $params);
@@ -370,6 +371,7 @@ class Validator
                 }
 
                 if (!call_user_func_array([$this, $method], $params)){
+
                     $this->addError($index, $this->formatError($index, $params));
                 }
             }
@@ -426,7 +428,11 @@ class Validator
      */
     public function required($value)
     {
-        $this->addMessage('required', 'This value is required');
+
+        if(!$this->hasMessage('required')){
+            $this->addMessage('required', 'This value is required');
+        }
+
 
         if (is_null($value) || $value == '') {
             return false;

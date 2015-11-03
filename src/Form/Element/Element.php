@@ -385,13 +385,10 @@ abstract class Element
      */
     public function getValidator()
     {
-        if ($this->hasForm()) {
-            return $this->getForm()->getValidator();
-        } elseif($this->hasValidator()) {
-            return $this->validator;
-        } else {
-            return null;
+        if(!$this->hasValidator() && $this->hasForm()) {
+            $this->setValidator(clone $this->getForm()->getValidator());
         }
+        return $this->validator;
     }
 
     /**
@@ -462,14 +459,14 @@ abstract class Element
      * @return $this
      * @throws \Exception
      */
-    public function valida($value = null)
+    public function valid($value = null)
     {
 
         // si la valeur n'ets pas null, on la set
         if (!is_null($value)) {
             $this->setValue($value);
         }
-
+//        ddo($this->getValidator());
         $this->getValidator()->valid($this->getValue());
 
         return $this;
