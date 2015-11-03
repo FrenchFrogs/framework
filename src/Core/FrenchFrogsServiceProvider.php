@@ -20,20 +20,18 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
         }
     }
 
-
-
-    public function boot()
+    /**
+     * Datatable render
+     *
+     */
+    static public function bootDatatable()
     {
-        /**
-         * Datatable render
-         *
-         */
         Route::get('/datatable', function() {
-            $table = \FrenchFrogs\Table\Table\Table::load(request()->get('token'));
+            $table = FrenchFrogs\Table\Table\Table::load(request()->get('token'));
 
             $table->setItemsPerPage(Input::get('length'));
             $table->setPageFromItemsOffset(Input::get('start'));
-            $table->setRenderer(new \FrenchFrogs\Table\Renderer\Remote());
+            $table->setRenderer(new FrenchFrogs\Table\Renderer\Remote());
             $search = request()->get('search');
             if ( !empty($search['value']) ) {
                 $table->search($search['value']);
@@ -47,8 +45,13 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
             return response()->json(['data' => $data, 'draw' => Input::get('draw'), 'recordsFiltered' => $table->getItemsTotal(), 'recordsTotal' => $table->getItemsTotal()]);
 
         })->name('datatable');
+    }
 
-
+    /**
+     * Modal Manager
+     */
+    public function bootModal()
+    {
         Response::macro('modal', function($title, $body = '', $actions  = [])
         {
             if ($title instanceof FrenchFrogs\Modal\Modal\Modal) {
@@ -64,7 +67,10 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
 
             return $modal;
         });
+    }
 
+    public function bootMail()
+    {
         /**
          * Mail manager
          *
@@ -111,7 +117,13 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
                 });
             }
         });
+    }
 
+    public function boot()
+    {
+        static::bootDatatable();
+        static::bootModal();
+        static::bootMail();
 
         // Asset management
         $this->publishes([
