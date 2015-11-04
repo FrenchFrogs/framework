@@ -121,7 +121,7 @@ abstract class Business
      */
     static public function generateUuid()
     {
-        return \Uuid::generate(static::UUID_VERSION, static::class, \Uuid::NS_DNS)->hex;
+        return \Uuid::generate(4)->bytes;
     }
 
     /**
