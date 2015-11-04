@@ -1,7 +1,5 @@
 <?php namespace FrenchFrogs\Form\Form;
 
-
-use FrenchFrogs\Form;
 use FrenchFrogs;
 use InvalidArgumentException;
 
@@ -28,10 +26,10 @@ trait Element
     /**
      * Add a single element to the elements container
      *
-     * @param Form\Element\Element $element
+     * @param \FrenchFrogs\Form\Element\Element $element
      * @return $this
      */
-    public function addElement(Form\Element\Element $element, FrenchFrogs\Renderer\Renderer $renderer = null)
+    public function addElement(\FrenchFrogs\Form\Element\Element $element, FrenchFrogs\Renderer\Renderer $renderer = null)
     {
         // Join element to the form
         $element->setForm($this);
@@ -75,7 +73,7 @@ trait Element
      *
      * @param $name
      * @throws InvalidArgumentException
-     * @return Form\Element\Element
+     * @return \FrenchFrogs\Form\Element\Element
      */
     public function getElement($name)
     {
@@ -126,10 +124,10 @@ trait Element
     /**
      * Add an action to the action container
      *
-     * @param Form\Element\Element $element
+     * @param \FrenchFrogs\Form\Element\Element $element
      * @return $this
      */
-    public function addAction(Form\Element\Element $element)
+    public function addAction(\FrenchFrogs\Form\Element\Element $element)
     {
         $element->setForm($this);
         $this->actions[$element->getName()] = $element;
@@ -178,7 +176,7 @@ trait Element
      *
      * @param $name
      * @throws InvalidArgumentException
-     * @return Form\Element\Element
+     * @return \FrenchFrogs\Form\Element\Element
      */
     public function getAction($name)
     {
@@ -213,7 +211,7 @@ trait Element
      */
     public function addText($name, $label = '', $is_mandatory = true)
     {
-        $e = new Form\Element\Text($name, $label);
+        $e = new \FrenchFrogs\Form\Element\Text($name, $label);
         $this->addElement($e);
 
         if ($is_mandatory) {
@@ -234,7 +232,7 @@ trait Element
      */
     public function addDate($name, $label = '', $is_mandatory = true)
     {
-        $e = new Form\Element\Date($name, $label);
+        $e = new \FrenchFrogs\Form\Element\Date($name, $label);
         $this->addElement($e);
 
         if ($is_mandatory) {
@@ -254,7 +252,7 @@ trait Element
      */
     public function addPassword($name, $label = '', $attr = [] )
     {
-        $e = new Form\Element\Password($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\Password($name, $label, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -269,7 +267,7 @@ trait Element
      */
     public function addTextarea($name, $label = '', $attr = [] )
     {
-        $e = new Form\Element\Textarea($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\Textarea($name, $label, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -283,7 +281,7 @@ trait Element
      */
     public function addSubmit($name, $attr = [])
     {
-        $e = new Form\Element\Submit($name, $attr);
+        $e = new \FrenchFrogs\Form\Element\Submit($name, $attr);
         $e->setValue($name);
         $e->setOptionAsPrimary();
         $this->addAction($e);
@@ -301,7 +299,7 @@ trait Element
      */
     public function addCheckbox($name, $label = '', $multi  = [], $attr = [] )
     {
-        $e = new Form\Element\Checkbox($name, $label, $multi, $attr);
+        $e = new \FrenchFrogs\Form\Element\Checkbox($name, $label, $multi, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -309,7 +307,7 @@ trait Element
 
     public function addBoolean($name, $label = '', $attr = [] )
     {
-        $e = new Form\Element\Boolean($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\Boolean($name, $label, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -325,7 +323,7 @@ trait Element
      */
     public function addTel($name, $label = '', $attr = [] )
     {
-        $e = new Form\Element\Tel($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\Tel($name, $label, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -340,7 +338,7 @@ trait Element
      */
     public function addEmail($name, $label = '', $attr = [] )
     {
-        $e = new Form\Element\Email($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\Email($name, $label, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -356,7 +354,7 @@ trait Element
      */
     public function addHidden($name, $attr = [])
     {
-        $e = new Form\Element\Hidden($name, $attr);
+        $e = new \FrenchFrogs\Form\Element\Hidden($name, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -371,7 +369,7 @@ trait Element
      */
     public function addLabel($name, $label = '', $attr = [] )
     {
-        $e = new Form\Element\Label($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\Label($name, $label, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -386,7 +384,7 @@ trait Element
      */
     public function addButton($name, $label, $attr = [] )
     {
-        $e = new Form\Element\Button($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\Button($name, $label, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -399,7 +397,7 @@ trait Element
      */
     public function addSeparator()
     {
-        $e = new Form\Element\Separator();
+        $e = new \FrenchFrogs\Form\Element\Separator();
         $e->setName('separator-' . rand(1111, 9999));
         $e->enableDiscreet();
         $this->addElement($e);
@@ -416,7 +414,7 @@ trait Element
      */
     public function addTitle($name, $attr = [])
     {
-        $e = new Form\Element\Title($name, $attr);
+        $e = new \FrenchFrogs\Form\Element\Title($name, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -432,7 +430,7 @@ trait Element
      */
     public function addContent($label, $value = '', $attr = [])
     {
-        $e = new Form\Element\Content($label, $value, $attr);
+        $e = new \FrenchFrogs\Form\Element\Content($label, $value, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -448,7 +446,7 @@ trait Element
      */
     public function addNumber($name, $label = '', $attr = [] )
     {
-        $e = new Form\Element\Number($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\Number($name, $label, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -465,7 +463,7 @@ trait Element
      */
     public function addRadio($name, $label = '', $multi  = [], $attr = [] )
     {
-        $e = new Form\Element\Radio($name, $label, $multi, $attr);
+        $e = new \FrenchFrogs\Form\Element\Radio($name, $label, $multi, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -483,7 +481,7 @@ trait Element
      */
     public function addSelect($name, $label, $multi = [], $attr = [])
     {
-        $e = new Form\Element\Select($name, $label, $multi, $attr);
+        $e = new \FrenchFrogs\Form\Element\Select($name, $label, $multi, $attr);
         $this->addElement($e);
         return $e;
     }
@@ -499,7 +497,7 @@ trait Element
      */
     public function addFile($name, $label = '', $attr = [])
     {
-        $e = new Form\Element\File($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\File($name, $label, $attr);
         $this->addElement($e);
         return $e;
     }
