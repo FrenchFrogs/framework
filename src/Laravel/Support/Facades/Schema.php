@@ -7,18 +7,6 @@ use FrenchFrogs\Laravel\Database\Schema\MySqlBuilder;
 class Schema extends \Illuminate\Support\Facades\Schema
 {
 
-
-    /**
-     * Get a schema builder instance for a connection.
-     *
-     * @param  string  $name
-     * @return \Illuminate\Database\Schema\Builder
-     */
-    public static function connection($name)
-    {
-        return static::useGrammar(static::$app['db']->connection($name));
-    }
-
     /**
      * Get a schema builder instance for the default connection.
      *
