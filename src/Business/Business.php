@@ -1,5 +1,8 @@
 <?php namespace FrenchFrogs\Business;
 
+
+use Uuid;
+
 /**
  * Overload Eloquent model for better use
  *
@@ -9,7 +12,7 @@
 abstract class Business
 {
 
-    const UUID_VERSION = 5;
+    const UUID_VERSION = 4;
 
     /**
      * Set to TRUE if Business is managed with UUID as primary key
@@ -21,7 +24,7 @@ abstract class Business
     /**
      * Primary key
      *
-     * @var
+     * @var Uuid
      */
     protected $id;
 
@@ -48,7 +51,7 @@ abstract class Business
      */
     public function __construct($id)
     {
-        $this->id = $id;
+        $this->id = static::isUuid() ? Uuid::import($id) : $id;
     }
 
 
@@ -56,7 +59,7 @@ abstract class Business
      * factory
      *
      * @param $id
-     * @return \Models\Business\Business
+     * @return Business
      */
     static public function get($id)
     {
@@ -68,9 +71,9 @@ abstract class Business
      *
      * @return mixed
      */
-    public function getId()
+    public function getId($format = 'hex')
     {
-        return $this->id;
+        return static::isUuid() && $format != false ? $this->id->$format : $this->id;
     }
 
     /**
@@ -93,7 +96,7 @@ abstract class Business
     {
         if (!isset($this->model) || $reload) {
             $class = static::$modelClass;
-            $this->model = $class::findOrFail($this->getId());
+            $this->model = $class::findOrFail($this->getId('bytes'));
         }
 
         return $this->model;
@@ -121,14 +124,14 @@ abstract class Business
      */
     static public function generateUuid()
     {
-        return \Uuid::generate(4)->bytes;
+        return \Uuid::generate(static::UUID_VERSION);
     }
 
     /**
      * Factory
      *
      * @param $data
-     * @return \Models\Business\Business
+     * @return Business
      */
     static public function create(array $data)
     {
@@ -139,7 +142,7 @@ abstract class Business
 
         // set primarye key
         if(static::isUuid() && empty($data[$model->getKeyName()])) {
-            $data[$model->getKeyName()] = static::generateUuid();
+            $data[$model->getKeyName()] = static::generateUuid()->bytes;
         }
 
         $model = $class::create($data);
@@ -158,7 +161,7 @@ abstract class Business
     {
         try {
             $class = static::$modelClass;
-            $class::findOrFail($id);
+            $class::findOrFail(static::isUuid() ? Uuid::import($id)->bytes : $id);
             return true;
         } catch(\Exception $e) {
             return false;
