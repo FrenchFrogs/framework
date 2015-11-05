@@ -1,4 +1,3 @@
-french
 $.fn.extend({
 
     /**
@@ -53,7 +52,7 @@ $.fn.extend({
             pagingType: "bootstrap_extended", // pagination type(bootstrap, bootstrap_full_number or bootstrap_extended)
             autoWidth: false, // disable fixed width and enable fluid table
             processing: false, // enable/disable display message box on record load
-            serverSide: false, // enable/disable server side ajax loading
+            serverSide: false // enable/disable server side ajax loading
         };
 
         return $(this).on('draw.dt', function(e) {$(this).initialize();}).dataTable($.extend(options, o)).fnFilterOnReturn();
@@ -110,8 +109,7 @@ $.fn.extend({
             autoclose: true
         });
 
-        $jQuery(this).find('input[type=checkbox].make-switch').bootstrapSwitch();
-
+        if(jQuery.fn.bootstrapSwitch !== undefined){jQuery(this).find('input[type=checkbox].make-switch').bootstrapSwitch();}
 
         // decoration datatable
         jQuery(this).find('table.table > thead > tr:last-child').children().css('border-bottom', '1px solid #ddd');

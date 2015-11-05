@@ -22,11 +22,11 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
 
     /**
      * Datatable render
-     *
+     * @param string $route
      */
-    static public function bootDatatable()
+    public function bootDatatable($route = '/datatable')
     {
-        Route::get('/datatable', function() {
+        Route::get($route, function() {
             $table = FrenchFrogs\Table\Table\Table::load(request()->get('token'));
 
             $table->setItemsPerPage(Input::get('length'));
@@ -119,15 +119,22 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
         });
     }
 
-    public function boot()
-    {
-        static::bootDatatable();
-        static::bootModal();
-        static::bootMail();
-
+    /**
+     * Publish asset frenchfrogs
+     */
+    public function publish(){
         // Asset management
         $this->publishes([
             __DIR__.'/../../assets' => base_path('resources/assets'),
         ], 'frenchfrogs');
+    }
+
+
+    public function boot()
+    {
+        $this->bootDatatable();
+        $this->bootModal();
+        $this->bootMail();
+        $this->publish();
     }
 }
