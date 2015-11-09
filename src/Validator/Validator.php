@@ -502,7 +502,35 @@ class Validator
      */
     public function inArray($value, $array)
     {
-        $this->addMessage('inArray', 'THis value was not found : %s');
+        $this->addMessage('inArray', 'This value was not found : %s');
         return in_array($value, $array) !== false;
+    }
+
+
+    /**
+     * Return true if the value is correct with a laravel validator string
+     *
+     * @param $value
+     * @param $validationString
+     * @return array
+     */
+    public function laravel($value, $validationString)
+    {
+
+        //create validator
+        $validator = \Validator::make(['laravel' => $value], ['laravel' => $validationString]);
+
+
+        // error message management
+        if ($validator->fails() && !$this->hasMessage('laravel')) {
+            $message = '';
+            foreach ( $validator->errors()->get('laravel') as $m) {
+                $message .= $m;
+            }
+            $this->addMessage('laravel', $message);
+        }
+
+        // return validation
+        return $validator->valid();
     }
 }

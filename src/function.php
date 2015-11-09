@@ -192,7 +192,6 @@ function action_url($controller, $action = 'getIndex', $params = [])
  */
 function ruler()
 {
-
     // retrieve the good class
     $class = configurator()->get('ruler.class', FrenchFrogs\Ruler\Ruler\Ruler::class);
 
