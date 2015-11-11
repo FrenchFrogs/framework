@@ -258,7 +258,7 @@ class Form
     {
         foreach($this->getElements() as $e) {
             /** @var $e \FrenchFrogs\Form\Element\Element */
-            $name = $alias && $e->hasAlias()? $e->getAlias() : $e->getName();
+            $name = $alias && $e->hasAlias() ? $e->getAlias() : $e->getName();
             if (array_key_exists($name, $values)) {
                 $e->setValue($values[$name]);
             }

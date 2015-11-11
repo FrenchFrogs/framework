@@ -134,6 +134,11 @@ class Conquer extends Bootstrap
         $element->addAttribute('type', 'checkbox');
         $element->addAttribute('value', 1);
 
+        // value
+        if ($element->getValue()) {
+            $element->addAttribute('checked', 'checked');
+        }
+
         // rendu principal
         $html = '<label for="'.$element->getName().'">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>' . PHP_EOL;
         $html .= html('input', $element->getAttributes());
