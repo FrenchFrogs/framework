@@ -32,6 +32,15 @@ class Boolean extends Element
     }
 
     /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return (bool) $this->value;
+    }
+
+
+    /**
      * Set size to Small
      *
      * @return $this
