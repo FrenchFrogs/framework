@@ -108,10 +108,10 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
             } else {
                 \Mail::send($view, $data, function (Mail\Message $message) use ($from, $to, $subject, $attach) {
                     // Setting the mandatory arguments
-                    $message->from($from)->subject($subject);
+                    $message->from(...$from)->subject($subject);
 
                     // Managing multiple to
-                    foreach ($to as $mail)      { $message->to($mail); }
+                    foreach ($to as $mail)      { $message->to(...$mail); }
                     // Managing multiple attachment
                     foreach ($attach as $file)  { $message->attach($file); }
                 });
