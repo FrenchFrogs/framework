@@ -313,6 +313,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
     {
         $element = $strainer->getElement();
         $element->addStyle('width', '100%');
+        $element->addClass('text-center');
 
         return html('input', $element->getAttributes());
     }
