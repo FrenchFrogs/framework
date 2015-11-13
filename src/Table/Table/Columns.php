@@ -46,7 +46,7 @@ trait Columns
     /**
      * Add a single column to the column container
      *
-     * @param Column $column
+     * @param Column\Column $column
      * @return $this
      */
     public function addColumn(Column\Column $column)
@@ -96,7 +96,7 @@ trait Columns
      * Return the $name column from $column container
      *
      * @param $name
-     * @return Column $column
+     * @return Column\Column $column
      */
     public function getColumn($name)
     {
@@ -106,7 +106,7 @@ trait Columns
     /**
      * Return the column from his index
      *
-     * @return Column $column
+     * @return Column\Column $column
      */
     public function getColumnByIndex($index)
     {

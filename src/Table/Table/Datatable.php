@@ -68,12 +68,11 @@ trait Datatable
 
                 // verify that source is a query
                 if (!$this->isSourceQueryBuilder()) {
-                    throw new \Exception('Tale source is not an instance of query builder');
+                    throw new \Exception('Table source is not an instance of query builder');
                 }
 
                 $table->getSource()->where($field, 'LIKE', $query . '%');
             };
-
         }
 
         if (!is_callable($function)) {
@@ -96,25 +95,23 @@ trait Datatable
     }
 
     /**
-     *  lance la recherche
+     * Search
      *
      * @param null $query
      */
     public function search($query)
     {
-
         if ($this->hasSearch()) {
 
             $search = $this->search;
 
             // If it's a anonymous function
-            if (!is_string($search)  && is_callable($search)) {
+            if (!is_string($search) && is_callable($search)) {
                 call_user_func($search, $this, $query);
             }
         }
 
         return $this;
-
     }
 
 

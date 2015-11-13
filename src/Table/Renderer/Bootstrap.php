@@ -19,7 +19,10 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         'button',
         'datatable',
         'boolean',
-        'container'
+        'container',
+        'strainer',
+        'strainerSelect',
+        'strainerText'
     ];
 
 
@@ -37,10 +40,33 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         // Headers
         $head = '';
         $headers = [];
+        $hasStrainer = false;
         foreach($table->getColumns() as $column) {
             /** @var Column\Column $column */
             $head .= html('th', ['class' => 'text-center'], $column->getLabel());
             $headers[] = $column->getName();
+            $hasStrainer = $hasStrainer || $column->hasStrainer();
+        }
+
+        $head = html('tr', [], $head);
+
+
+        // Strainer
+        if ($hasStrainer) {
+
+            // initialisation des strainer
+            $strainer = '';
+            foreach($table->getColumns() as $column) {
+                /** @var Column\Column $column */
+                $content = '';
+                if ($column->hasStrainer()) {
+                    $content = $column->getStrainer()->render();
+                }
+
+                $strainer .= html('th', ['class' => 'text-center'],$content);
+            }
+
+            $head .= html('tr', [], $strainer);
         }
 
 
@@ -97,6 +123,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         if ($table->hasHover()) {
             $table->addClass(Style::TABLE_CLASS_HOVER);
         }
+
 
         $html =  html('table', $table->getAttributes(), html('thead', [], $head) . html('tbody', [], $body) . $footer);
 
@@ -238,6 +265,9 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
                 $data['width'] = $c->getWidth();
             }
 
+            $data['searchable'] = $c->hasStrainer();
+            $data['name'] = $c->getName();
+
             $columns[] = empty($data) ? null : $data;
         }
 
@@ -247,6 +277,44 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
         js('onload', '#' . $table->getAttribute('id'), 'dtt', $options);
         return '';
+    }
+
+    /**
+     * Render strainer for a select element
+     *
+     * @param \FrenchFrogs\Table\Column\Strainer\Select $strainer
+     * @return string
+     */
+    public function strainerSelect(Column\Strainer\Select $strainer)
+    {
+
+        $element = $strainer->getElement();
+        $element->addStyle('width', '100%');
+
+        $options = '';
+
+        if ($element->hasPlaceholder()){
+            $options .= html('option', ['value' => null], $element->getPlaceholder());
+        }
+
+        foreach($element->getOptions() as $value => $label){
+            $attr = ['value' => $value];
+            if ($element->hasValue() && in_array($value, $element->getValue())){
+                $attr['selected'] = 'selected';
+            }
+            $options .= html('option', $attr, $label);
+        }
+
+        return html('select', $element->getAttributes(), $options);
+    }
+
+
+    public function strainerText(Column\Strainer\Text $strainer)
+    {
+        $element = $strainer->getElement();
+        $element->addStyle('width', '100%');
+
+        return html('input', $element->getAttributes());
     }
 }
 

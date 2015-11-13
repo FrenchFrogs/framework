@@ -203,7 +203,7 @@ class Table
      */
     public function isSourceQueryBuilder()
     {
-        return $this->getSource() instanceof \Illuminate\Database\Query\Builder;
+        return get_class($this->getSource()) == \Illuminate\Database\Query\Builder::class;
     }
 
 

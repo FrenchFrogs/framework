@@ -15,6 +15,7 @@ abstract class Column
     use \FrenchFrogs\Html\Html;
     use Core\Renderer;
     use Core\Filterer;
+    use Strainer\Strainerable;
 
     /**
      *
