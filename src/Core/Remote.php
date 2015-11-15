@@ -11,12 +11,54 @@ trait Remote
      */
     protected $is_remote = false;
 
+
+    /**
+     * Define if a link will load a js script
+     *
+     * @var bool
+     */
+    protected $is_callback = false;
+
     /**
      * id html attribute for remote modal
      *
      * @var
      */
     protected $remoteId;
+
+
+    /**
+     * Set $is_callback attribute to TRUE
+     *
+     * @return $this
+     */
+    public function enableCallback()
+    {
+        $this->is_callback = true;
+        $this->disableRemote();// disable remte, we can have both
+        return $this;
+    }
+
+    /**
+     * Set $is_callback attribute to FALSE
+     *
+     * @return $this
+     */
+    public function disableCallback()
+    {
+        $this->is_callback = false;
+        return $this;
+    }
+
+    /**
+     * Return TRUE id $is_callback attribute is true
+     *
+     * @return bool
+     */
+    public function isCallback()
+    {
+        return $this->is_callback;
+    }
 
 
     /**
@@ -49,6 +91,7 @@ trait Remote
     public function enableRemote()
     {
         $this->is_remote = true;
+        $this->disableCallback();// disable callback, we cannot have both
         return $this;
     }
 

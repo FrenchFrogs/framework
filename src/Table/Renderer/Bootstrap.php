@@ -176,6 +176,8 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         if ($column->isRemote()) {
             $column->addAttribute('data-target', '#' . $column->getRemoteId())
                 ->addAttribute('data-toggle', 'modal');
+        } elseif($column->isCallback()) {
+            $column->addClass('callback-remote');
         }
 
         $html = html('a', ['href' => $column->getBindedLink($row)], $column->getBindedLabel($row));
@@ -213,7 +215,9 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
         if ($column->isRemote()) {
             $column->addAttribute('data-target', '#' . $column->getRemoteId())
-                    ->addClass('modal-remote');
+                ->addAttribute('data-toggle', 'modal');
+        } elseif($column->isCallback()) {
+            $column->addClass('callback-remote');
         }
 
         $column->addAttribute('title', $name);
