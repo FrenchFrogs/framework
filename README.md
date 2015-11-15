@@ -1,6 +1,10 @@
-#FrenchFrogs framework
+# FrenchFrogs framework
 
-[![Build Status](https://travis-ci.org/FrenchFrogs/Framework.svg?branch=master)](https://travis-ci.org/FrenchFrogs/Framework)
+[![Build Status](https://travis-ci.org/FrenchFrogs/framework.svg)](https://travis-ci.org/FrenchFrogs/framework)
+[![Latest Stable Version](https://poser.pugx.org/frenchfrogs/framework/v/stable)](https://packagist.org/packages/frenchfrogs/framework)
+[![Total Downloads](https://poser.pugx.org/frenchfrogs/framework/downloads)](https://packagist.org/packages/frenchfrogs/framework) 
+[![Latest Unstable Version](https://poser.pugx.org/frenchfrogs/framework/v/unstable)](https://packagist.org/packages/frenchfrogs/framework) 
+[![License](https://poser.pugx.org/frenchfrogs/framework/license)](https://packagist.org/packages/frenchfrogs/framework)
 
 Framework - Classes de FrenchFrogs
 
