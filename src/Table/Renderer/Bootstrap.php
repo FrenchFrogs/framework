@@ -22,7 +22,8 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         'container',
         'strainer',
         'strainerSelect',
-        'strainerText'
+        'strainerText',
+        'strainerBoolean'
     ];
 
 
@@ -309,6 +310,12 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
     }
 
 
+    /**
+     * Render a striner for a text element
+     *
+     * @param Column\Strainer\Text $strainer
+     * @return string
+     */
     public function strainerText(Column\Strainer\Text $strainer)
     {
         $element = $strainer->getElement();
@@ -316,6 +323,35 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         $element->addClass('text-center');
 
         return html('input', $element->getAttributes());
+    }
+
+    /**
+     * Render strainer for a select element
+     *
+     * @param \FrenchFrogs\Table\Column\Strainer\Select $strainer
+     * @return string
+     */
+    public function strainerBoolean(Column\Strainer\Boolean $strainer)
+    {
+
+        $element = $strainer->getElement();
+        $element->addStyle('width', '100%');
+
+        $options = '';
+
+        if ($element->hasPlaceholder()){
+            $options .= html('option', ['value' => null], $element->getPlaceholder());
+        }
+
+        foreach($element->getOptions() as $value => $label){
+            $attr = ['value' => $value];
+            if ($element->hasValue() && in_array($value, $element->getValue())){
+                $attr['selected'] = 'selected';
+            }
+            $options .= html('option', $attr, $label);
+        }
+
+        return html('select', $element->getAttributes(), $options);
     }
 }
 

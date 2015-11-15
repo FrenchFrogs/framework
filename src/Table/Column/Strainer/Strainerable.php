@@ -108,4 +108,34 @@ trait Strainerable
 
     }
 
+
+    /**
+     * Set strainer as a Boolean
+     *
+     * @param null $callable
+     * @param array $attr
+     * @return Strainerable
+     */
+    public function setStrainerBoolean($callable = null, $attr = [])
+    {
+        // if callable is a string , it's a field
+        if (is_string($callable)) {
+            $field = $callable;
+            $callable = null;
+        }
+
+        // create the strainer
+        $strainer = new Boolean($this, $callable, $attr);
+
+
+        //if a fields is set, we configure the strainer
+        if (isset($field)) {
+            $strainer->setField($field);
+        }
+
+        return $this->setStrainer($strainer);
+
+
+    }
+
 }
