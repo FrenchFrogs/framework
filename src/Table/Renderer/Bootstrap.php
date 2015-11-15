@@ -215,7 +215,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
         if ($column->isRemote()) {
             $column->addAttribute('data-target', '#' . $column->getRemoteId())
-                ->addAttribute('data-toggle', 'modal');
+                ->addClass('modal-remote');
         } elseif($column->isCallback()) {
             $column->addClass('callback-remote');
         }
