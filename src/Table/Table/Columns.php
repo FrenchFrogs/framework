@@ -210,6 +210,21 @@ trait Columns
     }
 
     /**
+     * Add remote button as column
+     *
+     * @param $name
+     * @param string $label
+     * @param string $link
+     * @param array $binds
+     * @param array $attr
+     * @return $this
+     */
+    public function addButtonRemote($name, $label = '%s', $link = '#', $binds = [], $attr = [] )
+    {
+        return $this->addButton($name, $label, $link, $binds, $attr)->enableRemote();
+    }
+
+    /**
      * Add default edit button
      *
      * @param string $link
