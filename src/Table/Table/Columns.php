@@ -111,12 +111,11 @@ trait Columns
     public function getColumnByIndex($index)
     {
         $keys = array_keys($this->columns);
-
-        if (empty($keys[$index]) || $this->columns[$keys[$index]]) {
+        if (empty($keys[$index]) || empty($column = $this->columns[$keys[$index]])) {
             throw new \InvalidArgumentException('Table don\'t have a column index : ' . $index);
         }
 
-        return $this->getColumn($keys[$index]);
+        return $column;
     }
 
 

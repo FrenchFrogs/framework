@@ -27,7 +27,10 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
     public function bootDatatable($route = '/datatable')
     {
         Route::get($route, function() {
-            $table = FrenchFrogs\Table\Table\Table::load(request()->get('token'));
+
+            $request = request();
+
+            $table = FrenchFrogs\Table\Table\Table::load($request->get('token'));
 
             $table->setItemsPerPage(Input::get('length'));
             $table->setPageFromItemsOffset(Input::get('start'));
@@ -39,9 +42,17 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
                 }
             }
 
-            $search = request()->get('search');
+            $search = $request->get('search');
             if (!empty($search['value']) ) {
                 $table->search($search['value']);
+            }
+
+            $order = $request->get('order');
+            if (!empty($order)) {
+                foreach($order as $o) {
+                    extract($o);
+                    $table->getColumnByIndex($column)->order($dir);
+                }
             }
 
             $data = [];

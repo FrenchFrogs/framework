@@ -49,7 +49,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             $hasStrainer = $hasStrainer || $column->hasStrainer();
         }
 
-        $head = html('tr', [], $head);
+        $head = html('tr', ['class' => 'heading'], $head);
 
 
         // Strainer
@@ -67,7 +67,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
                 $strainer .= html('th', ['class' => 'text-center'],$content);
             }
 
-            $head .= html('tr', [], $strainer);
+            $head .= html('tr', ['class' => 'filter'], $strainer);
         }
 
 
@@ -251,11 +251,16 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             ];
         }
 
+        // is a search is set
         if ($table->hasSearch()) {
             $options += ['searching' => true];
         }
 
+
+        // columns mamangement
         $columns = [];
+        $order = [];
+        $index = 0;
         foreach($table->getColumns() as $c) {
 
             $data = [];
@@ -266,19 +271,34 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
                 $data['className'] = $class;
             }
 
+            // width
             if ($c->hasWidth()) {
                 $data['width'] = $c->getWidth();
             }
 
+            // other column attribute
+            $data['orderable'] = $c->hasOrder();
             $data['searchable'] = $c->hasStrainer();
             $data['name'] = $c->getName();
 
+
+            // set order for main table
+            if ($c->hasOrderDirection()) {
+                $order[] = [$index, $c->getOrderDirection()];
+            }
+
+            // set columns to null if column parameters is empty
             $columns[] = empty($data) ? null : $data;
+            $index++;
         }
 
         if (!empty($columns)) {
-           $options += ['columns' => $columns];
+            $options += ['columns' => $columns];
         }
+
+
+        // main order foir the table
+        $options['order'] = $order;
 
         js('onload', '#' . $table->getAttribute('id'), 'dtt', $options);
         return '';
