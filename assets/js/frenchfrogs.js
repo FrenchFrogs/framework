@@ -10,7 +10,6 @@ $.fn.extend({
     dtt : function(o) {
 
         options = {
-            //"dom": "<'row'<'col-md-8 col-sm-12'><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r><'table-scrollable't><'row'<'col-md-8 col-sm-12'pi><'col-md-4 col-sm-12'>>", // datatable layout
             pageLength: 25, // default records per page
             lengthChange: false,
             deferRender : false,
@@ -39,24 +38,19 @@ $.fn.extend({
                 }
             },
 
-            //"orderCellsTop": true,
-            /*
-            "columnDefs": [{ // define columns sorting options(by default all columns are sortable extept the first checkbox column)
-                'orderable': false,
-                'targets': [0]
-            }],
-            */
-
+            "orderCellsTop": true,
+            order : [],
             searching : false,
-            ordering: false,
+            ordering: true,
             pagingType: "bootstrap_extended", // pagination type(bootstrap, bootstrap_full_number or bootstrap_extended)
             autoWidth: false, // disable fixed width and enable fluid table
             processing: false, // enable/disable display message box on record load
-            serverSide: false // enable/disable server side ajax loading
+            serverSide: false, // enable/disable server side ajax loading
         };
 
-        return $(this).on('draw.dt', function(e) {$(this).initialize();}).dataTable($.extend(options, o)).fnFilterOnReturn();
+        return $(this).on('draw.dt', function(e) {$(this).initialize();}).dataTable($.extend(options, o)).fnFilterOnReturn().fnFilterColumns();
     },
+
 
     initialize : function() {
         console.log('initialize : ' + this.selector);
