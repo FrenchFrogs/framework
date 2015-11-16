@@ -498,6 +498,22 @@ abstract class Element
     }
 
     /**
+     * Shortcut pour l'ajout de filtre
+     *
+     * @param $filters
+     * @return $this
+     */
+    public function setFilters($filters)
+    {
+        if (!$this->hasFilterer()) {
+            $this->setFilterer(configurator()->build('form.filterer.class'));
+        }
+
+        $this->getFilterer()->setFilters($filters);
+        return $this;
+    }
+
+    /**
      * Renvoie true si lee va
      *
      * @param $filter

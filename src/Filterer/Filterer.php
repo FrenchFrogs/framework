@@ -37,12 +37,28 @@ class Filterer
     /**
      * Set all filter as an array
      *
-     * @param array $filters
+     * @param $filters
      * @return $this
      */
-    public function setFilters(array $filters)
+    public function setFilters($filters)
     {
-        $this->filters = $filters;
+
+        if (!is_array($filters)) {
+
+            $this->clearFilters();
+            foreach(explode('|', $filters) as $filter) {
+
+                // searching for otpional params
+                $params = [];
+                if (strpos(':', $filter)) {
+                    list($filter, $params) = explode(':', $filter);
+                }
+                $this->addFilter($filter, null, ...$params);
+            }
+        } else {
+            $this->filters = $filters;
+        }
+
         return $this;
     }
 
@@ -59,6 +75,8 @@ class Filterer
         $this->filters[$index] = [$method, $params];
         return $this;
     }
+
+
 
     /**
      *
@@ -202,5 +220,38 @@ class Filterer
     public function dateFormat($value, $format = 'd/m/Y')
     {
         return \Carbon\Carbon::parse($value)->format($format);
+    }
+
+    /**
+     * Remove all space
+     *
+     * @param $value
+     * @return mixed
+     */
+    public function nowp($value)
+    {
+        return preg_replace('#\s#', '', $value);
+    }
+
+    /**
+     * Return only numeric
+     *
+     * @param $value
+     * @return mixed
+     */
+    public function num($value)
+    {
+        return preg_replace('#[^\d]#', '', $value);
+    }
+
+    /**
+     * Return only alphanumeric
+     *
+     * @param $value
+     * @return mixed
+     */
+    public function alpha($value)
+    {
+        return preg_replace('#[^\w]#', '', $value);
     }
 }
