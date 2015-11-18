@@ -38,7 +38,7 @@ $.fn.extend({
                 }
             },
 
-            "orderCellsTop": true,
+            orderCellsTop: true,
             order : [],
             searching : false,
             ordering: true,

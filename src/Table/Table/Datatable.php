@@ -328,7 +328,6 @@ trait Datatable
      */
     static public function load($token = null)
     {
-
         // if single token is set, we keep it
         if (is_null($token) && static::hasSingleToken()) {
             $token = static::getSingleToken();
@@ -350,7 +349,16 @@ trait Datatable
 
         // construct Table polliwog
         if (preg_match('#(?<class>.+)::(?<method>.+)#', $constructor, $match)) {
-           $table =  call_user_func([$match['class'], $match['method']]);
+
+            $method = $match['method'];
+            // extract parameters
+            $params = [];
+            if (preg_match('#(?<method>[^:]+):(?<params>.+)#', $method, $params)) {
+                $method = $params['method'];
+                $params = explode(',', $params['params']);
+            }
+
+            $table =  call_user_func_array([$match['class'], $method], $params);
         } else {
             $instance = new \ReflectionClass($config->constructor);
             $table = $instance->newInstance();

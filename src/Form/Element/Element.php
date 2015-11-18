@@ -433,8 +433,7 @@ abstract class Element
      */
     public function hasRule($rule)
     {
-        $this->getValidator()->hasRule($rule);
-        return $this;
+        return $this->getValidator()->hasRule($rule);
     }
 
 

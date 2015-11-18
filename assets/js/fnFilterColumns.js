@@ -18,7 +18,7 @@ jQuery.fn.dataTableExt.oApi.fnFilterColumns = function (oSettings) {
             });
         });
         jQuery(_that.selector + ' th input').each(function() {
-            jQuery(this).unbind('keyup').bind('keypress', function (e) {
+            jQuery(this).unbind('keyup').unbind('keypress').bind('keypress', function (e) {
                 if (e.which == 13) {
                     jQuery.fn.dataTableExt.iApiIndex = i;
                     _that.api().columns($(this).attr('name') + ':name').search($(this).val()).draw();

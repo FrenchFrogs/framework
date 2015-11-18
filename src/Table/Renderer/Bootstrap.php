@@ -208,7 +208,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
         $name = $column->getBindedLabel($row);
         if ($column->isIconOnly()) {
-            $column->addAttribute('data-toggle', 'tooltip');
+            $column->addClass('ff-tooltip-left');
         } else {
             $label .= $name;
         }

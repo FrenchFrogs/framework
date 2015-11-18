@@ -36,8 +36,6 @@ class Text extends Element
         $this->value = $value;
         $this->addAttribute('value', $value);
 
-
-
         return $this;
     }
 

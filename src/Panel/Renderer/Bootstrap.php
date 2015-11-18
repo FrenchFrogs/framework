@@ -80,7 +80,7 @@ class Bootstrap extends Renderer
 
         $name = $action->getLabel();
         if ($action->isIconOnly()) {
-            $action->addAttribute('data-toggle', 'tooltip');
+            $action->addClass('ff-tooltip-left');
         } else {
             $label .= $name;
         }
@@ -88,10 +88,14 @@ class Bootstrap extends Renderer
         if ($action->isRemote()) {
             $action->addAttribute('data-target', '#' . $action->getRemoteId())
                 ->addClass('modal-remote');
+        } elseif($action->isCallback()) {
+            $action->addClass('callback-remote');
         }
 
         $action->addAttribute('title', $name);
 
-        return html('a', $action->getAttributes(), $label );
+        $html = html('a',$action->getAttributes(), $label );
+
+        return $html;
     }
 }
