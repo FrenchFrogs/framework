@@ -150,6 +150,18 @@ abstract class Business
         return static::get($model->getKey());
     }
 
+    /**
+     * destroy the select business
+     *
+     * @return null
+     * @throws \Exception
+     */
+    public function destroy()
+    {
+        $this->getModel()->delete();
+        return null;
+    }
+
 
     /**
      * return true id user exist

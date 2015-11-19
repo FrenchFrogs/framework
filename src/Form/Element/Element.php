@@ -387,6 +387,7 @@ abstract class Element
     {
         if(!$this->hasValidator() && $this->hasForm()) {
             $this->setValidator(clone $this->getForm()->getValidator());
+            $this->getValidator()->clearErrors()->clearMessages()->clearRules();
         }
         return $this->validator;
     }
@@ -465,7 +466,7 @@ abstract class Element
         if (!is_null($value)) {
             $this->setValue($value);
         }
-//        ddo($this->getValidator());
+
         $this->getValidator()->valid($this->getValue());
 
         return $this;

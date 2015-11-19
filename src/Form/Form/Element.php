@@ -250,10 +250,15 @@ trait Element
      * @param array $attr
      * @return \FrenchFrogs\Form\Element\Password
      */
-    public function addPassword($name, $label = '', $attr = [] )
+    public function addPassword($name, $label = '',  $is_mandatory = true )
     {
-        $e = new \FrenchFrogs\Form\Element\Password($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\Password($name, $label);
         $this->addElement($e);
+
+        if ($is_mandatory) {
+            $e->addRule('required');
+        }
+
         return $e;
     }
 
@@ -265,10 +270,15 @@ trait Element
      * @param array $attr
      * @return \FrenchFrogs\Form\Element\Textarea
      */
-    public function addTextarea($name, $label = '', $attr = [] )
+    public function addTextarea($name, $label = '', $is_mandatory = true )
     {
-        $e = new \FrenchFrogs\Form\Element\Textarea($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\Textarea($name, $label);
         $this->addElement($e);
+
+        if ($is_mandatory) {
+            $e->addRule('required');
+        }
+
         return $e;
     }
 
@@ -321,10 +331,15 @@ trait Element
      * @param array $attr
      * @return \FrenchFrogs\Form\Element\Tel
      */
-    public function addTel($name, $label = '', $attr = [] )
+    public function addTel($name, $label = '', $is_mandatory = true)
     {
-        $e = new \FrenchFrogs\Form\Element\Tel($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\Tel($name, $label);
         $this->addElement($e);
+
+        if ($is_mandatory) {
+            $e->addRule('required');
+        }
+
         return $e;
     }
 
@@ -336,10 +351,15 @@ trait Element
      * @param array $attr
      * @return \FrenchFrogs\Form\Element\Email
      */
-    public function addEmail($name, $label = '', $attr = [] )
+    public function addEmail($name, $label = '',$is_mandatory = true )
     {
-        $e = new \FrenchFrogs\Form\Element\Email($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\Email($name, $label);
         $this->addElement($e);
+
+        if ($is_mandatory) {
+            $e->addRule('required');
+        }
+
         return $e;
     }
 
@@ -444,10 +464,15 @@ trait Element
      * @param array $attr
      * @return \FrenchFrogs\Form\Element\Number
      */
-    public function addNumber($name, $label = '', $attr = [] )
+    public function addNumber($name, $label = '', $is_mandatory = true)
     {
-        $e = new \FrenchFrogs\Form\Element\Number($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\Number($name, $label);
         $this->addElement($e);
+
+        if ($is_mandatory) {
+            $e->addRule('required');
+        }
+
         return $e;
     }
 
@@ -461,10 +486,15 @@ trait Element
      * @param array $attr
      * @return \FrenchFrogs\Form\Element\Radio
      */
-    public function addRadio($name, $label = '', $multi  = [], $attr = [] )
+    public function addRadio($name, $label = '', $multi  = [], $is_mandatory = true )
     {
-        $e = new \FrenchFrogs\Form\Element\Radio($name, $label, $multi, $attr);
+        $e = new \FrenchFrogs\Form\Element\Radio($name, $label, $multi);
         $this->addElement($e);
+
+        if ($is_mandatory) {
+            $e->addRule('required');
+        }
+
         return $e;
     }
 
@@ -479,10 +509,15 @@ trait Element
      * @param array $attr
      * @return \FrenchFrogs\Form\Element\Select
      */
-    public function addSelect($name, $label, $multi = [], $attr = [])
+    public function addSelect($name, $label, $multi = [],  $is_mandatory = true)
     {
-        $e = new \FrenchFrogs\Form\Element\Select($name, $label, $multi, $attr);
+        $e = new \FrenchFrogs\Form\Element\Select($name, $label, $multi);
         $this->addElement($e);
+
+        if ($is_mandatory) {
+            $e->addRule('required');
+        }
+
         return $e;
     }
 
@@ -495,10 +530,15 @@ trait Element
      * @param array $attr
      * @return \FrenchFrogs\Form\Element\File
      */
-    public function addFile($name, $label = '', $attr = [])
+    public function addFile($name, $label = '', $is_mandatory = true)
     {
-        $e = new \FrenchFrogs\Form\Element\File($name, $label, $attr);
+        $e = new \FrenchFrogs\Form\Element\File($name, $label);
         $this->addElement($e);
+
+        if ($is_mandatory) {
+            $e->addRule('required');
+        }
+
         return $e;
     }
 

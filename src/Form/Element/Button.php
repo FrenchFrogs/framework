@@ -7,6 +7,7 @@ class Button extends Element
 {
 
     use Html\Element\Button;
+    use Core\Remote;
 
     /**
      * Constructror

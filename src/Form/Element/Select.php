@@ -103,6 +103,22 @@ class Select extends Element
         return $this->getAttribute('multiple') == 'multiple';
     }
 
+
+    /**
+     * Overload get value to manage is multiple
+     *
+     * @return array|mixed
+     */
+    public function getValue()
+    {
+        $value = parent::getValue();
+        if (!$this->isMultiple() && is_array($value)) {
+            $value = current($value);
+        }
+
+        return $value;
+    }
+
     /**
      * Get filtered value of select
      *

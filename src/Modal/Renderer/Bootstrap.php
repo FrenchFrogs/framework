@@ -42,9 +42,8 @@ class Bootstrap extends Renderer
 
         if ($modal->hasTitle()) {
             $html .= html('h4', ['class' => Style::MODAL_HEADER_TITLE_CLASS], $modal->getTitle());
+            $html = html('div', ['class' => Style::MODAL_HEADER_CLASS], $html);
         }
-
-        $html = html('div', ['class' => Style::MODAL_HEADER_CLASS], $html);
 
         // body
         $html .= html('div', ['class' => Style::MODAL_BODY_CLASS], $modal->getBody());
@@ -88,7 +87,6 @@ class Bootstrap extends Renderer
             $action->addClass(constant(  Style::class . '::' . $action->getSize()));
         }
 
-
         $action->addClass(Style::BUTTON_CLASS);
 
         $label = '';
@@ -98,14 +96,24 @@ class Bootstrap extends Renderer
 
         $name = $action->getLabel();
         if ($action->isIconOnly()) {
-            $action->addAttribute('data-toggle', 'tooltip');
+            $action->addClass('ff-tooltip-left');
         } else {
             $label .= $name;
         }
 
-        $html = html('button',$action->getAttributes(), $label );
+        if ($action->isRemote()) {
+            $action->addAttribute('data-target', '#' . $action->getRemoteId())
+                ->addClass('modal-remote');
+        } elseif($action->isCallback()) {
+            $action->addClass('callback-remote');
+        }
+
+        $action->addAttribute('title', $name);
+
+        $html = html('a',$action->getAttributes(), $label );
 
         return $html;
+
     }
 
 

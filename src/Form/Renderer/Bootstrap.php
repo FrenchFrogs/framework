@@ -351,7 +351,7 @@ class Bootstrap extends Renderer\Renderer {
 
         $element->addClass(Style::FORM_ELEMENT_CONTROL);
         $html =  '<div class="form-group">';
-        $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . '</label>';
+        $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '')  . '</label>';
 
         $options = '';
 
@@ -359,16 +359,16 @@ class Bootstrap extends Renderer\Renderer {
             $options .= html('option', ['value' => null], $element->getPlaceholder());
         }
 
+        $elementValue = (array) $element->getValue();
         foreach($element->getOptions() as $value => $label){
             $attr = ['value' => $value];
-            if ($element->hasValue() && in_array($value, $element->getValue())){
+            if ($element->hasValue() && in_array($value, $elementValue)){
                 $attr['selected'] = 'selected';
             }
             $options .= html('option', $attr, $label);
         }
 
-        if($element->isMultiple())
-        {
+        if($element->isMultiple()) {
             $element->setName($element->getName() . '[]');
         }
 
@@ -409,7 +409,6 @@ class Bootstrap extends Renderer\Renderer {
     }
 
 
-
     public function date(Form\Element\Date $element)
     {
         // Error
@@ -441,5 +440,4 @@ class Bootstrap extends Renderer\Renderer {
 
         return $html;
     }
-
 }

@@ -372,16 +372,17 @@ class Form
     {
         foreach($values as $index => $value){
 
-
             // if element is not set, we pass
             if (!$this->hasElement($index)) {continue;}
 
             // element validation
             $element = $this->getElement($index)->valid($value);
+
             // populate value
             if ($populate) {
                 $element->setValue($value);
             }
+
             if (!$element->isValid()) {
                 $this->getValidator()->addError($index, $element->getErrorAsString());
             }
