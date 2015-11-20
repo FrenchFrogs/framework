@@ -110,7 +110,6 @@ $.fn.extend({
                 },
 
                 containerCssClass : 'form-control',
-
                 formatResult: function(i) {return i.text;},
                 formatSelection: function(i) {return i.text;},
 
@@ -119,8 +118,9 @@ $.fn.extend({
                 initSelection: function (element, callback) {
                     $.ajax(jQuery(element).data('remote') + '?id=' + jQuery(element).val() , {dataType: "json"})
                         .done(function(data) {
-                            console.log(data);
-                            callback(data);
+                            if (data.results[0]) {
+                                callback(data.results[0]);
+                            }
                         });
                 },
             });
