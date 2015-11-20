@@ -94,6 +94,38 @@ $.fn.extend({
             });
         });
 
+        jQuery(this).find('.select2-remote').each(function () {
+            jQuery(this).select2({
+                minimumInputLength: jQuery(this).data('length'),
+                ajax: {
+                    url: jQuery(this).data('remote'),
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (term) {
+                        return {
+                            q: term // search term
+                        };
+                    },
+                    results: function (d) {return d;}
+                },
+
+                containerCssClass : 'form-control',
+
+                formatResult: function(i) {return i.text;},
+                formatSelection: function(i) {return i.text;},
+
+                escapeMarkup: function (markup) { return markup; },
+
+                initSelection: function (element, callback) {
+                    $.ajax(jQuery(element).data('remote') + '?id=' + jQuery(element).val() , {dataType: "json"})
+                        .done(function(data) {
+                            console.log(data);
+                            callback(data);
+                        });
+                },
+            });
+        });
+
 
         // Activate uniform checkbox
         jQuery(this).find("input[type=checkbox]:not(.toggle, .make-switch), input[type=radio]:not(.toggle, .star, .make-switch)").each(function() {

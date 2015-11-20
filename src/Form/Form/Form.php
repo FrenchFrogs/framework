@@ -320,6 +320,7 @@ class Form
     {
 
         $values = [];
+
         foreach($this->getElements() as $name => $e){
             /** @var \FrenchFrogs\Form\Element\Element $e */
             if ($e->isDiscreet()) {continue;}

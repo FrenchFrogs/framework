@@ -264,6 +264,8 @@ class Filterer
      */
     public function hex2bin($value)
     {
+
+        dd('dc:;jh');
         return hex2bin($value);
     }
 }

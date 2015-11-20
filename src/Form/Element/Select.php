@@ -57,7 +57,12 @@ class Select extends Element
      */
     public function setValue($value)
     {
-        $this->value = (array) $value;
+
+        if ($this->isMultiple()) {
+            $value = (array) $value;
+        }
+
+        $this->value = $value;
     }
 
 
@@ -104,18 +109,6 @@ class Select extends Element
     }
 
     /**
-     * Get filtered value of select
-     *
-     * @return mixed
-     */
-    public function getFilteredValue()
-    {
-        $value = $this->getValue();
-
-        return $value;
-    }
-
-    /**
      * @return string
      */
     public function __toString()
@@ -125,7 +118,7 @@ class Select extends Element
         try {
             $render = $this->getRenderer()->render('select', $this);
         } catch(\Exception $e){
-            dd($e->getMessage());
+            dd($e->getTraceAsString());
         }
 
         return $render;
