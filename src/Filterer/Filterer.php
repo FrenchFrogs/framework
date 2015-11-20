@@ -219,7 +219,11 @@ class Filterer
      */
     public function dateFormat($value, $format = 'd/m/Y')
     {
-        return \Carbon\Carbon::parse($value)->format($format);
+        if (!empty($value)) {
+            $value =\Carbon\Carbon::parse($value)->format($format);
+        }
+
+        return $value;
     }
 
     /**
@@ -264,8 +268,6 @@ class Filterer
      */
     public function hex2bin($value)
     {
-
-        dd('dc:;jh');
         return hex2bin($value);
     }
 }
