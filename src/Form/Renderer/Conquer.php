@@ -35,7 +35,8 @@ class Conquer extends Bootstrap
         'password',
         'file',
         'date',
-        'boolean'
+        'boolean',
+        'select2'
     ];
 
     /**

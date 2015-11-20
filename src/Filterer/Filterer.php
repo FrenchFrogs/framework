@@ -254,4 +254,16 @@ class Filterer
     {
         return preg_replace('#[^\w]#', '', $value);
     }
+
+
+    /**
+     * voir hex2bin
+     *
+     * @param $value
+     * @return string
+     */
+    public function hex2bin($value)
+    {
+        return hex2bin($value);
+    }
 }

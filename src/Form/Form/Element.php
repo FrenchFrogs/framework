@@ -380,6 +380,28 @@ trait Element
     }
 
     /**
+     * Add input:hidden element
+     *
+     *
+     * @param $name
+     * @param array $attr
+     * @return  \FrenchFrogs\Form\Element\Hidden
+     */
+    public function addSelectRemote($name, $label = '', $url = '#', $length = 1, $is_mandatory = true)
+    {
+        $e = new \FrenchFrogs\Form\Element\SelectRemote($name, $label, $url, $length);
+        $this->addElement($e);
+
+        if ($is_mandatory) {
+            $e->addRule('required');
+        }
+
+        return $e;
+    }
+
+
+
+    /**
      * Add label element (read-only element)
      *
      * @param $name
