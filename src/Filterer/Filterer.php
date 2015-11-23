@@ -220,7 +220,7 @@ class Filterer
     public function dateFormat($value, $format = 'd/m/Y')
     {
         if (!empty($value)) {
-            $value =\Carbon\Carbon::parse($value)->format($format);
+            $value =\Carbon\Carbon::createFromFormat($format, $value);
         }
 
         return $value;
