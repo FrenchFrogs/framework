@@ -318,7 +318,6 @@ class Form
      */
     public function getFilteredValues()
     {
-
         $values = [];
 
         foreach($this->getElements() as $name => $e){

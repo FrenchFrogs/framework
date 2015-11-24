@@ -4,6 +4,34 @@
 class Date extends Text
 {
 
+    protected $formatDisplay;
+
+    protected $formatStore;
+
+
+    public function setFormatDisplay($format)
+    {
+        $this->formatDisplay = $format;
+        return $this;
+    }
+
+    public function getFormatDisplay()
+    {
+        return  $this->formatDisplay;
+    }
+
+    public function setFormatStore($format)
+    {
+        $this->formatStore = $format;
+        return $this;
+    }
+
+    public function getFormatStore()
+    {
+        return $this->formatStore;
+    }
+
+
     /**
      * Constructor
      *
@@ -11,7 +39,7 @@ class Date extends Text
      * @param string $label
      * @param array $attr
      */
-    public function __construct($name, $label = '', $format = null, $attr = [])
+    public function __construct($name, $label = '', $formatDisplay = null, $formatStore = null, $attr = [])
     {
         $this->setAttributes($attr);
         $this->setName($name);
@@ -19,12 +47,34 @@ class Date extends Text
 
         $this->addAttribute('data-date-format', configurator()->get('form.element.date.formatjs'));
 
-        if (is_null($format)) {
-            $format = configurator()->get('form.element.date.format');
+        $this->setFormatDisplay(is_null($formatDisplay) ? configurator()->get('form.element.date.formatDisplay') : $formatDisplay);
+        $this->setFormatStore(is_null($formatStore) ? configurator()->get('form.element.date.formatStore') : $formatStore);
+
+        $this->addFilter('dateFormat', 'dateFormat', $this->getFormatDisplay());
+    }
+
+    public function setValue($value)
+    {
+
+        try {
+            $value = \Carbon\Carbon::createFromFormat($this->getFormatDisplay(), $value);
+        } catch(\InvalidArgumentException $e) {
+
+            try {
+                $value = \Carbon\Carbon::createFromFormat($this->getFormatStore(), $value);
+            } catch(\InvalidArgumentException $e) {
+                throw $e;
+            }
+
+        } finally {
+            $value = $value instanceof \Carbon\Carbon ? $value->format($this->getFormatStore()) : '';
         }
 
-        $this->addFilter('dateFormat', 'dateFormat', $format);
+        parent::setValue($value);
+
+
     }
+
 
     /**
      * @return string
