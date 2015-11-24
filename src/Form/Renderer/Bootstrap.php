@@ -69,6 +69,8 @@ class Bootstrap extends Renderer\Renderer {
 
         if ($form->isRemote()) {
             $form->addClass('form-remote');
+        } elseif($form->isCallback()) {
+            $form->addClass('form-callback');
         }
 
         $html = html('form', $form->getAttributes(), $html);

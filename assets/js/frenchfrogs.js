@@ -78,11 +78,31 @@ $.fn.extend({
         // Activate ajax form
         jQuery(this).find('.form-remote').ajaxForm({
 
+            beforeSubmit: function () {
+                jQuery(this).find("input[type='submit']")
+                    .attr("disabled", "disabled")
+                    .attr("value", "En cours ...");
+            },
+
             success : function(html) {
                 jQuery('.modal-content')
                     .empty()
                     .html(html)
                     .initialize();
+            }
+        });
+
+        // Activate ajax form
+        jQuery(this).find('.form-callback').ajaxForm({
+
+            beforeSubmit: function () {
+                jQuery(this).find("input[type='submit']")
+                    .attr("disabled", "disabled")
+                    .attr("value", "En cours ...");
+            },
+
+            success: function (js) {
+                eval(js);
             }
         });
 
