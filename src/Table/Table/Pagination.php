@@ -154,9 +154,7 @@ trait Pagination
      */
     public function setPageFromItemsOffset($items)
     {
-//        dd($items, $this->getItemsPerPage());
-//        dd(ceil(($items - 1) / $this->getItemsPerPage()));
-        $this->setPage(ceil(--$items / $this->getItemsPerPage()));
+        $this->setPage(ceil(--$items / $this->getItemsPerPage()) + 1);
         return $this;
     }
 
