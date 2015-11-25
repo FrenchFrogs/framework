@@ -20,6 +20,13 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
         }
     }
 
+    public function bootBlade()
+    {
+        Blade::directive('number', function($expression, $decimals = 0) {
+            return "<?php echo number_format({$expression}, {$decimals}) ?>";
+        });
+    }
+
     /**
      * Datatable render
      * @param string $route
@@ -150,6 +157,7 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
 
     public function boot()
     {
+        $this->bootBlade();
         $this->bootDatatable();
         $this->bootModal();
         $this->bootMail();

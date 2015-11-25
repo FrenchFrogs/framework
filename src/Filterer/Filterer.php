@@ -271,4 +271,17 @@ class Filterer
     {
         return hex2bin($value);
     }
+
+
+    /**
+     * Format a number into a french number format
+     *
+     * @param $value
+     * @param int $dec
+     * @return string
+     */
+    public function numfr($value, $dec = 0)
+    {
+        return number_format($value, $dec, ',', ' ');
+    }
 }
