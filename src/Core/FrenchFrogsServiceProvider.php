@@ -56,6 +56,11 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
 
             $order = $request->get('order');
             if (!empty($order)) {
+
+                if ($table->isSourceQueryBuilder()) {
+                    $table->getSource()->orders = [];
+                }
+
                 foreach($order as $o) {
                     extract($o);
                     $table->getColumnByIndex($column)->order($dir);
