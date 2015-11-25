@@ -197,3 +197,13 @@ function ruler()
 
     return $class::getInstance();
 }
+
+/**
+ *
+ *
+ * @param array ...$params
+ * @return \Illuminate\Database\Query\Expression
+ */
+function raw(...$params) {
+    return DB::raw(...$params);
+}

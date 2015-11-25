@@ -129,7 +129,25 @@ class Strainer
                 throw new \Exception('Table source is not an instance of query builder');
             }
 
+            $this->setValue($params[0]);
             $table->getSource()->where($this->getField(), '=', $params[0]);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * Set value to strainer element
+     *
+     * @param $value
+     * @return $this
+     */
+    public function setValue($value)
+    {
+
+        if (isset($this->element)) {
+            $this->element->setValue($value);
         }
 
         return $this;

@@ -69,6 +69,18 @@ class Boolean extends Strainer
     }
 
     /**
+     * Overloading
+     *
+     * @param $value
+     * @return $this
+     */
+    public function setValue($value)
+    {
+        $this->getElement()->setValue([$value]);
+        return $this;
+    }
+
+    /**
      *
      *
      * @return string
