@@ -35,6 +35,14 @@ class Form
      */
     protected $has_csrfToken;
 
+
+    /**
+     * Specify if label must be displayed
+     *
+     * @var
+     */
+    protected $has_label = true;
+
     /**
      * Set $has_csrfToken to TRUE
      *
@@ -57,6 +65,37 @@ class Form
         return $this;
     }
 
+    /**
+     * enable hasLabel
+     *
+     * @return $this
+     */
+    public function enableLabel()
+    {
+        $this->has_label = true;
+        return $this;
+    }
+
+    /**
+     * disable hasLabel
+     *
+     * @return $this
+     */
+    public function disableLabel()
+    {
+        $this->has_label = false;
+        return $this;
+    }
+
+    /**
+     * getter hasLabel
+     *
+     * @return bool
+     */
+    public function hasLabel()
+    {
+        return $this->has_label;
+    }
     /**
      * Getter for $has_csrfToken
      *
@@ -208,7 +247,7 @@ class Form
                 $e = $class->newInstanceArgs($arguments);
                 $this->addAction($e);
 
-            // cas des element
+                // cas des element
             } else {
                 $class = new \ReflectionClass(__NAMESPACE__ . '\Element\\' . $match['type']);
                 $e = $class->newInstanceArgs($arguments);

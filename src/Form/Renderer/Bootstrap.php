@@ -100,8 +100,11 @@ class Bootstrap extends Renderer\Renderer {
 
         // rendu principal
         $element->addClass(Style::FORM_ELEMENT_CONTROL);
-        $html = '<label for="'.$element->getName().'">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
-        $html .= html('input', $element->getAttributes());
+        $label = '';
+        if ($element->getForm()->hasLabel()) {
+            $label = '<label for="' . $element->getName() . '">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
+        }
+        $html = $label . html('input', $element->getAttributes());
 
         $class =  Style::FORM_GROUP_CLASS;
         if ($hasError) {
@@ -128,9 +131,11 @@ class Bootstrap extends Renderer\Renderer {
         }
 
         $element->addClass(Style::FORM_ELEMENT_CONTROL);
-        $html = '<label for="'.$element->getName().'">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
-        $html .= html('textarea', $element->getAttributes(), $element->getValue());
-
+        $label = '';
+        if ($element->getForm()->hasLabel()) {
+            $label = '<label for="' . $element->getName() . '">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
+        }
+        $html = $label . html('textarea', $element->getAttributes());
 
         $class =  Style::FORM_GROUP_CLASS;
         if ($hasError) {
@@ -353,9 +358,11 @@ class Bootstrap extends Renderer\Renderer {
         }
 
         $element->addClass(Style::FORM_ELEMENT_CONTROL);
+        $label = '';
+        if ($element->getForm()->hasLabel()) {
+            $label = '<label for="' . $element->getName() . '">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
+        }
         $html =  '<div class="form-group">';
-        $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '')  . '</label>';
-
         $options = '';
 
         if ($element->hasPlaceholder()){
@@ -363,19 +370,19 @@ class Bootstrap extends Renderer\Renderer {
         }
 
         $elementValue = (array) $element->getValue();
-        foreach($element->getOptions() as $value => $label){
+        foreach($element->getOptions() as $value => $key){
             $attr = ['value' => $value];
             if ($element->hasValue() && in_array($value, $elementValue)){
                 $attr['selected'] = 'selected';
             }
-            $options .= html('option', $attr, $label);
+            $options .= html('option', $attr, $key);
         }
 
         if($element->isMultiple()) {
             $element->setName($element->getName() . '[]');
         }
 
-        $html .= html('select', $element->getAttributes(), $options);
+        $html .= $label . html('select', $element->getAttributes(), $options);
         $html .= '</div>';
 
         if($element->isMultiple()){
@@ -430,9 +437,11 @@ class Bootstrap extends Renderer\Renderer {
 
         // rendu principal
         $element->addClass(Style::FORM_ELEMENT_CONTROL);
-        $html = '<label for="'.$element->getName().'">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
-
-        $html .= html('input', ['value' => $element->getFilteredValue()] + $element->getAttributes());
+        $label = '';
+        if ($element->getForm()->hasLabel()) {
+            $label = '<label for="' . $element->getName() . '">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
+        }
+        $html = $label . html('input', $element->getAttributes());
 
         $class =  Style::FORM_GROUP_CLASS;
         if ($hasError) {
@@ -463,14 +472,17 @@ class Bootstrap extends Renderer\Renderer {
 
         // rendu principal
         $element->addClass(Style::FORM_ELEMENT_CONTROL);
-        $html = '<label for="'.$element->getName().'">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
+        $label = '';
+        if ($element->getForm()->hasLabel()) {
+            $label = '<label for="' . $element->getName() . '">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
+        }
 
         $element->addClass('select2-remote');
         $element->addAttribute('data-remote', $element->getUrl());
         $element->addAttribute('data-length', $element->getLength());
 
         $element->removeClass('form-control');
-        $html .= html('input', $element->getAttributes());
+        $html = $label . html('input', $element->getAttributes());
 
         $class =  Style::FORM_GROUP_CLASS;
         if ($hasError) {
