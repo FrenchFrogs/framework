@@ -58,19 +58,23 @@ $.fn.extend({
         // Activate Remote modal button
         jQuery(this).find('.modal-remote').each(function() {
 
-            jQuery(this).click(function(e) {
+            jQuery(this).click(function (e) {
+                e.preventDefault();
+
                 var target = jQuery(this).data('target');
                 $url = jQuery(this).attr('href');
+
+                if ( jQuery(this).data('method')) {
+                    $data = {_method: jQuery(this).data('method')}
+                }
 
                 jQuery(target)
                     .find('.modal-content')
                     .empty()
-                    .load($url, function(){
+                    .load($url, $data, function(){
                         jQuery(this).initialize();
                         jQuery(target).modal('show');
                     });
-
-                e.preventDefault();
                 e.stopImmediatePropagation();
             });
         });

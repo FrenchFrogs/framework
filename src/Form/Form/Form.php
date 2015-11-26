@@ -295,10 +295,12 @@ class Form
      */
     public function populate(array $values, $alias = false)
     {
+
+
         foreach($this->getElements() as $e) {
             /** @var $e \FrenchFrogs\Form\Element\Element */
             $name = $alias && $e->hasAlias() ? $e->getAlias() : $e->getName();
-            if (array_key_exists($name, $values)) {
+            if (array_key_exists($name, $values) !== false) {
                 $e->setValue($values[$name]);
             }
         }

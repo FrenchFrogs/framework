@@ -32,10 +32,15 @@ trait Remote
      *
      * @return $this
      */
-    public function enableCallback()
+    public function enableCallback($method = null)
     {
         $this->is_callback = true;
         $this->disableRemote();// disable remte, we can have both
+
+        if (!is_null($method) && method_exists($this, 'addAttribute')) {
+            $this->addAttribute('data-method', $method);
+        }
+
         return $this;
     }
 
@@ -88,10 +93,15 @@ trait Remote
      *
      * @return $this
      */
-    public function enableRemote()
+    public function enableRemote($method = null)
     {
         $this->is_remote = true;
         $this->disableCallback();// disable callback, we cannot have both
+
+        if (!is_null($method) && method_exists($this, 'addAttribute')) {
+            $this->addAttribute('data-method', $method);
+        }
+
         return $this;
     }
 

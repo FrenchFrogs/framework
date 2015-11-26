@@ -218,9 +218,9 @@ trait Columns
      * @param array $attr
      * @return $this
      */
-    public function addButtonRemote($name, $label = '%s', $link = '#', $binds = [], $attr = [] )
+    public function addButtonRemote($name, $label = '%s', $link = '#', $binds = [], $method = 'post' )
     {
-        return $this->addButton($name, $label, $link, $binds, $attr)->enableRemote();
+        return $this->addButton($name, $label, $link, $binds, $attr)->enableRemote($method);
     }
 
     /**
@@ -233,9 +233,9 @@ trait Columns
      * @param array $attr
      * @return $this
      */
-    public function addButtonCallback($name, $label = '%s', $link = '#', $binds = [], $attr = [] )
+    public function addButtonCallback($name, $label = '%s', $link = '#', $binds = [], $method = 'post' )
     {
-        return $this->addButton($name, $label, $link, $binds, $attr)->enableCallback();
+        return $this->addButton($name, $label, $link, $binds)->enableCallback($method);
     }
 
 
@@ -247,13 +247,15 @@ trait Columns
      * @param array $attr
      * @return \FrenchFrogs\Table\Column\Button
      */
-    public function addButtonEdit($link = '#', $binds = [], $is_remote = true)
+    public function addButtonEdit($link = '#', $binds = [], $is_remote = true, $method = 'post')
     {
+
+
         $c = new Column\Button(configurator()->get('button.edit.name'), configurator()->get('button.edit.label'), $link, $binds);
         $c->setOptionAsPrimary();
         $c->icon(configurator()->get('button.edit.icon'));
         if ($is_remote) {
-            $c->enableRemote();
+            $c->enableRemote($method);
         }
 
         $this->addColumn($c);
@@ -268,13 +270,13 @@ trait Columns
      * @param array $attr
      * @return \FrenchFrogs\Table\Column\Button
      */
-    public function addButtonDelete($link = '#', $binds = [], $is_remote = true)
+    public function addButtonDelete($link = '#', $binds = [], $is_remote = true, $method = 'delete')
     {
         $c = new Column\Button(configurator()->get('button.delete.name'), configurator()->get('button.delete.label'), $link, $binds);
         $c->setOptionAsDanger();
         $c->icon(configurator()->get('button.delete.icon'));
         if ($is_remote) {
-            $c->enableRemote();
+            $c->enableRemote($method);
         }
         $this->addColumn($c);
         return $c;

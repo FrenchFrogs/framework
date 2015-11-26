@@ -284,4 +284,18 @@ class Filterer
     {
         return number_format($value, $dec, ',', ' ');
     }
+
+
+    /**
+     * Return a uuid in the desired format
+     *
+     * @param $value
+     * @param string $format
+     * @return NULL|number|string
+     */
+    public function uuid($value, $format = 'bytes')
+    {
+        return \Uuid::import($value)->$format;
+    }
+
 }
