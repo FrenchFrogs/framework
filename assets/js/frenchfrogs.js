@@ -110,9 +110,19 @@ $.fn.extend({
             }
         });
 
-        jQuery(this).find('.callback-remote').each(function() {
-            jQuery(this).click(function(e) {
-                jQuery.getScript(jQuery(this).attr('href'));
+        jQuery(this).find('.callback-remote').each(function () {
+            jQuery(this).click(function (e) {
+
+                if ( jQuery(this).data('method')) {
+                    jQuery.post(
+                        jQuery(this).attr('href'),
+                        {_method: jQuery(this).data('method')},
+                        function(a) {eval(a);}
+                    );
+                } else {
+                    jQuery.getScript(jQuery(this).attr('href'));
+                }
+
                 e.preventDefault();
                 e.stopImmediatePropagation();
             });
