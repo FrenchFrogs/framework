@@ -56,23 +56,23 @@ class Date extends Text
     public function setValue($value)
     {
 
-        try {
-            $value = \Carbon\Carbon::createFromFormat($this->getFormatDisplay(), $value);
-        } catch(\InvalidArgumentException $e) {
-
+        if (!empty($value)) {
             try {
-                $value = \Carbon\Carbon::createFromFormat($this->getFormatStore(), $value);
-            } catch(\InvalidArgumentException $e) {
-                throw $e;
-            }
+                $value = \Carbon\Carbon::createFromFormat($this->getFormatDisplay(), $value);
+            } catch (\InvalidArgumentException $e) {
 
-        } finally {
-            $value = $value instanceof \Carbon\Carbon ? $value->format($this->getFormatStore()) : '';
+                try {
+                    $value = \Carbon\Carbon::createFromFormat($this->getFormatStore(), $value);
+                } catch (\InvalidArgumentException $e) {
+                    throw $e;
+                }
+
+            } finally {
+                $value = $value instanceof \Carbon\Carbon ? $value->format($this->getFormatStore()) : '';
+            }
         }
 
         parent::setValue($value);
-
-
     }
 
 
