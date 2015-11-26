@@ -220,7 +220,7 @@ trait Columns
      */
     public function addButtonRemote($name, $label = '%s', $link = '#', $binds = [], $method = 'post' )
     {
-        return $this->addButton($name, $label, $link, $binds, $attr)->enableRemote($method);
+        return $this->addButton($name, $label, $link, $binds)->enableRemote($method);
     }
 
     /**
