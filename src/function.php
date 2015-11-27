@@ -207,3 +207,14 @@ function ruler()
 function raw(...$params) {
     return DB::raw(...$params);
 }
+
+/**
+ * Query Builder
+ *
+ * @param $table
+ * @param array $columns
+ * @return Illuminate\Database\Query\Builder
+ */
+function query($table, $columns = []) {
+    return Db::table($table)->addSelect($columns);
+}
