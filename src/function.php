@@ -218,3 +218,20 @@ function raw(...$params) {
 function query($table, $columns = []) {
     return Db::table($table)->addSelect($columns);
 }
+
+/**
+ * Generation ou formatage d'un uuid
+ *
+ * @param string $format
+ * @param null $uuid
+ * @return NULL|number|string
+ * @throws \Exception
+ */
+function uuid($format = 'bytes', $uuid = null) {
+    if(is_null($uuid)){
+        $uuid = Uuid::generate(4)->$format;
+    }else{
+        $uuid = Uuid::import($uuid)->$format;
+    }
+    return $uuid;
+}

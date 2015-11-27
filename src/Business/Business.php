@@ -12,8 +12,6 @@ use Uuid;
 abstract class Business
 {
 
-    const UUID_VERSION = 4;
-
     /**
      * Set to TRUE if Business is managed with UUID as primary key
      *
@@ -51,7 +49,7 @@ abstract class Business
      */
     public function __construct($id)
     {
-        $this->id = static::isUuid() ? Uuid::import($id) : $id;
+        $this->id = static::isUuid() ? uuid('bytes', $id) : $id;
     }
 
 
@@ -71,9 +69,9 @@ abstract class Business
      *
      * @return mixed
      */
-    public function getId($format = 'hex')
+    public function getId($format = 'bytes')
     {
-        return static::isUuid() && $format != false ? $this->id->$format : $this->id;
+        return static::isUuid() && $format != false ? uuid($format, $this->id) : $this->id;
     }
 
     /**
@@ -96,7 +94,7 @@ abstract class Business
     {
         if (!isset($this->model) || $reload) {
             $class = static::$modelClass;
-            $this->model = $class::findOrFail($this->getId('bytes'));
+            $this->model = $class::findOrFail($this->getId());
         }
 
         return $this->model;
@@ -117,17 +115,6 @@ abstract class Business
     }
 
     /**
-     * Generate UUid v5 for the current business model
-     *
-     * @return mixed
-     * @throws \Exception
-     */
-    static public function generateUuid()
-    {
-        return \Uuid::generate(static::UUID_VERSION);
-    }
-
-    /**
      * Factory
      *
      * @param $data
@@ -142,7 +129,7 @@ abstract class Business
 
         // set primarye key
         if(static::isUuid() && empty($data[$model->getKeyName()])) {
-            $data[$model->getKeyName()] = static::generateUuid()->bytes;
+            $data[$model->getKeyName()] = uuid();
         }
 
         $model = $class::create($data);
@@ -173,7 +160,7 @@ abstract class Business
     {
         try {
             $class = static::$modelClass;
-            $class::findOrFail(static::isUuid() ? Uuid::import($id)->bytes : $id);
+            $class::findOrFail(static::isUuid() ? uuid('bytes', $id) : $id);
             return true;
         } catch(\Exception $e) {
             return false;
