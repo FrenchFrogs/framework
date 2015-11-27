@@ -135,7 +135,7 @@ class Bootstrap extends Renderer\Renderer {
         if ($element->getForm()->hasLabel()) {
             $label = '<label for="' . $element->getName() . '">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
         }
-        $html = $label . html('textarea', $element->getAttributes());
+        $html = $label . html('textarea', $element->getAttributes(), $element->getValue());
 
         $class =  Style::FORM_GROUP_CLASS;
         if ($hasError) {
