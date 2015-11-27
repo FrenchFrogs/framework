@@ -1,8 +1,5 @@
 <?php namespace FrenchFrogs\Business;
 
-
-use Uuid;
-
 /**
  * Overload Eloquent model for better use
  *
@@ -22,7 +19,7 @@ abstract class Business
     /**
      * Primary key
      *
-     * @var Uuid
+     * @var mixed
      */
     protected $id;
 
