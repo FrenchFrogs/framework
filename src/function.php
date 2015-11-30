@@ -254,3 +254,53 @@ function uuid($format = 'bytes', $uuid = null) {
     }
     return $uuid;
 }
+
+
+/**
+ * Filter value
+ *
+ * @param $value
+ * @param $filters
+ */
+function f($value, $filters) {
+    $filter = new \FrenchFrogs\Filterer\Filterer();
+    $filter->setFilters($filters);
+    return $filter->filter($value);
+}
+
+/**
+ * Validate value
+ *
+ * @param $value
+ * @param $validators
+ * @return bool
+ */
+function v($value, $validators) {
+    $validator = Validator::make(['v' => $value], ['v' => $validators]);
+    return !$validator->fails();
+}
+
+/**
+ * Return the filtered value if correct, else return null
+ *
+ * @param $value
+ * @param null $filters
+ * @param null $validators
+ * @return mixed|null
+ */
+function fv($value, $filters = null, $validators = null) {
+
+    if (!is_null($filters)) {
+        $value = f($value, $filters);
+    }
+
+    if (!is_null($validators)) {
+
+        if (!v($value, $validators)) {
+            $value = null;
+        }
+    }
+
+    return $value;
+}
+

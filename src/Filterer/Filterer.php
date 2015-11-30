@@ -209,6 +209,17 @@ class Filterer
         return strtolower($value);
     }
 
+    /**
+     * return $value in uppercase
+     *
+     * @param $value
+     * @return string
+     */
+    public function upper($value)
+    {
+        return strtoupper($value);
+    }
+
 
     /**
      * Format a date
@@ -295,7 +306,7 @@ class Filterer
      */
     public function uuid($value, $format = 'bytes')
     {
-        return \Uuid::import($value)->$format;
+        return uuid($format, $value);
     }
 
 }
