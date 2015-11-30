@@ -209,6 +209,25 @@ function raw(...$params) {
 }
 
 /**
+ * shortcut for transaction
+ *
+ *
+ * @param $callable
+ * @param null $connection
+ * @return mixed
+ * @throws \Exception
+ * @throws \Throwable
+ */
+function transaction($callable, $connection = null)
+{
+    if (is_null($connection)) {
+        return DB::transaction($callable);
+    } else {
+        return DB::connection($connection)->transaction($callable);
+    }
+}
+
+/**
  * Query Builder
  *
  * @param $table

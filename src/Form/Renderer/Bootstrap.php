@@ -419,6 +419,12 @@ class Bootstrap extends Renderer\Renderer {
     }
 
 
+    /**
+     * Render a date element
+     *
+     * @param \FrenchFrogs\Form\Element\Date $element
+     * @return string
+     */
     public function date(Form\Element\Date $element)
     {
         // Error
@@ -438,6 +444,8 @@ class Bootstrap extends Renderer\Renderer {
         // rendu principal
         $element->addClass(Style::FORM_ELEMENT_CONTROL);
         $label = '';
+
+        $element->addAttribute('value', $element->getDisplayValue());
         if ($element->getForm()->hasLabel()) {
             $label = '<label for="' . $element->getName() . '">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
         }
