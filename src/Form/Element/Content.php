@@ -4,18 +4,59 @@
 class Content extends Element
 {
 
+
+    protected $is_full_width = true;
+
+
+    /**
+     * Set $is_full_width to true
+     *
+     * @return $this
+     */
+    public function enableFullWidth()
+    {
+        $this->is_full_width = true;
+        return $this;
+    }
+
+    /**
+     * Set $is_full_width to false
+     *
+     * @return $this
+     */
+    public function disableFullWidth()
+    {
+        $this->is_full_width = false;
+        return $this;
+    }
+
+    /**
+     * getter for $is_full_width
+     *
+     * @return bool
+     */
+    public function isFullWith()
+    {
+        return $this->is_full_width;
+    }
+
     /**
      * Constructror
      *
      * @param $label
      * @param array $attr
      */
-    public function __construct($label, $value = '', $attr = [])
+    public function __construct($label, $value = '', $fullwidth = true)
     {
-        $this->setAttributes($attr);
         $this->setLabel($label);
         $this->setName($label);
         $this->setValue($value);
+
+        if ($fullwidth) {
+            $this->enableFullWidth();
+        } else {
+            $this->disableFullWidth();
+        }
     }
 
     /**

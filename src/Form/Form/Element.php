@@ -470,9 +470,9 @@ trait Element
      * @param array $attr
      * @return \FrenchFrogs\Form\Element\Content
      */
-    public function addContent($label, $value = '', $attr = [])
+    public function addContent($label, $value = '', $fullwidth = true)
     {
-        $e = new \FrenchFrogs\Form\Element\Content($label, $value, $attr);
+        $e = new \FrenchFrogs\Form\Element\Content($label, $value, $fullwidth);
         $this->addElement($e);
         return $e;
     }

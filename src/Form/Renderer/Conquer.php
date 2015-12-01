@@ -5,7 +5,7 @@ use FrenchFrogs\Form;
 use FrenchFrogs\Renderer\Style\Style;
 
 
-class Conquer extends Bootstrap
+class Conquer extends Inline
 {
 
     /**
@@ -38,24 +38,6 @@ class Conquer extends Bootstrap
         'boolean',
         'select2'
     ];
-
-    /**
-     * Render Label
-     *
-     * @param \FrenchFrogs\Form\Element\Label $element
-     * @return string
-     */
-    public function label(Form\Element\Label $element)
-    {
-
-        $html = '<label>' . $element->getLabel() . '</label>';
-        $html .= '<p>' . $element->getValue() . '</p>';
-
-        $class = Style::FORM_GROUP_CLASS;
-        $html = html('div', compact('class'), $html);
-
-        return $html;
-    }
 
 
     /**
@@ -120,8 +102,12 @@ class Conquer extends Bootstrap
      */
     public function boolean(Form\Element\Boolean $element)
     {
-        // error
+        // CLASS
+        $class =  Style::FORM_GROUP_CLASS;
+
+        // ERROR
         if($hasError = !$element->getValidator()->isValid()){
+
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
@@ -129,32 +115,34 @@ class Conquer extends Bootstrap
                 $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
+            $class .= ' ' .Style::FORM_GROUP_ERROR;
         }
 
+        // LABEL
+        $label = '';
+        if ($element->getForm()->hasLabel()) {
+            $label = '<label for="' . $element->getName() . '" class="col-md-3 control-label">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>' . PHP_EOL;
+        }
+
+        // INPUT
         $element->addClass('make-switch');
         $element->addAttribute('type', 'checkbox');
         $element->addAttribute('value', 1);
-
-        // value
         if ($element->getValue()) {
             $element->addAttribute('checked', 'checked');
         }
 
-        // rendu principal
-        $html = '<label for="'.$element->getName().'">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>' . PHP_EOL;
-        $html .= html('input', $element->getAttributes());
 
-        $class =  Style::FORM_GROUP_CLASS;
-        if ($hasError) {
-            $class .= ' ' .Style::FORM_GROUP_ERROR;
+        $element->addClass(Style::FORM_ELEMENT_CONTROL);
+        $html = html('input', $element->getAttributes());
+
+        // DESCRIPTION
+        if ($element->hasDescription()) {
+            $html .= html('span', ['class' => 'help-block'], $element->getDescription());
         }
 
-        $html = html('div', compact('class'), $html);
-
-        return $html;
-
+        // FINAL CONTAINER
+        $html = html('div', ['class' => 'col-md-9'], $html);
+        return html('div', compact('class'), $label . $html);
     }
-
-
-
 }

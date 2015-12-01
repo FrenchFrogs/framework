@@ -14,6 +14,7 @@ class ConquerModal extends Conquer
 
         $html = '';
         $form->addAttribute('role', 'form');
+        $form->addClass('form-horizontal');
 
         // Elements
         if ($form->hasCsrfToken()) {
