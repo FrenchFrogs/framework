@@ -195,6 +195,23 @@ class Panel
     }
 
     /**
+     * Add select remote
+     *
+     * @param $name
+     * @param $placeholder
+     * @param $data_url
+     * @param $action_url
+     * @param int $length
+     * @return \FrenchFrogs\Panel\Action\SelectRemote
+     */
+    public function addSelectRemote($name, $placeholder,  $data_url, $action_url,  $length = 3 )
+    {
+        $e = new Action\SelectRemote($name, $placeholder,  $data_url, $action_url,  $length);
+        $this->addAction($e);
+        return $e;
+    }
+
+    /**
      * Remove the action $name from the actions container
      *
      * @param $name

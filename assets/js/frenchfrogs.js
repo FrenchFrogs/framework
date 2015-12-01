@@ -128,9 +128,26 @@ $.fn.extend({
             });
         });
 
+        jQuery(this).find('.input-callback').each(function () {
+            jQuery(this).change(function (e) {
+
+                if ( jQuery(this).data('method')) {
+                    jQuery.post(
+                        jQuery(this).data('action'),
+                        {_method: jQuery(this).data('method'), value : jQuery(this).val()},
+                        function(a) {eval(a);}
+                    );
+                } else {
+                    jQuery.getScript(jQuery(this).attr('href'));
+                }
+
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            });
+        });
+
         jQuery(this).find('.select2-remote').each(function () {
             jQuery(this).select2({
-                minimumInputLength: jQuery(this).data('length'),
                 ajax: {
                     url: jQuery(this).data('remote'),
                     dataType: 'json',
@@ -143,7 +160,8 @@ $.fn.extend({
                     results: function (d) {return d;}
                 },
 
-                containerCssClass : 'form-control',
+                minimumInputLength: jQuery(this).data('length'),
+                containerCssClass : jQuery(this).data('css'),
                 formatResult: function(i) {return i.text;},
                 formatSelection: function(i) {return i.text;},
 

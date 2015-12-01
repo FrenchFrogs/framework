@@ -241,8 +241,6 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         // Is remote loading
         if ($table->isRemote()) {
             $table->save();
-
-            js()->log($table->getToken());
             $options += [
                 'ajax' => ['url' => route('datatable'), 'data' => ['token' => $table->getToken()]],
                 'processing' => true,

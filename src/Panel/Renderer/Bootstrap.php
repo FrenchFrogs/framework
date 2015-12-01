@@ -15,7 +15,8 @@ class Bootstrap extends Renderer
     protected $renderers = [
         'panel',
         'action',
-        'button'
+        'button',
+        'selectremote'
     ];
 
 
@@ -95,6 +96,28 @@ class Bootstrap extends Renderer
         $action->addAttribute('title', $name);
 
         $html = html('a',$action->getAttributes(), $label );
+
+        return $html;
+    }
+
+
+    /**
+     * Render a Select 2
+     *
+     * @param \FrenchFrogs\Panel\Action\SelectRemote $action
+     */
+    public function selectremote(Panel\Action\SelectRemote $action)
+    {
+        $element = $action->getElement();
+        $element->addAttribute('id', $element->getName());
+        $element->addClass('select2-remote input-callback');
+        $element->addAttribute('data-css', 'form-control input-large input-sm');
+        $element->addAttribute('data-remote', $element->getUrl());
+        $element->addAttribute('data-length', $element->getLength());
+        $element->addAttribute('data-action', $action->getUrl());
+        $element->addAttribute('data-method', 'post');
+        $element->addAttribute('placeholder', $element->getLabel());
+        $html = html('input', $element->getAttributes());
 
         return $html;
     }

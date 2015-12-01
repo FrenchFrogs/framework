@@ -27,7 +27,7 @@ class Javascript extends Container
         foreach($params as $p) {
             if (is_array($p)) {
                 $attributes[] = json_encode($p, JSON_PRETTY_PRINT );
-            } elseif (substr($p,0,7) == 'function') {
+            } elseif (substr($p,0,8) == 'function') {
                 $attributes[] = str_replace('"', '\"', $p);
             } else {
                 $attributes[] = '"'.str_replace('"', '\"', $p).'"';
