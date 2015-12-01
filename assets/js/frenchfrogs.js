@@ -178,6 +178,13 @@ $.fn.extend({
             });
         });
 
+        jQuery(this).find(".timepicker-24").timepicker({
+            autoclose: true,
+            minuteStep: 1,
+            showSeconds: true,
+            showMeridian: false
+        });
+
 
         // Activate uniform checkbox
         jQuery(this).find("input[type=checkbox]:not(.toggle, .make-switch), input[type=radio]:not(.toggle, .star, .make-switch)").each(function() {
