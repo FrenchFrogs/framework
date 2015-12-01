@@ -234,8 +234,14 @@ function transaction($callable, $connection = null)
  * @param array $columns
  * @return Illuminate\Database\Query\Builder
  */
-function query($table, $columns = []) {
-    return Db::table($table)->addSelect($columns);
+function query($table, $columns = null) {
+    $query = Db::table($table);
+
+    if (!is_null($columns)) {
+        $query->addSelect($columns);
+    }
+
+    return $query;
 }
 
 /**

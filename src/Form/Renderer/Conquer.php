@@ -16,7 +16,7 @@ class Conquer extends Inline
     protected $renderers = [
         'form',
         'modal',
-        'text' => 'text',
+        'text',
         'textarea',
         'submit',
         'checkbox',
@@ -50,7 +50,10 @@ class Conquer extends Inline
     public function checkbox(Form\Element\Checkbox $element)
     {
 
-        // error
+        // CLASS
+        $class =  Style::FORM_GROUP_CLASS;
+
+        /// ERROR
         if($hasError = !$element->getValidator()->isValid()){
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
@@ -59,20 +62,25 @@ class Conquer extends Inline
                 $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
+            $class .= ' ' .Style::FORM_GROUP_ERROR;
         }
 
-        $html = '<label for="'.$element->getName().'[]">' . $element->getLabel() . '</label>';
+        // LABEL
+        $elementLabel = '';
+        if ($element->getForm()->hasLabel()) {
+            $elementLabel = '<label for="' . $element->getName() . '[]" class="col-md-3 control-label">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
+        }
 
+        // OPTIONS
         $options = '';
         foreach($element->getOptions() as $value => $label){
-
             $opt = '';
 
-            // input
+            // INPUT
             $attr = ['type' => 'checkbox', 'name' => $element->getName() . '[]', 'value' => $value];
 
+            // VALUE
             $values = (array) $element->getValue();
-
             if (!is_null( $element->getValue()) && in_array($value, $values)) {
                 $attr['checked'] = 'checked';
             }
@@ -82,17 +90,18 @@ class Conquer extends Inline
             $options .= '<label>'.$opt.'</label>';
         }
 
-        $element->addClass('checkbox-list');
-        $html .= html('div', $element->getAttributes(), $options);
-
-        $class =  Style::FORM_GROUP_CLASS;
-        if ($hasError) {
-            $class .= ' ' .Style::FORM_GROUP_ERROR;
+        // DESCRIPTION
+        if ($element->hasDescription()) {
+            $options .= html('span', ['class' => 'help-block'], $element->getDescription());
         }
 
-        $html = html('div', compact('class'), $html);
+        // INPUT
+        $element->addClass('checkbox-list');
+        $html =  html('div', $element->getAttributes(), $options);
 
-        return $html;
+        // FINAL CONTAINER
+        $html = html('div', ['class' => 'col-md-9'], $html);
+        return html('div', compact('class'), $elementLabel . $html);
     }
 
     /**
