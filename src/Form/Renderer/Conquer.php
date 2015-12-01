@@ -36,7 +36,8 @@ class Conquer extends Inline
         'file',
         'date',
         'boolean',
-        'select2'
+        'select2',
+        'time'
     ];
 
 

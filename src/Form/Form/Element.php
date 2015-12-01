@@ -243,6 +243,27 @@ trait Element
     }
 
     /**
+     *
+     *  Add a input:text with timepicker element
+     *
+     * @param $name
+     * @param string $label
+     * @param bool $is_mandatory
+     * @return \FrenchFrogs\Form\Element\Date
+     */
+    public function addTime($name, $label = '', $is_mandatory = true)
+    {
+        $e = new \FrenchFrogs\Form\Element\Time($name, $label);
+        $this->addElement($e);
+
+        if ($is_mandatory) {
+            $e->addRule('required');
+        }
+
+        return $e;
+    }
+
+    /**
      * Add input:password element
      *
      * @param $name
