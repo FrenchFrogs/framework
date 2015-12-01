@@ -169,7 +169,7 @@ class Filterer
             array_unshift($params, $value);
 
             // If it's a anonymous function
-            if (is_callable($method)) {
+            if (!is_string($method) && is_callable($method)) {
 
                 $value = call_user_func_array($method, $params);
 
