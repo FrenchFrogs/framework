@@ -47,12 +47,13 @@ class Filterer
 
             $this->clearFilters();
             foreach(explode('|', $filters) as $filter) {
-
-                // searching for otpional params
+                // searching for optional params
                 $params = [];
-                if (strpos(':', $filter)) {
+                if (strpos($filter, ':')) {
                     list($filter, $params) = explode(':', $filter);
+                    $params = (array) explode(',', $params);
                 }
+
                 $this->addFilter($filter, null, ...$params);
             }
         } else {
