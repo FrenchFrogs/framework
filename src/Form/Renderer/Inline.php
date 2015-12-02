@@ -45,7 +45,6 @@ class Inline extends Renderer\Renderer {
 
     function form(Form\Form\Form $form)
     {
-
         $html = '';
         $form->addAttribute('role', 'form');
 
@@ -576,7 +575,12 @@ class Inline extends Renderer\Renderer {
     }
 
 
-
+    /**
+     * Render a time element
+     *
+     * @param \FrenchFrogs\Form\Element\Time $element
+     * @return string
+     */
     public function time(Form\Element\Time $element)
     {
 
@@ -622,8 +626,10 @@ class Inline extends Renderer\Renderer {
 
     public function select2(Form\Element\SelectRemote $element)
     {
+        // CLASS
+        $class =  Style::FORM_GROUP_CLASS;
 
-        // Error
+        // ERROR
         if($hasError = !$element->getValidator()->isValid()){
 
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
@@ -633,30 +639,30 @@ class Inline extends Renderer\Renderer {
             }
             $element->addAttribute('data-original-title',$message);
             $element->addAttribute('data-toggle', 'tooltip');
-        }
-
-
-        // rendu principal
-        $element->addClass(Style::FORM_ELEMENT_CONTROL);
-        $label = '';
-        if ($element->getForm()->hasLabel()) {
-            $label = '<label for="' . $element->getName() . '">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
-        }
-
-        $element->addClass('select2-remote');
-        $element->addAttribute('data-remote', $element->getUrl());
-        $element->addAttribute('data-length', $element->getLength());
-
-        $element->removeClass('form-control');
-        $html = $label . html('input', $element->getAttributes());
-
-        $class =  Style::FORM_GROUP_CLASS;
-        if ($hasError) {
             $class .= ' ' .Style::FORM_GROUP_ERROR;
         }
 
-        $html = html('div', compact('class'), $html);
+        // LABEL
+        $label = '';
+        if ($element->getForm()->hasLabel()) {
+            $label = '<label for="' . $element->getName() . '" class="col-md-3 control-label">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
+        }
 
-        return $html;
+        // INPUT
+        $element->addClass('select2-remote');
+        $element->addAttribute('data-css', 'form-control input-large input-sm');
+        $element->addAttribute('data-remote', $element->getUrl());
+        $element->addAttribute('data-length', $element->getLength());
+        $element->addAttribute('placeholder', $element->getLabel());
+        $html = html('input', $element->getAttributes());
+
+        // DESCRIPTION
+        if ($element->hasDescription()) {
+            $html .= html('span', ['class' => 'help-block'], $element->getDescription());
+        }
+
+        // FINAL CONTAINER
+        $html = html('div', ['class' => 'col-md-9'], $html);
+        return html('div', compact('class'), $label . $html);
     }
 }

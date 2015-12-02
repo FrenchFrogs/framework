@@ -52,18 +52,21 @@ $.fn.extend({
     },
 
 
+    // INITAILISATION
     initialize : function() {
         console.log('initialize : ' + this.selector);
 
-        // Activate Remote modal button
+        // MODAL
         jQuery(this).find('.modal-remote').each(function() {
 
             jQuery(this).click(function (e) {
                 e.preventDefault();
 
                 var target = jQuery(this).data('target');
+                var size  = jQuery(this).data('data-size');
                 $url = jQuery(this).attr('href');
 
+                $data = {};
                 if ( jQuery(this).data('method')) {
                     $data = {_method: jQuery(this).data('method')}
                 }
@@ -73,50 +76,64 @@ $.fn.extend({
                     .empty()
                     .load($url, $data, function(){
                         jQuery(this).initialize();
+                        jQuery(this).parent().removeClass('modal-lg modal-sm').addClass(size);
                         jQuery(target).modal('show');
                     });
                 e.stopImmediatePropagation();
             });
         });
 
-        // Activate ajax form
-        jQuery(this).find('.form-remote').ajaxForm({
 
-            beforeSubmit: function () {
-                jQuery(this).find("input[type='submit']")
-                    .attr("disabled", "disabled")
-                    .attr("value", "En cours ...");
-            },
 
-            success : function(html) {
-                jQuery('.modal-content')
-                    .empty()
-                    .html(html)
-                    .initialize();
-            }
-        });
+        // FORM
+        if (jQuery.fn.ajaxForm != undefined) {
 
-        // Activate ajax form
-        jQuery(this).find('.form-callback').ajaxForm({
+            // FORM REMOTE
+            jQuery(this).find('.form-remote').ajaxForm({
 
-            beforeSubmit: function () {
-                jQuery(this).find("input[type='submit']")
-                    .attr("disabled", "disabled")
-                    .attr("value", "En cours ...");
-            },
+                beforeSubmit: function () {
+                    jQuery(this).find("input[type='submit']")
+                        .attr("disabled", "disabled")
+                        .attr("value", "En cours ...");
+                },
 
-            success: function (js) {
-                eval(js);
-            }
-        });
+                success : function(html) {
+                    jQuery('.modal-content')
+                        .empty()
+                        .html(html)
+                        .initialize();
+                }
+            });
 
+            // FORM CALLBACK
+            jQuery(this).find('.form-callback').ajaxForm({
+
+                beforeSubmit: function () {
+                    jQuery(this).find("input[type='submit']")
+                        .attr("disabled", "disabled")
+                        .attr("value", "En cours ...");
+                },
+
+                success: function (js) {
+                    eval(js);
+                }
+            });
+        }
+
+        // CALLBACK
         jQuery(this).find('.callback-remote').each(function () {
             jQuery(this).click(function (e) {
 
                 if ( jQuery(this).data('method')) {
+
+                    $data = {};
+                    if ( jQuery(this).data('method')) {
+                        $data = {_method: jQuery(this).data('method')}
+                    }
+
                     jQuery.post(
                         jQuery(this).attr('href'),
-                        {_method: jQuery(this).data('method')},
+                        $data,
                         function(a) {eval(a);}
                     );
                 } else {
@@ -128,6 +145,7 @@ $.fn.extend({
             });
         });
 
+        // INPUT CALLBACK
         jQuery(this).find('.input-callback').each(function () {
             jQuery(this).change(function (e) {
 
@@ -146,59 +164,74 @@ $.fn.extend({
             });
         });
 
-        jQuery(this).find('.select2-remote').each(function () {
-            jQuery(this).select2({
-                ajax: {
-                    url: jQuery(this).data('remote'),
-                    dataType: 'json',
-                    delay: 250,
-                    data: function (term) {
-                        return {
-                            q: term // search term
-                        };
+        // SELECT 2
+        if (jQuery.fn.select2 != undefined) {
+            jQuery(this).find('.select2-remote').each(function () {
+                jQuery(this).select2({
+                    minimumInputLength: jQuery(this).data('length'),
+                    ajax: {
+                        url: jQuery(this).data('remote'),
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (term) {
+                            return {
+                                q: term // search term
+                            };
+                        },
+                        results: function (d) {
+                            return d;
+                        }
                     },
-                    results: function (d) {return d;}
-                },
 
-                minimumInputLength: jQuery(this).data('length'),
-                containerCssClass : jQuery(this).data('css'),
-                formatResult: function(i) {return i.text;},
-                formatSelection: function(i) {return i.text;},
+                    containerCssClass: jQuery(this).data('css'),
+                    formatResult: function (i) {
+                        return i.text;
+                    },
+                    formatSelection: function (i) {
+                        return i.text;
+                    },
 
-                escapeMarkup: function (markup) { return markup; },
+                    escapeMarkup: function (markup) {
+                        return markup;
+                    },
 
-                initSelection: function (element, callback) {
-                    $.ajax(jQuery(element).data('remote') + '?id=' + jQuery(element).val() , {dataType: "json"})
-                        .done(function(data) {
-                            if (data.results[0]) {
-                                callback(data.results[0]);
-                            }
-                        });
-                },
+                    initSelection: function (element, callback) {
+                        $.ajax(jQuery(element).data('remote') + '?id=' + jQuery(element).val(), {dataType: "json"})
+                            .done(function (data) {
+                                if (data.results[0]) {
+                                    callback(data.results[0]);
+                                }
+                            });
+                    },
+                });
             });
+        }
+
+        // UNIFORM
+        if (jQuery.fn.uniform != undefined) {
+            jQuery(this).find("input[type=checkbox]:not(.toggle, .make-switch), input[type=radio]:not(.toggle, .star, .make-switch)").each(function () {
+                jQuery(this).uniform();
+            });
+        }
+
+        // DATEPICKER
+        if (jQuery.fn.datepicker != undefined) {
+            jQuery(this).find('.date-picker').datepicker({
+                autoclose: true
+            });
+        }
+
+        jQuery(this).find('.ff-tooltip-left').tooltip({
+            placement: 'left'
         });
 
-        jQuery(this).find(".timepicker-24").timepicker({
-            autoclose: true,
-            minuteStep: 1,
-            showSeconds: true,
-            showMeridian: false
-        });
 
+        // SWITCH
+        if(jQuery.fn.bootstrapSwitch !== undefined){
+            jQuery(this).find('input[type=checkbox].make-switch').bootstrapSwitch();
+        }
 
-        // Activate uniform checkbox
-        jQuery(this).find("input[type=checkbox]:not(.toggle, .make-switch), input[type=radio]:not(.toggle, .star, .make-switch)").each(function() {
-            jQuery(this).uniform();
-        });
-
-        jQuery(this).find('.date-picker').datepicker({
-            autoclose: true
-        });
-
-        if(jQuery.fn.bootstrapSwitch !== undefined){jQuery(this).find('input[type=checkbox].make-switch').bootstrapSwitch();}
-
-        // decoration datatable
+        //DATATABLE DECORATION
         jQuery(this).find('table.table > thead > tr:last-child').children().css('border-bottom', '1px solid #ddd');
     }
 });
-
