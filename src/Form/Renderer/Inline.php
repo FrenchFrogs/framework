@@ -20,7 +20,7 @@ class Inline extends Renderer\Renderer {
     protected $renderers = [
         'form',
         'modal',
-        'text' => 'text',
+        'text',
         'textarea',
         'submit',
         'checkbox',
@@ -507,23 +507,41 @@ class Inline extends Renderer\Renderer {
 
     public function file(Form\Element\File $element)
     {
-        if(!$element->getValidator()->isValid()){
-            $element->addClass('form-error');
+        // CLASS
+        $class =  Style::FORM_GROUP_CLASS;
+
+        // ERROR
+        if($hasError = !$element->getValidator()->isValid()){
+
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
             foreach($element->getValidator()->getErrors() as $error){
-                $message .= $error . ' ';
+                $message .= $error . ';';
             }
             $element->addAttribute('data-original-title',$message);
+            $element->addAttribute('data-toggle', 'tooltip');
+            $class .= ' ' .Style::FORM_GROUP_ERROR;
         }
 
-        $html =  '<div class="form-group">';
-        $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . '</label>';
-        $element->addAttribute('type', 'file');
-        $html .= html('input', $element->getAttributes());
-        $html .= '</div>';
+        // LABEL
+        $label = '';
+        if ($element->getForm()->hasLabel()) {
+            $label = '<label for="' . $element->getName() . '" class="col-md-3 control-label">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
+        }
 
-        return $html;
+        // INPUT
+        $element->addClass(Style::FORM_ELEMENT_CONTROL);
+        $element->addAttribute('type', 'file');
+        $html = html('input', $element->getAttributes());
+
+        // DESCRIPTION
+        if ($element->hasDescription()) {
+            $html .= html('span', ['class' => 'help-block'], $element->getDescription());
+        }
+
+        // FINAL CONTAINER
+        $html = html('div', ['class' => 'col-md-9'], $html);
+        return html('div', compact('class'), $label . $html);
     }
 
 

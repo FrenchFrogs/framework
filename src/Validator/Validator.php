@@ -357,7 +357,7 @@ class Validator
             array_unshift($params, $value);
 
             // If it's a anonymous function
-            if (is_callable($method)) {
+            if (!is_string($method) && is_callable($method)) {
 
                 if (!call_user_func_array($method, $params)) {
                     $this->addError($index, $this->formatError($index, $params));
