@@ -170,6 +170,25 @@ function js($namespace = null, $selector = null, $function = null, ...$params)
     return $container;
 }
 
+
+/**
+ * Return a head container
+ *
+ * @param $name
+ * @param $value
+ * @param null $conditional
+ * @return $this
+ */
+function h($name = null, $value = null, $conditional = null) {
+    /** @var $container FrenchFrogs\Container\Head */
+    $container = FrenchFrogs\Container\Head::getInstance();
+
+    if (!is_null($name)) {
+        $container->meta($name, $value, $conditional);
+    }
+    return $container;
+}
+
 /**
  * Return action form url
  *
