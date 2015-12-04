@@ -22,7 +22,6 @@ class Head extends Container
      */
     public function meta($name, $content, $conditional = null)
     {
-
         $meta = html('meta', ['name' => $name, 'content' => $content]);
 
         // if conditionnal
@@ -32,6 +31,23 @@ class Head extends Container
 
         return $this->append($meta);
     }
+
+
+    /**
+     * Fast identity set
+     *
+     * @param $title
+     * @param $description
+     * @return $this
+     */
+    public function identity($title, $description)
+    {
+        $this->title($title);
+        $this->meta('description', $description);
+        return $this;
+    }
+
+
 
 
     /**
