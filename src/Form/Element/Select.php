@@ -123,4 +123,32 @@ class Select extends Element
 
         return $render;
     }
+
+
+    /**
+     * Set Options from parent selection
+     *
+     * @param $selector
+     * @param $url
+     * @return $this
+     */
+    public function setDependOn($selector, $url)
+    {
+        return $this->addAttribute('data-parent-url', $url)
+                    ->addAttribute('data-parent-selector',  $selector)
+                    ->addClass('select-remote');
+    }
+
+
+    /**
+     * Unlink parent selection for options completion
+     *
+     * @return $this
+     */
+    public function removeDependOn()
+    {
+        return $this->removeAttribute('data-parent-url')
+            ->removeAttribute('data-parent-selector')
+            ->removeClass('select-remote');
+    }
 }

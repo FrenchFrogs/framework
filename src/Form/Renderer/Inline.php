@@ -116,6 +116,7 @@ class Inline extends Renderer\Renderer {
 
         // INPUT
         $element->addClass(Style::FORM_ELEMENT_CONTROL);
+        $element->addAttribute('id', $element->getName());
         $html = html('input', $element->getAttributes());
 
         // DESCRIPTION
@@ -479,6 +480,7 @@ class Inline extends Renderer\Renderer {
 
         // INPUT
         $element->addClass(Style::FORM_ELEMENT_CONTROL);
+        $element->addAttribute('id', $element->getName());
         $html = html('select', $element->getAttributes(), $options);
 
         // DESCRIPTION

@@ -207,6 +207,22 @@ $.fn.extend({
             });
         }
 
+        // // LIAISON SELECT
+        jQuery('.select-remote').each(function(){
+            var $that = $(this);
+            selector = jQuery(this).data('parent-selector');
+
+            jQuery(selector).change(function (e) {
+                url = $that.data('parent-url') + '?value=' + jQuery(this).val();
+                jQuery.getJSON(url, function(a) {
+                    $that.empty();
+                    jQuery.each(a, function(i, v) {
+                        $that.append(jQuery("<option />").val(i).text(v));
+                    });
+                });
+            }).change();
+        });
+
         // UNIFORM
         if (jQuery.fn.uniform != undefined) {
             jQuery(this).find("input[type=checkbox]:not(.toggle, .make-switch), input[type=radio]:not(.toggle, .star, .make-switch)").each(function () {
