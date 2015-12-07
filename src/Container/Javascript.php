@@ -11,7 +11,6 @@ class Javascript extends Container
 
     const NAMESPACE_DEFAULT = 'onload';
 
-
     /**
      * Build a jquery call javascript code
      *

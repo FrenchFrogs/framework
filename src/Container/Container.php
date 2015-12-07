@@ -9,7 +9,15 @@ class Container
     /**
      * @var string
      */
-    protected $container = '';
+    protected $container = [];
+
+
+    /**
+     * Glue for g"nération
+     *
+     * @var string
+     */
+    protected $glue = PHP_EOL;
 
     /**
      * Instances
@@ -17,6 +25,16 @@ class Container
      * @var array
      */
     static protected $instances = [];
+
+
+    /**
+     * Protected constructor for singleton
+     *
+     * Container constructor.
+     */
+    protected function __construct() {
+
+    }
 
     /**
      * constructor du singleton
@@ -34,6 +52,29 @@ class Container
         return self::$instances[$namespace];
     }
 
+    /**
+     * Setter for $glue
+     *
+     * @param $glue
+     * @return $this
+     */
+    public function setGlue($glue)
+    {
+        $this->glue = $glue;
+        return $this;
+    }
+
+
+    /**
+     * Getter for $glue
+     *
+     * @return string
+     */
+    public function getGlue()
+    {
+        return $this->glue;
+    }
+
 
     /**
      * Setter for $container attribute
@@ -41,9 +82,9 @@ class Container
      * @param $container
      * @return $this
      */
-    public function set($container)
+    public function set(array $container)
     {
-        $this->container = strval($container);
+        $this->container = $container;
         return $this;
     }
 
@@ -66,7 +107,7 @@ class Container
      */
     public function clear()
     {
-        $this->container = '';
+        $this->container = [];
         return $this;
     }
 
@@ -78,7 +119,7 @@ class Container
      */
     public function append($container)
     {
-        $this->container .= PHP_EOL . $container;
+        $this->container[] = $container;
         return $this;
     }
 
@@ -92,13 +133,18 @@ class Container
      */
     public function prepend($container)
     {
-        $this->container = $container . PHP_EOL . $this->container;
+        array_unshift($this->container, $container);
         return $this;
     }
 
 
+    /**
+     *
+     *
+     * @return string
+     */
     public function __toString()
     {
-        return $this->get();
+        return implode($this->glue, $this->container);
     }
 }

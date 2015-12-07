@@ -155,8 +155,7 @@ function modal(...$args)
  * @param ...$params
  * @return \FrenchFrogs\Container\Javascript
  */
-function js($namespace = null, $selector = null, $function = null, ...$params)
-{
+function js($namespace = null, $selector = null, $function = null, ...$params){
     /** @var $container FrenchFrogs\Container\Javascript */
     $container = FrenchFrogs\Container\Javascript::getInstance($namespace);
 
@@ -165,6 +164,24 @@ function js($namespace = null, $selector = null, $function = null, ...$params)
         call_user_func_array([$container, 'appendJs'], $params);
     } elseif(!is_null($selector)) {
         $container->append($selector);
+    }
+
+    return $container;
+}
+
+
+/**
+ * Return css cointainer
+ *
+ * @param null $href
+ * @return \FrenchFrogs\Container\Css
+ */
+function css($href = null) {
+    /** @var $container FrenchFrogs\Container\Css */
+    $container = FrenchFrogs\Container\Css::getInstance();
+
+    if (!is_null($href)){
+        $container->file($href);
     }
 
     return $container;

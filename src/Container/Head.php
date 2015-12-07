@@ -48,8 +48,6 @@ class Head extends Container
     }
 
 
-
-
     /**
      * Title
      *
