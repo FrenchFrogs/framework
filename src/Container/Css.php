@@ -77,7 +77,7 @@ class Css extends Container
         if (app()->environment() != 'production') {
 
             $hash  = '';
-            $minifier = new Minify\CSS();qs
+            $minifier = new Minify\CSS();
             foreach($this->container as $file) {
                 $hash .= md5_file($file = public_path($file));
                 $minifier->add($file);
