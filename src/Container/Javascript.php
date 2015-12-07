@@ -95,7 +95,7 @@ class Javascript extends Container
      */
     public function alert($message)
     {
-        $this->append([static::TYPE_INLINE, sprintf('alert("%s")', $message)]);
+        $this->append([static::TYPE_INLINE, sprintf('alert("%s");', $message)]);
         return $this;
     }
 
@@ -107,7 +107,7 @@ class Javascript extends Container
      */
     public function log($message)
     {
-        $this->append([static::TYPE_INLINE, sprintf('console.log("%s")', $message)]);
+        $this->append([static::TYPE_INLINE, sprintf('console.log("%s");', $message)]);
         return $this;
     }
 
@@ -122,7 +122,7 @@ class Javascript extends Container
     public function warning($body = '', $title = '')
     {
         $body = empty($body) ?  configurator()->get('toastr.warning.default') : $body;
-        $this->append([static::TYPE_INLINE, sprintf('toastr.warning("%s", "%s")', $body, $title)]);
+        $this->append([static::TYPE_INLINE, sprintf('toastr.warning("%s", "%s");', $body, $title)]);
         return $this;
     }
 
@@ -136,7 +136,7 @@ class Javascript extends Container
     public function success($body = '', $title = '')
     {
         $body = empty($body) ?  configurator()->get('toastr.success.default') : $body;
-        $this->append([static::TYPE_INLINE, sprintf('toastr.success("%s", "%s")', $body, $title)]);
+        $this->append([static::TYPE_INLINE, sprintf('toastr.success("%s", "%s");', $body, $title)]);
         return $this;
     }
 
@@ -151,7 +151,7 @@ class Javascript extends Container
     public function error($body = '', $title = '')
     {
         $body = empty($body) ?  configurator()->get('toastr.error.default') : $body;
-        $this->append([static::TYPE_INLINE , sprintf('toastr.error("%s", "%s")', $body, $title)]);
+        $this->append([static::TYPE_INLINE , sprintf('toastr.error("%s", "%s");', $body, $title)]);
         return $this;
     }
 
@@ -282,7 +282,7 @@ class Javascript extends Container
 
                         // render style
                     } elseif($t == static::TYPE_INLINE) {
-                        $result .= $c;
+                        $result .= $c . $this->getGlue();
                     }
                 }
             }
