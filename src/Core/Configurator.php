@@ -66,7 +66,7 @@ class Configurator
         'button.delete.name' => 'ff_delete',
         'button.delete.label' => 'Delete',
 
-
+//        'container.css.targetPath' => ,
     ];
 
     /**

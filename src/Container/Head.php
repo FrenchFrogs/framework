@@ -155,4 +155,16 @@ class Head extends Container
     }
 
 
+    /**
+     * Favicon management
+     *
+     * @param $favicon
+     * @return $this
+     */
+    public function favicon($favicon)
+    {
+        return $this->append(html('link', ['rel'=>'shortcut icon', 'href'=> $favicon]));
+    }
+
+
 }

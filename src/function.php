@@ -176,15 +176,11 @@ function js($namespace = null, $selector = null, $function = null, ...$params){
  * @param null $href
  * @return \FrenchFrogs\Container\Css
  */
-function css($href = null) {
-    /** @var $container FrenchFrogs\Container\Css */
-    $container = FrenchFrogs\Container\Css::getInstance();
+function css($namespace  = null) {
+    /** @var $container FrenchFrogs\Container\Javascript */
+    $container = FrenchFrogs\Container\Javascript::getInstance($namespace);
 
-    if (!is_null($href)){
-        $container->file($href);
-    }
-
-    return $container;
+    return FrenchFrogs\Container\Css::getInstance();
 }
 
 
@@ -344,5 +340,24 @@ function fv($value, $filters = null, $validators = null) {
     }
 
     return $value;
+}
+
+
+/**
+ * Return true is application is in debug mode
+ *
+ * @return mixed
+ */
+function debug() {
+    return config('app.debug');
+}
+
+/**
+ * return true if application is in production mode
+ *
+ * @return bool
+ */
+function production(){
+    return app()->environment() == 'production';
 }
 
