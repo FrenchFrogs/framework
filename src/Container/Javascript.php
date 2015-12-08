@@ -174,7 +174,7 @@ class Javascript extends Container
      */
     public function reloadDataTable($resetPaging = false)
     {
-        $this->append([static::TYPE_INLINE, 'jQuery(".datatable-remote").DataTable().ajax.reload(null, '. ($resetPaging ?  'true' : 'false') .')']);
+        $this->append([static::TYPE_INLINE, 'jQuery(".datatable-remote").DataTable().ajax.reload(null, '. ($resetPaging ?  'true' : 'false') .');']);
         return $this;
     }
 
