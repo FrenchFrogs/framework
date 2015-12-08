@@ -384,24 +384,49 @@ class Inline extends Renderer\Renderer {
         return html('div', compact('class'), $html);
     }
 
+    /**
+     * Render number
+     *
+     * @param Form\Element\Number $element
+     * @return string
+     */
     public function number(Form\Element\Number $element)
     {
-        if(!$element->getValidator()->isValid()){
-            $element->addClass('form-error');
+
+        // CLASS
+        $class =  Style::FORM_GROUP_CLASS;
+
+        // ERROR
+        if($hasError = !$element->getValidator()->isValid()){
+
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
             foreach($element->getValidator()->getErrors() as $error){
-                $message .= $error . ' ';
+                $message .= $error . ';';
             }
             $element->addAttribute('data-original-title',$message);
+            $element->addAttribute('data-toggle', 'tooltip');
+            $class .= ' ' .Style::FORM_GROUP_ERROR;
         }
 
+        // LABEL
+        $label = '';
+        if ($element->getForm()->hasLabel()) {
+            $label = '<label for="' . $element->getName() . '" class="col-md-3 control-label">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
+        }
+
+        // INPUT
         $element->addClass(Style::FORM_ELEMENT_CONTROL);
-        $html =  '<div class="form-group">';
-        $html .= '<label for="'.$element->getName().'">' . $element->getLabel() . '</label>';
-        $html .= html('input', $element->addAttribute('type', 'number')->getAttributes());
-        $html .= '</div>';
-        return $html;
+        $html = html('input', $element->addAttribute('type', 'number')->getAttributes());
+
+        // DESCRIPTION
+        if ($element->hasDescription()) {
+            $html .= html('span', ['class' => 'help-block'], $element->getDescription());
+        }
+
+        // FINAL CONTAINER
+        $html = html('div', ['class' => 'col-md-9'], $html);
+        return html('div', compact('class'), $label . $html);
     }
 
     public function radio(Form\Element\Radio $element)
