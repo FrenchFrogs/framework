@@ -1,6 +1,7 @@
 <?php namespace FrenchFrogs\Container;
 
 use MatthiasMullie\Minify\CSS as MiniCss;
+use Less_Parser;
 
 /**
  * Meta container
@@ -14,8 +15,10 @@ class Css extends Container
     use Minify;
 
     const NAMESPACE_DEFAULT = 'minify_css';
-    const TYPE_FILE = 'file';
     const TYPE_STYLE = 'style';
+    const TYPE_STYLE_FILE = 'style_file';
+    const TYPE_LESS = 'less';
+    const TYPE_LESS_FILE = 'less_file';
 
     /**
      * Add link
@@ -25,9 +28,9 @@ class Css extends Container
      * @param string $type
      * @return $this
      */
-    public function file($href)
+    public function styleFile($href)
     {
-        return $this->append([static::TYPE_FILE, $href]);
+        return $this->append([static::TYPE_STYLE_FILE, $href]);
     }
 
     /**
@@ -39,6 +42,29 @@ class Css extends Container
     public function style($content)
     {
         return $this->append([static::TYPE_STYLE, $content]);
+    }
+
+    /**
+     * Add less content
+     *
+     * @param $content
+     * @return $this
+     */
+    public function less($content)
+    {
+        return $this->append([static::TYPE_LESS, $content]);
+    }
+
+
+    /**
+     * Add less file
+     *
+     * @param $href
+     * @return $this
+     */
+    public function lessFile($href)
+    {
+        return $this->append([static::TYPE_LESS_FILE, $href]);
     }
 
 
@@ -53,10 +79,23 @@ class Css extends Container
 
         try {
 
+            // LESS
+            $parser = new Less_Parser();
+
+
+            foreach ($this->container as $content) {
+                list($t, $c) = $content;
+                if ($t == static::TYPE_LESS_FILE) {
+                    $parser->parseFile($c);
+                } elseif($t == static::TYPE_LESS) {
+                    $parser->parse($c);
+                }
+            }
+
+            $less = $parser->getCss();
+
             // If we want to minify
             if ($this->isMinify()) {
-
-
 
                 $hash = '';
                 $contents = [];
@@ -66,7 +105,7 @@ class Css extends Container
 
                     list($t, $c) = $content;
 
-                    if ($t == static::TYPE_FILE) {
+                    if ($t == static::TYPE_STYLE_FILE) {
 
                         // scheme case
                         if (preg_match('#^//.+$#', $c)) {
@@ -89,6 +128,12 @@ class Css extends Container
                         $hash .= md5($c);
                         $contents[] = ['style', $c];
                     }
+                }
+
+                // Less
+                if (!empty($less)) {
+                    $hash .= md5($less);
+                    $contents[] = ['style', $less];
                 }
 
                 // destination file
@@ -137,7 +182,7 @@ class Css extends Container
                     list($t, $c) = $content;
 
                     // render file
-                    if ($t == static::TYPE_FILE) {
+                    if ($t == static::TYPE_STYLE_FILE) {
 
                         $result .= html('link',
                                 [
@@ -151,6 +196,11 @@ class Css extends Container
                     } elseif($t == static::TYPE_STYLE) {
                         $result .= html('style', [], $c);
                     }
+                }
+
+                // Less
+                if (!empty($less)) {
+                    $result .= html('style', [], $less);
                 }
             }
 
