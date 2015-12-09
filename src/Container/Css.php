@@ -114,7 +114,7 @@ class Css extends Container
                             $hash .= md5($c);
 
                             // url case
-                        } elseif (preg_match('#^https?//.+$#', $c)) {
+                        } elseif (preg_match('#^https?://.+$#', $c)) {
                             $contents[] = ['remote', $c];
                             $hash .= md5($c);
 
