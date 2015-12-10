@@ -177,10 +177,7 @@ function js($namespace = null, $selector = null, $function = null, ...$params){
  * @return \FrenchFrogs\Container\Css
  */
 function css($namespace  = null) {
-    /** @var $container FrenchFrogs\Container\Javascript */
-    $container = FrenchFrogs\Container\Javascript::getInstance($namespace);
-
-    return FrenchFrogs\Container\Css::getInstance();
+    return FrenchFrogs\Container\Css::getInstance($namespace);
 }
 
 
