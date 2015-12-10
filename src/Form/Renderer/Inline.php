@@ -93,7 +93,7 @@ class Inline extends Renderer\Renderer {
     public function text(Form\Element\Text $element)
     {
         // CLASS
-        $class =  Style::FORM_GROUP_CLASS;
+        $class =  Style::FORM_GROUP_CLASS . ' row';
 
         // ERROR
         if($hasError = !$element->getValidator()->isValid()){
@@ -139,7 +139,7 @@ class Inline extends Renderer\Renderer {
     public function textarea(Form\Element\Textarea $element)
     {
         // CLASS
-        $class =  Style::FORM_GROUP_CLASS;
+        $class =  Style::FORM_GROUP_CLASS . ' row';
 
         /// ERROR
         if($hasError = !$element->getValidator()->isValid()){
@@ -228,7 +228,7 @@ class Inline extends Renderer\Renderer {
     public function checkbox(Form\Element\Checkbox $element)
     {
         // CLASS
-        $class =  Style::FORM_GROUP_CLASS;
+        $class =  Style::FORM_GROUP_CLASS . ' row';
 
         /// ERROR
         if($hasError = !$element->getValidator()->isValid()){
@@ -325,7 +325,7 @@ class Inline extends Renderer\Renderer {
         $html = '<label class="col-md-3 control-label">' . $element->getLabel() . '</label>';
         $html .= '<div class="col-md-9"><p class="form-control-static">' . $element->getValue() . '</p></div>';
 
-        $class = Style::FORM_GROUP_CLASS;
+        $class =  Style::FORM_GROUP_CLASS . ' row';
         return html('div', compact('class'), $html);
     }
 

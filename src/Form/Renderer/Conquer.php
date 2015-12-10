@@ -113,7 +113,7 @@ class Conquer extends Inline
     public function boolean(Form\Element\Boolean $element)
     {
         // CLASS
-        $class =  Style::FORM_GROUP_CLASS;
+        $class =  Style::FORM_GROUP_CLASS . ' row';
 
         // ERROR
         if($hasError = !$element->getValidator()->isValid()){
