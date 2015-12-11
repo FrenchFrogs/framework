@@ -4,6 +4,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Model extends \Illuminate\Database\Eloquent\Model
 {
+    /**
+     * Desactivate gard
+     *
+     * @var bool
+     */
+    protected static $unguarded = true;
 
     /**
      * primary key generation
