@@ -83,20 +83,16 @@ $.fn.extend({
             });
         });
 
-
-
         // FORM
         if (jQuery.fn.ajaxForm != undefined) {
-
             // FORM REMOTE
             jQuery(this).find('.form-remote').ajaxForm({
-
-                beforeSubmit: function () {
-                    jQuery(this).find("input[type='submit']")
+                context: this,
+                beforeSubmit: function (formData, jqForm) {
+                    jQuery('#'+jqForm[0].id).find("input[type='submit']")
                         .attr("disabled", "disabled")
                         .attr("value", "En cours ...");
                 },
-
                 success : function(html) {
                     jQuery('.modal-content')
                         .empty()
@@ -108,8 +104,8 @@ $.fn.extend({
             // FORM CALLBACK
             jQuery(this).find('.form-callback').ajaxForm({
 
-                beforeSubmit: function () {
-                    jQuery(this).find("input[type='submit']")
+                beforeSubmit: function (formData, jqForm) {
+                    jQuery('#'+jqForm[0].id).find("input[type='submit']")
                         .attr("disabled", "disabled")
                         .attr("value", "En cours ...");
                 },
@@ -224,12 +220,14 @@ $.fn.extend({
         });
 
         // TIMEPICKER
-        jQuery(this).find(".timepicker-24").timepicker({
-            autoclose: true,
-            minuteStep: 1,
-            showSeconds: true,
-            showMeridian: false
-        });
+        if (jQuery.fn.timepicker != undefined) {
+            jQuery(this).find(".timepicker-24").timepicker({
+                autoclose: true,
+                minuteStep: 1,
+                showSeconds: true,
+                showMeridian: false
+            });
+        }
 
         // UNIFORM
         if (jQuery.fn.uniform != undefined) {
