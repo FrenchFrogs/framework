@@ -36,8 +36,10 @@ class Button extends Link
             if (!$this->hasIcon()) {
                 $this->disableIconOnly();
             }
-//            $this->addClass($this->getOption())->addClass($this->getSize());
-            $render = $this->getRenderer()->render('button', $this, $row);
+
+            if ($this->isVisible($row)) {
+                $render = $this->getRenderer()->render('button', $this, $row);
+            }
         } catch(\Exception $e){
             dd($e->getMessage());
         }

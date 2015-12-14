@@ -62,6 +62,15 @@ abstract class Column
      */
     protected $orderDirection;
 
+
+    /**
+     * Set if we want the column to render or not
+     *
+     * @var bool
+     */
+    protected $visible = true;
+
+
     /**
      * Setter for $width attribute
      *
@@ -403,5 +412,52 @@ abstract class Column
     {
         unset($this->orderDirection);
         return $this;
+    }
+
+
+
+    /**
+     * Set $visible to TRUE
+     *
+     * @return $this
+     */
+    public function enableVisible()
+    {
+        $this->visible = true;
+        return $this;
+    }
+
+    /**
+     * @return $thisSet $visible to false
+     */
+    public function disableVisible()
+    {
+        $this->visible = false;
+        return $this;
+    }
+
+
+    /**
+     * Set Visible to a callback
+     *
+     * @param $callback
+     * @return $this
+     */
+    public function setVisibleCallback($callback)
+    {
+        $this->visible = $callback;
+        return $this;
+    }
+
+    /**
+     * Return if the columns is visible
+     *
+     * @param $row
+     * @return bool
+     */
+    public function isVisible($row = null)
+    {
+        $callable = !is_bool($this->visible) && !is_string($this->visible) && is_callable($this->visible);
+        return (bool) ($callable ? call_user_func($this->visible, $this, $row) : $this->visible);
     }
 }
