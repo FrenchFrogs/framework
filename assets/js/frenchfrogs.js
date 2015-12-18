@@ -63,7 +63,7 @@ $.fn.extend({
                 e.preventDefault();
 
                 var target = jQuery(this).data('target');
-                var size  = jQuery(this).data('data-size');
+                var size  = jQuery(this).data('size');
                 $url = jQuery(this).attr('href');
 
                 $data = {};
