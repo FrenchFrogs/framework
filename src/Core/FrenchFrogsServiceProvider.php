@@ -130,9 +130,10 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
                     if (!empty($swift->getBcc()))       { $message->bcc($swift->getBcc()); }
                     if (!empty($swift->getReplyTo()))   { $message->replyTo($swift->getReplyTo()); }
                     if (!empty($swift->getPriority()))  { $message->priority($swift->getPriority()); }
-
-                    // Managing multiple attachment
-                    foreach ($attach as $file)          { $message->attach($file); }
+                    if (!empty($swift->getChildren()))  {
+                        //@TODO
+                        $message->attach($swift->getChildren());
+                    }
                 });
 
             } else {
