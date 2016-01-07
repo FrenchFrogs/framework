@@ -246,6 +246,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
                 'ajax' => ['url' => route('datatable'), 'data' => ['token' => $table->getToken()]],
                 'processing' => true,
                 'serverSide' => true,
+                'pageLength' => $table->getItemsPerPage(),
                 'deferLoading' => $table->getItemsTotal()
             ];
         }
