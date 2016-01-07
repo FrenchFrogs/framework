@@ -131,8 +131,9 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
                     if (!empty($swift->getReplyTo()))   { $message->replyTo($swift->getReplyTo()); }
                     if (!empty($swift->getPriority()))  { $message->priority($swift->getPriority()); }
                     if (!empty($swift->getChildren()))  {
-                        //@TODO
-                        $message->attach($swift->getChildren());
+                        foreach($swift->getChildren() as $child){
+                            $message->attachData($child->getBody(),$child->getHeaders()->get('content-type')->getParameter('name'));
+                        }
                     }
                 });
 
