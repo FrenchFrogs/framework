@@ -337,7 +337,11 @@ class Page
      */
     public function isCurrent()
     {
-        return \URL::current() == $this->getLink();
-    }
+        $link = $this->getLink();
+        if ($link{0} == '/') {
+            $link = substr($link, 1);
+        }
 
+        return request()->is($link);
+    }
 }

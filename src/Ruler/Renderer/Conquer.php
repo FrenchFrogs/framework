@@ -17,7 +17,11 @@ class Conquer extends Renderer
     ];
 
 
-
+    /**
+     * @param \FrenchFrogs\Ruler\Ruler\Ruler $rule
+     * @return string
+     * @throws \Exception
+     */
     public function navigation(Ruler\Ruler\Ruler $rule)
     {
 
@@ -30,17 +34,15 @@ class Conquer extends Renderer
 
             if (!$start) {
                 $page->addClass('start');
-            }
-
-            if ($page->isCurrent()) {
-                $page->addClass('active');
+                $start = true;
             }
 
             if ($page->hasPermission() && !$rule->hasPermission($page->getPermission())){
                 continue;
             }
 
-            $pages .= html('li', $page->getAttributes(), $this->render('page', $page));
+            $content = $this->render('page', $page);
+            $pages .= html('li', $page->getAttributes(), $content);
         }
 
 
@@ -54,6 +56,12 @@ class Conquer extends Renderer
 
     }
 
+    /**
+     *
+     *
+     * @param \FrenchFrogs\Ruler\Page\Page $page
+     * @return string
+     */
     public function page(Ruler\Page\Page $page)
     {
 
