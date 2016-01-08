@@ -29,6 +29,7 @@ class Configurator
         'table.filterer.class' => FrenchFrogs\Filterer\Filterer::class,
 
         'table.column.date.format' => 'd/m/Y',
+        'table.column.datetime.format' => 'd/m/Y h:i',
 
         'form.renderer.class' => FrenchFrogs\Form\Renderer\Bootstrap::class,
         'form.renderer.modal.class' => FrenchFrogs\Form\Renderer\Modal::class,
@@ -37,6 +38,7 @@ class Configurator
 
         'form.element.date.formatjs' => 'yyyy-mm-dd',
         'form.element.date.format' => 'Y-m-d',
+
 
         'form.default.method' => 'POST',
         'form.default.has_csrfToken' => true,
