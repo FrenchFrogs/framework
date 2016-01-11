@@ -272,6 +272,11 @@ class Filterer
         return preg_replace('#[^\w]#', '', $value);
     }
 
+    public function trim($value)
+    {
+        return trim($value);
+    }
+
 
     /**
      * voir hex2bin
