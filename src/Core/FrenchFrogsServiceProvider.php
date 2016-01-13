@@ -35,44 +35,51 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
     {
         Route::get($route, function() {
 
-            $request = request();
+            try{
 
-            $table = FrenchFrogs\Table\Table\Table::load($request->get('token'));
+                $request = request();
 
-            $table->setItemsPerPage(Input::get('length'));
-            $table->setPageFromItemsOffset(Input::get('start'));
-            $table->setRenderer(new FrenchFrogs\Table\Renderer\Remote());
+                $table = FrenchFrogs\Table\Table\Table::load($request->get('token'));
 
-            foreach(request()->get('columns') as $c) {
-                if ($c['searchable'] == "true" && $c['search']['value'] != '') {
-                    $table->getColumn($c['name'])->getStrainer()->call($table, $c['search']['value']);
-                }
-            }
+                $table->setItemsPerPage(Input::get('length'));
+                $table->setPageFromItemsOffset(Input::get('start'));
+                $table->setRenderer(new FrenchFrogs\Table\Renderer\Remote());
 
-            $search = $request->get('search');
-            if (!empty($search['value']) ) {
-                $table->search($search['value']);
-            }
-
-            $order = $request->get('order');
-            if (!empty($order)) {
-
-                if ($table->isSourceQueryBuilder()) {
-                    $table->getSource()->orders = [];
+                foreach(request()->get('columns') as $c) {
+                    if ($c['searchable'] == "true" && $c['search']['value'] != '') {
+                        $table->getColumn($c['name'])->getStrainer()->call($table, $c['search']['value']);
+                    }
                 }
 
-                foreach($order as $o) {
-                    extract($o);
-                    $table->getColumnByIndex($column)->order($dir);
+                $search = $request->get('search');
+                if (!empty($search['value']) ) {
+                    $table->search($search['value']);
                 }
-            }
 
-            $data = [];
-            foreach($table->render() as $row){
-                $data[] = array_values($row);
-            }
+                $order = $request->get('order');
+                if (!empty($order)) {
 
-            return response()->json(['data' => $data, 'draw' => Input::get('draw'), 'recordsFiltered' => $table->getItemsTotal(), 'recordsTotal' => $table->getItemsTotal()]);
+                    if ($table->isSourceQueryBuilder()) {
+                        $table->getSource()->orders = [];
+                    }
+
+                    foreach($order as $o) {
+                        extract($o);
+                        $table->getColumnByIndex($column)->order($dir);
+                    }
+                }
+
+                $data = [];
+                foreach($table->render() as $row){
+                    $data[] = array_values($row);
+                }
+
+                return response()->json(['data' => $data, 'draw' => Input::get('draw'), 'recordsFiltered' => $table->getItemsTotal(), 'recordsTotal' => $table->getItemsTotal()]);
+
+            }catch (\Exception $e) {
+                //Si on catch une erreur on renvoi une reponse json avec le code 500
+                return response()->json(['error' => $e->getMessage()],500);
+            }
 
         })->name('datatable');
     }
