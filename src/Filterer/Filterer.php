@@ -315,4 +315,14 @@ class Filterer
         return uuid($format, $value);
     }
 
+    /**
+     * Return null if $value is empty
+     *
+     * @param $value
+     * @return null
+     */
+    public function nullable($value) {
+        return empty($value) ? null : $value;
+    }
+
 }

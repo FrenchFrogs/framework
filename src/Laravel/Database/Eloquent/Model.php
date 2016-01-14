@@ -43,4 +43,21 @@ class Model extends \Illuminate\Database\Eloquent\Model
 
         $this->setAttribute($keyName, $id);
     }
+
+
+    /**
+     * Get the casts array.
+     *
+     * @return array
+     */
+    protected function getCasts()
+    {
+        if ($this->incrementing && !$this->uuid){
+            return array_merge([
+                $this->getKeyName() => 'int',
+            ], $this->casts);
+        }
+
+        return $this->casts;
+    }
 }
