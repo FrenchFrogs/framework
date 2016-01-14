@@ -16,12 +16,6 @@
             "email": "cotcotquedec@gmail.com",
             "homepage": "https://github.com/cotcotquedec",
             "role": "Project Manager"
-        },
-        {
-            "name": "David Patiashvili",
-            "email": "stratagem.david@gmail.com",
-            "homepage": "https://www.patiashvili.fr",
-            "role": "Developer"
         }
     ],
     "require": {
