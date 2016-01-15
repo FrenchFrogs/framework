@@ -210,8 +210,8 @@ $.fn.extend({
 
             jQuery(selector).change(function (e) {
                 url = $that.data('parent-url') + '?value=' + jQuery(this).val();
-                populate = $that.data('populate');
                 jQuery.getJSON(url, function(a) {
+                    populate = $that.data('populate');
                     $that.empty();
                     jQuery.each(a, function(i, v) {
                         selected = '';
