@@ -215,7 +215,7 @@ $.fn.extend({
                     $that.empty();
                     jQuery.each(a, function(i, v) {
                         selected = '';
-                        if(populate = i){selected = 'selected'}
+                        if(populate == i){selected = 'selected'}
                         $that.append(jQuery("<option "+selected+"/>").val(i).text(v));
                     });
                 });

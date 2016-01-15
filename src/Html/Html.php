@@ -248,7 +248,6 @@ Trait Html
      */
     public function addAttribute($name, $value)
     {
-        if(!is_string($value) && is_callable($value)){$value = call_user_func_array($value, [$this]);}
         $this->attributes[$name] = $value;
         return $this;
     }
@@ -270,6 +269,9 @@ Trait Html
      * @return array
      */
     public function getAttributes() {
+        foreach($this->attributes as &$atr){
+            if(!is_string($atr) && is_callable($atr)){$atr = call_user_func_array($atr, [$this]);}
+        }
         return $this->attributes;
     }
 
