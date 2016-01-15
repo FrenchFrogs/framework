@@ -210,10 +210,13 @@ $.fn.extend({
 
             jQuery(selector).change(function (e) {
                 url = $that.data('parent-url') + '?value=' + jQuery(this).val();
+                populate = $that.data('populate');
                 jQuery.getJSON(url, function(a) {
                     $that.empty();
                     jQuery.each(a, function(i, v) {
-                        $that.append(jQuery("<option />").val(i).text(v));
+                        selected = '';
+                        if(populate = i){selected = 'selected'}
+                        $that.append(jQuery("<option "+selected+"/>").val(i).text(v));
                     });
                 });
             }).change();

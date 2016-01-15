@@ -136,6 +136,9 @@ class Select extends Element
     {
         return $this->addAttribute('data-parent-url', $url)
                     ->addAttribute('data-parent-selector',  $selector)
+                    ->addAttribute('data-populate', function(Element $element){
+                        return $element->getValue();
+                    })
                     ->addClass('select-remote');
     }
 
