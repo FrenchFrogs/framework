@@ -347,6 +347,11 @@ class Validator
 
         foreach($this->getRules() as $index => $rule) {
 
+            // check for required
+            if (in_array($value, ['', null]) && !$this->hasRule('required')) {
+                continue;
+            }
+
             // extract params
             list($method, $params) = $rule;
 

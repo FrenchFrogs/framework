@@ -246,10 +246,19 @@ $.fn.extend({
             });
         }
 
-        jQuery(this).find('.ff-tooltip-left').tooltip({
-            placement: 'left'
-        });
+        // TOOLTIP
+        if (jQuery.fn.tooltip != undefined) {
 
+            jQuery('[data-toggle="tooltip"]').tooltip();
+
+            jQuery(this).find('.ff-tooltip-left').tooltip({
+                placement: 'left'
+            });
+
+            jQuery(this).find('.ff-tooltip-bottom').tooltip({
+                placement: 'left'
+            });
+        }
 
         // SWITCH
         if(jQuery.fn.bootstrapSwitch !== undefined){
@@ -258,5 +267,27 @@ $.fn.extend({
 
         //DATATABLE DECORATION
         jQuery(this).find('table.table > thead > tr:last-child').children().css('border-bottom', '1px solid #ddd');
+    },
+
+    /** Populate a form in javascript */
+    populate : function(data) {
+
+        // get the form
+        var $form = $(this);
+
+        // for each index we assigen value
+        $.each(data, function(i, v) {
+            e = $form.find('#' + i);
+
+            // if only one item
+            if (e.length == 1) {
+                // case switch (boolean)
+                if (e.hasClass('make-switch')) {
+                    e.bootstrapSwitch('state', v);
+                } else {
+                    e.val(v);
+                }
+            }
+        });
     }
 });

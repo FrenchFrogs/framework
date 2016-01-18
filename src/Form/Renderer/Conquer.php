@@ -138,6 +138,7 @@ class Conquer extends Inline
         $element->addClass('make-switch');
         $element->addAttribute('type', 'checkbox');
         $element->addAttribute('value', 1);
+        $element->addAttribute('id', $element->getName());
         if ($element->getValue()) {
             $element->addAttribute('checked', 'checked');
         }

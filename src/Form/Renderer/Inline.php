@@ -162,6 +162,7 @@ class Inline extends Renderer\Renderer {
 
         // INPUT
         $element->addClass(Style::FORM_ELEMENT_CONTROL);
+        $element->addAttribute('id', $element->getName());
         $html = html('textarea', $element->getAttributes(), $element->getValue());
 
         // DESCRIPTION
