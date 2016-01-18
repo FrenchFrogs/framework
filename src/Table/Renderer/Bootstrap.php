@@ -261,6 +261,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         $columns = [];
         $order = [];
         $index = 0;
+        $search = '';
         foreach($table->getColumns() as $c) {
 
             $data = [];
@@ -281,6 +282,11 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             $data['searchable'] = $c->hasStrainer();
             $data['name'] = $c->getName();
 
+            if ($data['searchable'] && !is_null($value = $c->getStrainer()->getValue())) {
+                $search[] = $value;
+            } else {
+                $search[] = null;
+            }
 
             // set order for main table
             if ($c->hasOrderDirection()) {
@@ -296,11 +302,17 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             $options += ['columns' => $columns];
         }
 
-
         // main order foir the table
         $options['order'] = $order;
 
         js('onload', '#' . $table->getAttribute('id'), 'dtt', $options);
+
+        // init search configuration - seartchcols doesn't work
+        foreach($search as $i => $s) {
+            if (is_null($s)) {continue;}
+            js('onload',  '#' . $table->getAttribute('id'), 'DataTable().columns('.$i.').search', $s);
+        }
+
         return '';
     }
 

@@ -152,4 +152,20 @@ class Strainer
 
         return $this;
     }
+
+
+    /**
+     * Get value to strainer element
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+
+        if (isset($this->element)) {
+            return $this->element->getValue();
+        }
+
+        return;
+    }
 }

@@ -81,6 +81,16 @@ class Boolean extends Strainer
     }
 
     /**
+     * Get value to strainer element
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->element->getValue()[0];
+    }
+
+    /**
      *
      *
      * @return string
