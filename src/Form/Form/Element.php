@@ -437,6 +437,36 @@ trait Element
         return $e;
     }
 
+    /**
+     * Add Link element (read-only element)
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Label
+     */
+    public function addLink($name, $label = '', $attr = [] )
+    {
+        $e = new \FrenchFrogs\Form\Element\Link($name, $label, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
+    /**
+     * Add Image element (read-only element)
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Label
+     */
+    public function addImage($name, $label = '', $width = null, $height = null )
+    {
+        $e = new \FrenchFrogs\Form\Element\Image($name, $label, $width, $height);
+        $this->addElement($e);
+        return $e;
+    }
+
 
     /**
      * Add button element

@@ -20,7 +20,7 @@ class Bootstrap extends Renderer\Renderer {
     protected $renderers = [
         'form',
         'modal',
-        'text' => 'text',
+        'text',
         'textarea',
         'submit',
         'checkbox',
@@ -29,6 +29,7 @@ class Bootstrap extends Renderer\Renderer {
         'email',
         'hidden',
         'label',
+        'link',
         'button',
         'separator',
         'title',
@@ -250,6 +251,25 @@ class Bootstrap extends Renderer\Renderer {
 
         $html = '<label>' . $element->getLabel() . '</label>';
         $html .= '<p>' . $element->getValue() . '</p>';
+
+        $class = Style::FORM_GROUP_CLASS;
+        $html = html('div', compact('class'), $html);
+
+        return $html;
+    }
+
+
+    /**
+     * Render a link element
+     *
+     * @param \FrenchFrogs\Form\Element\Link $element
+     * @return string
+     */
+    public function link(Form\Element\Link $element)
+    {
+
+        $html = '<label>' . $element->getLabel() . '</label>';
+        $html .= '<p>' . html('a', ['href' => $element->getValue(), 'target' => '_blank'], $element->getValue()) . '</p>';
 
         $class = Style::FORM_GROUP_CLASS;
         $html = html('div', compact('class'), $html);

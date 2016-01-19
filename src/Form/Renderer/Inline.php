@@ -29,6 +29,8 @@ class Inline extends Renderer\Renderer {
         'email',
         'hidden',
         'label',
+        'link',
+        'image',
         'button',
         'separator',
         'title',
@@ -325,6 +327,43 @@ class Inline extends Renderer\Renderer {
     {
         $html = '<label class="col-md-3 control-label">' . $element->getLabel() . '</label>';
         $html .= '<div class="col-md-9"><p class="form-control-static">' . $element->getValue() . '</p></div>';
+
+        $class =  Style::FORM_GROUP_CLASS . ' row';
+        return html('div', compact('class'), $html);
+    }
+
+
+    /**
+     * Render Image input
+     *
+     * @param \FrenchFrogs\Form\Element\Label $element
+     * @return string
+     */
+    public function image(Form\Element\Image $element)
+    {
+
+        $element->addStyle('object-fit', 'cover !important;');
+        $element->addAttribute('src', $element->getValue());
+
+        $html = '<label class="col-md-3 control-label">' . $element->getLabel() . '</label>';
+        $html .= '<div class="col-md-9"><p class="form-control-static">' . html('img', $element->getAttributes()) . '</p></div>';
+
+        $class =  Style::FORM_GROUP_CLASS . ' row';
+        return html('div', compact('class'), $html);
+    }
+
+
+    /**
+     * Render a link element
+     *
+     * @param \FrenchFrogs\Form\Element\Link $element
+     * @return string
+     */
+    public function link(Form\Element\Link $element)
+    {
+
+        $html = '<label class="col-md-3 control-label">' . $element->getLabel() . '</label>';
+        $html .= '<div class="col-md-9"><p class="form-control-static">' .  html('a', ['href' => $element->getValue(), 'target' => '_blank'], $element->getValue())  . '</p></div>';
 
         $class =  Style::FORM_GROUP_CLASS . ' row';
         return html('div', compact('class'), $html);
