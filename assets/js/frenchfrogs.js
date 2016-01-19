@@ -289,5 +289,19 @@ $.fn.extend({
                 }
             }
         });
+    },
+
+    // add disabled class to elements
+    disable: function(state) {
+        return this.each(function() {
+            $(this).addClass('disabled');
+        });
+    },
+
+    // remove class disabled to element
+    enable: function(state) {
+        return this.each(function() {
+            $(this).removeClass('disabled');
+        });
     }
 });
