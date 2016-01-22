@@ -69,6 +69,18 @@ class Select extends Strainer
     }
 
     /**
+     * Set value to strainer element
+     *
+     * @param $value
+     * @return $this
+     */
+    public function setValue($value)
+    {
+        $this->element->setValue((array) $value);
+        return $this;
+    }
+
+    /**
      *
      *
      * @return string

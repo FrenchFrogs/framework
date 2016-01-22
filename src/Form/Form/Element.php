@@ -216,6 +216,8 @@ trait Element
 
         if ($is_mandatory) {
             $e->addRule('required');
+        } else {
+            $e->addFilter('nullable');
         }
 
         return $e;
@@ -237,6 +239,8 @@ trait Element
 
         if ($is_mandatory) {
             $e->addRule('required');
+        } else {
+            $e->addFilter('nullable');
         }
 
         return $e;
@@ -258,6 +262,8 @@ trait Element
 
         if ($is_mandatory) {
             $e->addRule('required');
+        } else {
+            $e->addFilter('nullable');
         }
 
         return $e;
@@ -278,6 +284,8 @@ trait Element
 
         if ($is_mandatory) {
             $e->addRule('required');
+        } else {
+            $e->addFilter('nullable');
         }
 
         return $e;
@@ -298,6 +306,8 @@ trait Element
 
         if ($is_mandatory) {
             $e->addRule('required');
+        } else {
+            $e->addFilter('nullable');
         }
 
         return $e;
@@ -359,6 +369,8 @@ trait Element
 
         if ($is_mandatory) {
             $e->addRule('required');
+        } else {
+            $e->addFilter('nullable');
         }
 
         return $e;
@@ -379,6 +391,8 @@ trait Element
 
         if ($is_mandatory) {
             $e->addRule('required');
+        } else {
+            $e->addFilter('nullable');
         }
 
         return $e;
@@ -415,6 +429,8 @@ trait Element
 
         if ($is_mandatory) {
             $e->addRule('required');
+        } else {
+            $e->addFilter('nullable');
         }
 
         return $e;
@@ -544,6 +560,8 @@ trait Element
 
         if ($is_mandatory) {
             $e->addRule('required');
+        } else {
+            $e->addFilter('nullable');
         }
 
         return $e;
@@ -566,6 +584,8 @@ trait Element
 
         if ($is_mandatory) {
             $e->addRule('required');
+        } else {
+            $e->addFilter('nullable');
         }
 
         return $e;
@@ -589,6 +609,8 @@ trait Element
 
         if ($is_mandatory) {
             $e->addRule('required');
+        } else {
+            $e->addFilter('nullable');
         }
 
         return $e;
@@ -610,6 +632,8 @@ trait Element
 
         if ($is_mandatory) {
             $e->addRule('required');
+        } else {
+            $e->addFilter('nullable');
         }
 
         return $e;
