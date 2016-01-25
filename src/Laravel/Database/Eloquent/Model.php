@@ -50,7 +50,7 @@ class Model extends \Illuminate\Database\Eloquent\Model
      *
      * @return array
      */
-    protected function getCasts()
+    public function getCasts()
     {
         if ($this->incrementing && !$this->uuid){
             return array_merge([
