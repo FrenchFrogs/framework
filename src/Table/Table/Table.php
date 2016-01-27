@@ -172,7 +172,9 @@ class Table
         // Laravel query builder case
         if(  $this->isSourceQueryBuilder())  {
             /** @var $source \Illuminate\Database\Query\Builder */
-            $this->itemsTotal = $source->count();
+
+            $count = query(raw("({$source->toSql()}) as a"), [raw('COUNT(*) as _num_rows')])->mergeBindings($source)->first();
+            $this->itemsTotal = isset($count['_num_rows']) ?  $count['_num_rows'] : null;
 
             $source = $source->skip($this->getItemsOffset())->take($this->getItemsPerPage())->get();
             $source = new \ArrayIterator($source);
