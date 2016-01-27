@@ -43,6 +43,7 @@ class Inline extends Renderer\Renderer {
         'date',
         'select2',
         'time',
+        'pre'
     ];
 
     function form(Form\Form\Form $form)
@@ -327,6 +328,22 @@ class Inline extends Renderer\Renderer {
     {
         $html = '<label class="col-md-3 control-label">' . $element->getLabel() . '</label>';
         $html .= '<div class="col-md-9"><p class="form-control-static">' . $element->getValue() . '</p></div>';
+
+        $class =  Style::FORM_GROUP_CLASS . ' row';
+        return html('div', compact('class'), $html);
+    }
+
+
+    /**
+     * Render Label iunput
+     *
+     * @param \FrenchFrogs\Form\Element\Label $element
+     * @return string
+     */
+    public function pre(Form\Element\Pre $element)
+    {
+        $html = '<label class="col-md-3 control-label">' . $element->getLabel() . '</label>';
+        $html .= '<div class="col-md-9"><pre class="form-control-static">' . $element->getValue() . '</pre></div>';
 
         $class =  Style::FORM_GROUP_CLASS . ' row';
         return html('div', compact('class'), $html);

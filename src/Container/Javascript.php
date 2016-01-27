@@ -167,6 +167,29 @@ class Javascript extends Container
     }
 
     /**
+     * reload the page
+     *
+     * @return $this
+     */
+    public function reload()
+    {
+        $this->append([static::TYPE_INLINE, 'window.location.reload()']);
+        return $this;
+    }
+
+    /**
+     * Redirection javascript
+     *
+     * @param $url
+     * @return $this
+     */
+    public function redirect($url)
+    {
+        $this->append([static::TYPE_INLINE, 'window.location.href = "'.$url.'"']);
+        return $this;
+    }
+
+    /**
      * ReloadAjaxDatatable
      *
      * @param bool|false $resetPaging

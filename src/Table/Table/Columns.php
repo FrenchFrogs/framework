@@ -136,6 +136,36 @@ trait Columns
         return $c;
     }
 
+    /**
+     * Add Code column to $columns container
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Table\Column\Code
+     */
+    public function addCode($name, $label = '', $attr = [])
+    {
+        $c = new Column\Code($name, $label, $attr);
+        $this->addColumn($c);
+        return $c;
+    }
+
+    /**
+     * Add Pre column to $columns container
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Table\Column\Code
+     */
+    public function addPre($name, $label = '', $attr = [])
+    {
+        $c = new Column\Pre($name, $label, $attr);
+        $this->addColumn($c);
+        return $c;
+    }
+
 
     /**
      * Add Date column to $columns container

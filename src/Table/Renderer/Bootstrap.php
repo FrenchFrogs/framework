@@ -16,6 +16,8 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         'table' ,
         'text',
         'link',
+        'code',
+        'pre',
         'button',
         'datatable',
         'boolean',
@@ -226,6 +228,33 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
         return $html;
     }
+
+
+    /**
+     * Rendoer a code element
+     *
+     * @param \FrenchFrogs\Table\Column\Code $column
+     * @param array $row
+     * @return string
+     */
+    public function code(Column\Code $column, array $row)
+    {
+        return html('code', [],$column->getValue($row));
+    }
+
+    /**
+     * Render a pre element
+     *
+     * @param \FrenchFrogs\Table\Column\Code $column
+     * @param array $row
+     * @return string
+     */
+    public function pre(Column\Pre $column, array $row)
+    {
+        return html('pre', [],$column->getValue($row));
+    }
+
+
 
     /**
      * Render datatable js

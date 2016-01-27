@@ -453,6 +453,22 @@ trait Element
         return $e;
     }
 
+
+    /**
+     * Add label element (read-only element)
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Label
+     */
+    public function addPre($name, $label = '', $attr = [] )
+    {
+        $e = new \FrenchFrogs\Form\Element\Pre($name, $label, $attr);
+        $this->addElement($e);
+        return $e;
+    }
+
     /**
      * Add Link element (read-only element)
      *

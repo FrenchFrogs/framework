@@ -39,7 +39,8 @@ class Conquer extends Inline
         'date',
         'boolean',
         'select2',
-        'time'
+        'time',
+        'pre'
     ];
 
 
