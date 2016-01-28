@@ -1,6 +1,7 @@
 <?php namespace FrenchFrogs\Table\Table;
 
 
+use Doctrine\DBAL\Driver\Mysqli\MysqliConnection;
 use FrenchFrogs\Core;
 use FrenchFrogs\Table\Column;
 use FrenchFrogs\Table\Renderer;
@@ -173,7 +174,7 @@ class Table
         if(  $this->isSourceQueryBuilder())  {
             /** @var $source \Illuminate\Database\Query\Builder */
 
-            $count = query(raw("({$source->toSql()}) as a"), [raw('COUNT(*) as _num_rows')])->mergeBindings($source)->first();
+            $count = query(raw("({$source->toSql()}) as a"), [raw('COUNT(*) as _num_rows')], $source->getConnection()->getName())->mergeBindings($source)->first();
             $this->itemsTotal = isset($count['_num_rows']) ?  $count['_num_rows'] : null;
 
             $source = $source->skip($this->getItemsOffset())->take($this->getItemsPerPage())->get();

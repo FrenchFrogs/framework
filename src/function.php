@@ -278,8 +278,9 @@ function transaction($callable, $connection = null)
  * @param array $columns
  * @return Illuminate\Database\Query\Builder
  */
-function query($table, $columns = null) {
-    $query = DB::table($table);
+function query($table, $columns = null, $connection = null) {
+
+    $query = DB::connection($connection)->table($table);
 
     if (!is_null($columns)) {
         $query->addSelect($columns);
