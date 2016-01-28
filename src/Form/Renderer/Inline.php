@@ -343,7 +343,7 @@ class Inline extends Renderer\Renderer {
     public function pre(Form\Element\Pre $element)
     {
         $html = '<label class="col-md-3 control-label">' . $element->getLabel() . '</label>';
-        $html .= '<div class="col-md-9"><pre class="form-control-static">' . $element->getValue() . '</pre></div>';
+        $html .= '<div class="col-md-9"><pre>' . $element->getValue() . '</pre></div>';
 
         $class =  Style::FORM_GROUP_CLASS . ' row';
         return html('div', compact('class'), $html);
