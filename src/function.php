@@ -20,10 +20,9 @@ if (!function_exists('html')) {
 
         // Attributes
         foreach ($attributes as $key => &$value) {
-            $value = sprintf('%s="%s"', $key, str_replace('"', '\"', $value)) . ' ';
+            $value = sprintf('%s="%s"', $key, str_replace('"', '&quot;', $value)) . ' ';
         }
         $attributes = implode(' ', $attributes);
-
 
         return array_search($tag, $autoclosed) === false ? sprintf('<%s %s>%s</%1$s>', $tag, $attributes, $content) : sprintf('<%s %s/>', $tag, $attributes);
     }
