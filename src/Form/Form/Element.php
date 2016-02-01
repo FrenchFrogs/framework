@@ -632,6 +632,29 @@ trait Element
         return $e;
     }
 
+    /**
+     * Add list element
+     *
+     * @param $name
+     * @param $label
+     * @param array $options
+     * @param bool|true $is_mandatory
+     * @return FrenchFrogs\Form\Element\DataList
+     */
+    public function addDataList($name, $label, $options = [],  $is_mandatory = true)
+    {
+        $e = new \FrenchFrogs\Form\Element\DataList($name, $label, $options);
+        $this->addElement($e);
+
+        if ($is_mandatory) {
+            $e->addRule('required');
+        } else {
+            $e->addFilter('nullable');
+        }
+
+        return $e;
+    }
+
 
     /**
      * Add file element
