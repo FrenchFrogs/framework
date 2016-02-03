@@ -160,6 +160,9 @@ $.fn.extend({
             });
         });
 
+        // TOOLTIP
+        jQuery(this).find('[data-toggle=tooltip]').tooltip();
+
         // SELECT 2
         if (jQuery.fn.select2 != undefined) {
             jQuery(this).find('.select2-remote').each(function () {

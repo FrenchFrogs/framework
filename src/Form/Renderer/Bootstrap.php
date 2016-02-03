@@ -130,6 +130,7 @@ class Bootstrap extends Renderer\Renderer {
                 $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
+            $element->addAttribute('data-toggle', 'tooltip');
         }
 
         $element->addClass(Style::FORM_ELEMENT_CONTROL);

@@ -249,7 +249,11 @@ class Form
 
                 // cas des element
             } else {
-                $class = new \ReflectionClass(__NAMESPACE__ . '\Element\\' . $match['type']);
+                $namespace = __NAMESPACE__;
+                if(!empty(configurator()->get('form.namespace'))){
+                    $namespace = configurator()->get('form.namespace');
+                }
+                $class = new \ReflectionClass($namespace . '\Element\\' . $match['type']);
                 $e = $class->newInstanceArgs($arguments);
                 $this->addElement($e);
             }
