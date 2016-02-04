@@ -415,26 +415,31 @@ class Form
      */
     public function valid(array $values, $populate = true)
     {
-        foreach($values as $index => $value){
+        foreach($this->getElements() as $index => $element) {
+            if(!array_key_exists($index, $values) && $element->hasRule('required')) {
+                if(is_a($element, 'FrenchFrogs\Form\Element\Boolean')){
+                    $values[$index] = 0;
+                } else {
+                    $values[$index] = '';
+                }
+            }
 
-            // if element is not set, we pass
-            if (!$this->hasElement($index)) {continue;}
-
-            // element validation
-            $element = $this->getElement($index)->valid($value);
+            $element->valid($values[$index]);
 
             // populate value
             if ($populate) {
-                $element->setValue($value);
+                $element->setValue($values[$index]);
             }
 
             if (!$element->isValid()) {
                 $this->getValidator()->addError($index, $element->getErrorAsString());
             }
+
         }
 
         return $this;
     }
+
 
     /**
      * Return string formated error from the form validation
