@@ -40,8 +40,7 @@ class Bootstrap extends Renderer\Renderer {
         'password',
         'file',
         'date',
-        'select2',
-        'datalist'
+        'select2'
     ];
 
     function form(Form\Form\Form $form)
@@ -198,6 +197,7 @@ class Bootstrap extends Renderer\Renderer {
                 $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
+            $element->addAttribute('data-toggle', 'tooltip');
         }
 
         $html = '<label for="'.$element->getName().'[]">' . $element->getLabel() . '</label>';
@@ -329,6 +329,7 @@ class Bootstrap extends Renderer\Renderer {
                 $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
+            $element->addAttribute('data-toggle', 'tooltip');
         }
 
         $element->addClass(Style::FORM_ELEMENT_CONTROL);
@@ -377,6 +378,7 @@ class Bootstrap extends Renderer\Renderer {
                 $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
+            $element->addAttribute('data-toggle', 'tooltip');
         }
 
         $element->addClass(Style::FORM_ELEMENT_CONTROL);
@@ -429,6 +431,7 @@ class Bootstrap extends Renderer\Renderer {
                 $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
+            $element->addAttribute('data-toggle', 'tooltip');
         }
 
         $html =  '<div class="form-group">';
@@ -520,50 +523,6 @@ class Bootstrap extends Renderer\Renderer {
         }
 
         $html = html('div', compact('class'), $html);
-
-        return $html;
-    }
-
-    public function datalist(Form\Element\DataList $element)
-    {
-        // Error
-        if($hasError = !$element->getValidator()->isValid()){
-
-            if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
-            $message = '';
-            foreach($element->getValidator()->getErrors() as $error){
-                $message .= $error . ';';
-            }
-            $element->addAttribute('data-original-title',$message);
-            $element->addAttribute('data-toggle', 'tooltip');
-        }
-
-        // rendu principal
-        $element->addClass(Style::FORM_ELEMENT_CONTROL);
-        $label = '';
-        if ($element->getForm()->hasLabel()) {
-            $label = '<label for="' . $element->getName() . '">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
-        }
-        $html = $label . html('input', $element->getAttributes());
-
-        $class =  Style::FORM_GROUP_CLASS;
-        if ($hasError) {
-            $class .= ' ' .Style::FORM_GROUP_ERROR;
-        }
-
-        //datalist
-        $options = '';
-
-        $elementValue = (array) $element->getValue();
-        foreach($element->getOptions() as $value){
-            $attr = ['value' => $value];
-            if ($element->hasValue() && in_array($value, $elementValue)){
-                $attr['selected'] = 'selected';
-            }
-            $options .= html('option', $attr);
-        }
-
-        $html = html('div', compact('class'), $html).html('datalist', ['id' => $element->getName()], $options);
 
         return $html;
     }
