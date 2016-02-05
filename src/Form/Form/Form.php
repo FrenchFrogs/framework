@@ -416,7 +416,7 @@ class Form
     public function valid(array $values, $populate = true)
     {
         foreach($this->getElements() as $index => $element) {
-            if(!array_key_exists($index, $values) && $element->hasRule('required')) {
+            if(!array_key_exists($index, $values)) {
                 if(is_a($element, 'FrenchFrogs\Form\Element\Boolean')){
                     $values[$index] = 0;
                 } else {
