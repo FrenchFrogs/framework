@@ -17,6 +17,7 @@ class Tel extends Text
         $this->setName($name);
         $this->setLabel($label);
         $this->addAttribute('type', 'tel');
+        $this->addFilter('pregreplace','pregreplace','/[^0-9+]+/', '');
     }
 
 

@@ -519,16 +519,15 @@ class Validator
      */
     public function laravel($value, $validationString, $messages = [])
     {
-        if (!is_array($messages) && is_string($messages)) { $messages = [$messages]; }
         //create validator
-        $validator = \Validator::make(['laravel' => $value], ['laravel' => $validationString], $messages);
-
+        $validator = \Validator::make(['laravel' => $value], ['laravel' => $validationString]);
+        $validator->setCustomMessages($this->getMessages());
 
         // error message management
         if ($validator->fails() && !$this->hasMessage('laravel')) {
             $message = '';
             foreach ( $validator->errors()->get('laravel') as $m) {
-                $message .= $m;
+                $message .= $m . ' ';
             }
             $this->addMessage('laravel', $message);
         }

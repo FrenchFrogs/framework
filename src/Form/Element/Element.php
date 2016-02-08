@@ -416,11 +416,16 @@ abstract class Element
         // construction des paramètres
         array_unshift($params, $rule, $method);
 
-        //ajout de la regle
         call_user_func_array([$this->getValidator(), 'addRule'], $params);
 
         if (!is_null($message)) {
-            $this->getValidator()->addMessage($rule, $message);
+            if(is_array($message)){
+                foreach($message as $rule => $message){
+                    $this->getValidator()->addMessage($rule, $message);
+                }
+            }else{
+                $this->getValidator()->addMessage($rule, $message);
+            }
         }
 
         return $this;
@@ -461,9 +466,12 @@ abstract class Element
      */
     public function valid($value = null)
     {
-
         // si la valeur n'ets pas null, on la set
         if (!is_null($value)) {
+            $value = trim($value);
+            if ($this->hasFilterer()) {
+                $value = $this->getFilterer()->filter($value);
+            }
             $this->setValue($value);
         }
 

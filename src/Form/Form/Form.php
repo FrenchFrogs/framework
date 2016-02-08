@@ -415,7 +415,7 @@ class Form
      */
     public function valid(array $values, $populate = true)
     {
-        foreach($this->getElements() as $index => $element) {
+        foreach($this->getElements() as $index => &$element) {
             if(!array_key_exists($index, $values)) {
                 if(is_a($element, 'FrenchFrogs\Form\Element\Boolean')){
                     $values[$index] = 0;
@@ -425,11 +425,6 @@ class Form
             }
 
             $element->valid($values[$index]);
-
-            // populate value
-            if ($populate) {
-                $element->setValue($values[$index]);
-            }
 
             if (!$element->isValid()) {
                 $this->getValidator()->addError($index, $element->getErrorAsString());

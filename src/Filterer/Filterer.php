@@ -325,4 +325,16 @@ class Filterer
         return empty($value) ? null : $value;
     }
 
+    /**
+     * Perform a regular expression search and replace
+     *
+     * @param $value
+     * @param $pattern
+     * @param $replacement
+     *
+     * @return string
+     */
+    public function pregreplace($value, $pattern , $replacement = '') {
+        return preg_replace($pattern,$replacement,$value);
+    }
 }

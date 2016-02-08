@@ -160,9 +160,6 @@ $.fn.extend({
             });
         });
 
-        // TOOLTIP
-        jQuery(this).find('[data-toggle=tooltip]').tooltip();
-
         // SELECT 2
         if (jQuery.fn.select2 != undefined) {
             jQuery(this).find('.select2-remote').each(function () {
@@ -252,7 +249,7 @@ $.fn.extend({
         // TOOLTIP
         if (jQuery.fn.tooltip != undefined) {
 
-            jQuery('[data-toggle="tooltip"]').tooltip();
+            jQuery('[data-toggle~="tooltip"]').tooltip();
 
             jQuery(this).find('.ff-tooltip-left').tooltip({
                 placement: 'left'
@@ -261,6 +258,11 @@ $.fn.extend({
             jQuery(this).find('.ff-tooltip-bottom').tooltip({
                 placement: 'left'
             });
+        }
+
+        //POPOVER
+        if (jQuery.fn.popover != undefined) {
+            jQuery(this).find('[data-toggle~=popover]:not([data-toggle~=tooltip])').popover();
         }
 
         // SWITCH
