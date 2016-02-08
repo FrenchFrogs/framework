@@ -514,13 +514,14 @@ class Validator
      *
      * @param $value
      * @param $validationString
+     * @param $messages
      * @return array
      */
-    public function laravel($value, $validationString)
+    public function laravel($value, $validationString, $messages = [])
     {
-
+        if (!is_array($messages) && is_string($messages)) { $messages = [$messages]; }
         //create validator
-        $validator = \Validator::make(['laravel' => $value], ['laravel' => $validationString]);
+        $validator = \Validator::make(['laravel' => $value], ['laravel' => $validationString], $messages);
 
 
         // error message management
