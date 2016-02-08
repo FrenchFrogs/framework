@@ -261,7 +261,7 @@ trait Columns
      * @param string $link
      * @param array $binds
      * @param array $attr
-     * @return $this
+     * @return \FrenchFrogs\Table\Column\Button
      */
     public function addButtonRemote($name, $label = '%s', $link = '#', $binds = [], $method = 'post' )
     {
@@ -276,7 +276,7 @@ trait Columns
      * @param string $link
      * @param array $binds
      * @param array $attr
-     * @return $this
+     * @return \FrenchFrogs\Table\Column\Button
      */
     public function addButtonCallback($name, $label = '%s', $link = '#', $binds = [], $method = 'post' )
     {
@@ -343,7 +343,4 @@ trait Columns
         $this->addColumn($c);
         return $c;
     }
-
-
-
 }

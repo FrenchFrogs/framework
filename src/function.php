@@ -231,7 +231,7 @@ function action_url($controller, $action = 'getIndex', $params = [])
 /**
  * Return ruler polliwog
  *
- * @return \FrenchFrogs\Ruler\Ruler\Container
+ * @return \FrenchFrogs\Ruler\Ruler\Ruler
  */
 function ruler()
 {
