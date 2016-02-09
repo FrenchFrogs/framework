@@ -366,7 +366,7 @@ trait Element
     {
         $e = new \FrenchFrogs\Form\Element\Tel($name, $label);
         $this->addElement($e);
-        $e->addRule('laravel','laravel', ['regex:#^[+]{0,1}[0-9]{9-13}$#'],['regex' => 'Le champ doit être un numero valide . Il peut commencer par un + et ne doit contenir que des chiffres (Au moins 10)']);
+        $e->addRule('laravel','laravel', ['regex:/^[+]{0,1}[0-9]{9,13}$/'],['regex' => 'Le champ doit être un numero valide . Il peut commencer par un + et ne doit contenir que des chiffres (Au moins 10)']);
 
         if ($is_mandatory) {
             $e->addRule('required');
