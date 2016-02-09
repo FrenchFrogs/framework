@@ -90,6 +90,7 @@ class Bootstrap extends Renderer\Renderer {
     {
         // Error
         if($hasError = !$element->getValidator()->isValid()){
+            $element->removeAttribute('data-trigger');//Si il y avait un popoover au départ on le surcharge par un tooltip
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
@@ -123,6 +124,7 @@ class Bootstrap extends Renderer\Renderer {
 
         //error
         if($hasError = !$element->getValidator()->isValid()){
+            $element->removeAttribute('data-trigger');//Si il y avait un popoover au départ on le surcharge par un tooltip
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
@@ -191,6 +193,7 @@ class Bootstrap extends Renderer\Renderer {
 
         // error
         if($hasError = !$element->getValidator()->isValid()){
+            $element->removeAttribute('data-trigger');//Si il y avait un popoover au départ on le surcharge par un tooltip
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
@@ -323,6 +326,7 @@ class Bootstrap extends Renderer\Renderer {
     public function number(Form\Element\Number $element)
     {
         if(!$element->getValidator()->isValid()){
+            $element->removeAttribute('data-trigger');//Si il y avait un popoover au départ on le surcharge par un tooltip
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
@@ -372,6 +376,7 @@ class Bootstrap extends Renderer\Renderer {
     public function select(Form\Element\Select $element)
     {
         if(!$element->getValidator()->isValid()){
+            $element->removeAttribute('data-trigger');//Si il y avait un popoover au départ on le surcharge par un tooltip
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
@@ -425,6 +430,7 @@ class Bootstrap extends Renderer\Renderer {
     public function file(Form\Element\File $element)
     {
         if(!$element->getValidator()->isValid()){
+            $element->removeAttribute('data-trigger');//Si il y avait un popoover au départ on le surcharge par un tooltip
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
@@ -455,7 +461,7 @@ class Bootstrap extends Renderer\Renderer {
     {
         // Error
         if($hasError = !$element->getValidator()->isValid()){
-
+            $element->removeAttribute('data-trigger');//Si il y avait un popoover au départ on le surcharge par un tooltip
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
             foreach($element->getValidator()->getErrors() as $error){
@@ -493,7 +499,7 @@ class Bootstrap extends Renderer\Renderer {
 
         // Error
         if($hasError = !$element->getValidator()->isValid()){
-
+            $element->removeAttribute('data-trigger');//Si il y avait un popoover au départ on le surcharge par un tooltip
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
             foreach($element->getValidator()->getErrors() as $error){
@@ -532,6 +538,7 @@ class Bootstrap extends Renderer\Renderer {
     {
         // Error
         if($hasError = !$element->getValidator()->isValid()){
+            $element->removeAttribute('data-trigger');//Si il y avait un popoover au départ on le surcharge par un tooltip
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
