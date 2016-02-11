@@ -468,7 +468,7 @@ abstract class Element
     {
         // si la valeur n'ets pas null, on la set
         if (!is_null($value)) {
-            $value = trim($value);
+            $value = (is_string($value)) ? trim($value) : $value;
             if ($this->hasFilterer()) {
                 $value = $this->getFilterer()->filter($value);
             }
