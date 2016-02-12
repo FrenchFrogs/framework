@@ -232,8 +232,11 @@ class Filterer
     public function dateFormat($value, $format = 'd/m/Y')
     {
         if (!empty($value)) {
-            $date = \Carbon\Carbon::parse($value);
-            $value = $date->format($format);
+            $date = \DateTime::createFromFormat($format,$value);
+            //Check que la value est compatible avec le format
+            if($date !== false  && !array_sum($date->getLastErrors())){
+                $value = $date->format('Y-m-d');
+            }
         }
 
         return $value;
