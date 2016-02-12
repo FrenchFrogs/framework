@@ -232,10 +232,10 @@ class Filterer
     public function dateFormat($value, $format = 'd/m/Y')
     {
         if (!empty($value)) {
-            $date = \DateTime::createFromFormat($format,$value);
+            $date = \DateTime::createFromFormat('Y-m-d',$value);
             //Check que la value est compatible avec le format
             if($date !== false  && !array_sum($date->getLastErrors())){
-                $value = $date->format('Y-m-d');
+                $value = $date->format($format);
             }
         }
 
