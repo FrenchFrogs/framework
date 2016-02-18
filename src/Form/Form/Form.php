@@ -389,7 +389,7 @@ class Form
                 }
 
                 foreach((array) $e->getFilteredValue() as $value) {
-                    $values[$name][] = $value;
+                    if(!empty($value)){$values[$name][] = $value;}
                 }
             } else {
                 $values[$name] = $e->getFilteredValue();
