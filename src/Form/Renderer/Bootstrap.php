@@ -375,7 +375,7 @@ class Bootstrap extends Renderer\Renderer {
 
     public function select(Form\Element\Select $element)
     {
-        if(!$element->getValidator()->isValid()){
+        if($hasError = !$element->getValidator()->isValid()){
             $element->removeAttribute('data-trigger');//Si il y avait un popoover au départ on le surcharge par un tooltip
             $element->addClass('form-error');
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
@@ -392,7 +392,12 @@ class Bootstrap extends Renderer\Renderer {
         if ($element->getForm()->hasLabel()) {
             $label = '<label for="' . $element->getName() . '">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
         }
-        $html =  '<div class="form-group">';
+
+        $class =  Style::FORM_GROUP_CLASS;
+        if ($hasError) {
+            $class .= ' ' .Style::FORM_GROUP_ERROR;
+        }
+
         $options = '';
 
         if ($element->hasPlaceholder()){
@@ -412,8 +417,8 @@ class Bootstrap extends Renderer\Renderer {
             $element->setName($element->getName() . '[]');
         }
 
-        $html .= $label . html('select', $element->getAttributes(), $options);
-        $html .= '</div>';
+        $html = $label . html('select', $element->getAttributes(), $options);
+        $html = html('div', compact('class'), $html);
 
         if($element->isMultiple()){
             $element->setName(chop($element->getName(), '[]'));
