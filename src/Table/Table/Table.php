@@ -50,6 +50,13 @@ class Table
      */
     protected $has_footer = true;
 
+    /**
+     * Enable Json decode on value
+     *
+     * @var array
+     */
+    protected $jsonField = [];
+
 
     /**
      * Constructor
@@ -192,8 +199,13 @@ class Table
             throw new \InvalidArgumentException("Source must be an array or an Iterator");
         }
 
+
         if (!is_null($source)) {
             $this->setRows($source);
+
+            if ($this->hasJsonField()) {
+                $this->extractJson();
+            }
         }
 
         return $this;
@@ -280,5 +292,95 @@ class Table
     public function __toString()
     {
         return $this->render();
+    }
+
+
+
+
+    /**
+     * Add json field to decode
+     *
+     * @param $field
+     */
+    public function addJsonField($field)
+    {
+        $this->jsonField[] = $field;
+        return $this;
+    }
+
+    /**
+     * Remove $field from $jsonField
+     *
+     * @param $field
+     * @return $this
+     */
+    public  function removeJsonField($field)
+    {
+
+        $i = array_search($field, $this->jsonField);
+
+        if ($i !== false) {
+            unset($this->jsonField[$i]);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * Setter for $jsonField
+     *
+     * @param array $fields
+     * @return $this
+     */
+    public function setJsonFields(array $fields)
+    {
+        $this->jsonField = $fields;
+        return $this;
+    }
+
+
+    /**
+     * Getter for jsonField
+     *
+     * @return array
+     */
+    public function getJsonFields()
+    {
+        return $this->jsonField;
+    }
+
+    /**
+     * Return TRUE if a json field is set at least
+     *
+     * @return bool
+     */
+    public function hasJsonField()
+    {
+        return count($this->jsonField) > 0;
+    }
+
+    /**
+     * Extract json data
+     *
+     * @return $this
+     */
+    public function extractJson()
+    {
+        foreach($this->getRows() as &$row) {
+
+            foreach($this->getJsonFields() as $field) {
+                if (isset($row[$field])) {
+
+                    $data = json_decode($row[$field], JSON_OBJECT_AS_ARRAY);
+
+                    foreach((array) $data as $k => $v) {
+                        $row[sprintf('_%s__%s', $field, $k)] = $v;
+                    }
+                }
+            }
+        }
+
+        return $this;
     }
 }
