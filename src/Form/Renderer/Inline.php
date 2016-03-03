@@ -104,7 +104,7 @@ class Inline extends Renderer\Renderer {
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
             foreach($element->getValidator()->getErrors() as $error){
-                $message .= $error . ';';
+                $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
             $element->addAttribute('data-toggle', 'tooltip');
@@ -459,7 +459,7 @@ class Inline extends Renderer\Renderer {
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
             foreach($element->getValidator()->getErrors() as $error){
-                $message .= $error . ';';
+                $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
             $element->addAttribute('data-toggle', 'tooltip');
@@ -603,7 +603,7 @@ class Inline extends Renderer\Renderer {
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
             foreach($element->getValidator()->getErrors() as $error){
-                $message .= $error . ';';
+                $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
             $element->addAttribute('data-toggle', 'tooltip');
@@ -650,7 +650,7 @@ class Inline extends Renderer\Renderer {
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
             foreach($element->getValidator()->getErrors() as $error){
-                $message .= $error . ';';
+                $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
             $element->addAttribute('data-toggle', 'tooltip');
@@ -698,7 +698,7 @@ class Inline extends Renderer\Renderer {
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
             foreach($element->getValidator()->getErrors() as $error){
-                $message .= $error . ';';
+                $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
             $element->addAttribute('data-toggle', 'tooltip');
@@ -740,7 +740,7 @@ class Inline extends Renderer\Renderer {
             if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
             $message = '';
             foreach($element->getValidator()->getErrors() as $error){
-                $message .= $error . ';';
+                $message .= $error . ' ';
             }
             $element->addAttribute('data-original-title',$message);
             $element->addAttribute('data-toggle', 'tooltip');

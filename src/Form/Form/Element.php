@@ -395,6 +395,7 @@ trait Element
         } else {
             $e->addFilter('nullable');
         }
+        $e->addRule('email');
 
         return $e;
     }

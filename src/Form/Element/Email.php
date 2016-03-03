@@ -17,8 +17,6 @@ class Email extends Text
         $this->setName($name);
         $this->setLabel($label);
         $this->addAttribute('type', 'email');
-
-        //$this->addRule('email'); @todo need to have a validator before adding rules
     }
 
     /**
