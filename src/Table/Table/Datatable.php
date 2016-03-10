@@ -267,10 +267,21 @@ trait Datatable
      * Setter for $constructor attribute
      *
      * @param $constructor
+     * @param null $method
+     * @param null $params
      * @return $this
      */
-    public function setConstructor($constructor)
+    public function setConstructor($constructor, $method = null, $params = null)
     {
+
+        if (!is_null($method)){
+            $constructor .= '::' . $method;
+        }
+
+        if (!is_null($params)) {
+            $constructor .= ':' . $params;
+        }
+
         $this->constructor = $constructor;
         return $this;
     }
