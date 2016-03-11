@@ -121,6 +121,8 @@ class Strainer
     {
 
         if ($this->hasCallable()) {
+            array_unshift($params, $this);
+            array_unshift($params, $table);
             call_user_func_array($this->callable, $params);
         } else {
 
