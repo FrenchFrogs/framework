@@ -275,6 +275,12 @@ class Filterer
         return preg_replace('#[^\w]#', '', $value);
     }
 
+    /**
+     * trim vriable
+     *
+     * @param $value
+     * @return string
+     */
     public function trim($value)
     {
         return trim($value);
@@ -339,5 +345,22 @@ class Filterer
      */
     public function pregreplace($value, $pattern , $replacement = '') {
         return preg_replace($pattern,$replacement,$value);
+    }
+
+
+    /**
+     * Wrap string
+     *
+     * @param $value
+     * @param $size
+     * @param string $replacement
+     */
+    public function wrap($value, $size, $replacement = '...')
+    {
+        if (strlen($value) > ($size - strlen($replacement))) {
+            $value = substr($value, 0, $size) .$replacement;
+        }
+
+        return $value;
     }
 }

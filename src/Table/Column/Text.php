@@ -3,9 +3,6 @@
 
 class Text extends Column
 {
-
-
-
     /**
      * Constructror
      *
@@ -33,7 +30,6 @@ class Text extends Column
         if ($this->hasFilterer()) {
             $value = $this->getFilterer()->filter($value);
         }
-
         return $value;
     }
 
