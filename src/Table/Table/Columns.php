@@ -166,6 +166,21 @@ trait Columns
         return $c;
     }
 
+    /**
+     *
+     *
+     * @param $name
+     * @param $label
+     * @param $function
+     * @return mixed
+     */
+    public function addCustom($name, $label, $function)
+    {
+        $c = new Column\Custom($name, $label, $function);
+        $this->addColumn($c);
+        return $c;
+    }
+
 
     /**
      * Add Date column to $columns container
@@ -215,6 +230,23 @@ trait Columns
         return $c;
     }
 
+    /**
+     * Add Boolean column to $columns container
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Table\Column\Text
+     */
+    public function addIcon($name, $label = '', $mapping = [])
+    {
+
+        $c = new Column\Icon($name, $label, $mapping);
+        $this->addColumn($c);
+
+        return $c;
+    }
+
 
     /**
      * Add Link columns to $columns container
@@ -233,6 +265,25 @@ trait Columns
 
         return $c;
     }
+
+    /**
+     * Add Link columns to $columns container
+     *
+     * @param $name
+     * @param string $label
+     * @param string $link
+     * @param array $binds
+     * @param array $attr
+     * @return \FrenchFrogs\Table\Column\Link
+     */
+    public function addMedia($name, $label, $link = '#', $binds = [],  $width = 320, $height = 180)
+    {
+        $c = new Column\Media($name, $label, $link, $binds, $width, $height);
+        $this->addColumn($c);
+
+        return $c;
+    }
+
 
     /**
      * Add as Button Column

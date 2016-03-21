@@ -25,7 +25,10 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         'strainer',
         'strainerSelect',
         'strainerText',
-        'strainerBoolean'
+        'strainerBoolean',
+        'icon',
+        'media',
+        'custom'
     ];
 
 
@@ -154,6 +157,13 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         return $html;
     }
 
+    /**
+     * render boolean icon
+     *
+     * @param \FrenchFrogs\Table\Column\Boolean $column
+     * @param array $row
+     * @return string
+     */
     public function boolean(Column\Boolean $column, array $row)
     {
 
@@ -166,12 +176,55 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
     }
 
 
+    /**
+     * Render Icon column
+     *
+     * @param \FrenchFrogs\Table\Column\Icon $column
+     * @param array $row
+     * @return string
+     */
+    public function icon(Column\Icon $column, array $row)
+    {
+
+        $html = '';
+        $html .= '<i class="fa '. $column->getValue($row).'"></i>';
+
+        return $html;
+    }
+
+    /**
+     * Render custom callable column
+     *
+     * @param \FrenchFrogs\Table\Column\Custom $column
+     * @param array $row
+     * @return mixed
+     */
+    public function custom(Column\Custom $column, array $row)
+    {
+        return call_user_func($column->getCustom(), $row);
+    }
+
+
+    /**
+     * Render text column
+     *
+     * @param \FrenchFrogs\Table\Column\Text $column
+     * @param array $row
+     * @return mixed|string
+     */
     public function text(Column\Text $column, array $row)
     {
         return $column->getValue($row);
     }
 
 
+    /**
+     * Render link column
+     *
+     * @param \FrenchFrogs\Table\Column\Link $column
+     * @param array $row
+     * @return string
+     */
     public function link(Column\Link $column, array $row)
     {
 
@@ -180,6 +233,33 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
                 ->addAttribute('data-toggle', 'modal');
         } elseif($column->isCallback()) {
             $column->addClass('callback-remote');
+        }
+
+        $html = html('a', ['href' => $column->getBindedLink($row)], $column->getBindedLabel($row));
+        return $html;
+    }
+
+    /**
+     * Render a media content
+     *
+     * @param \FrenchFrogs\Table\Column\Link $column
+     * @param array $row
+     * @return string
+     */
+    public function media(Column\Media $column, array $row)
+    {
+
+        $media =  $column->getBindedLink($row);
+        $info = pathinfo($media);
+
+        if (in_array($info['extension'], ['jpg', 'png', 'jpeg'])) {
+            return html('img', ['style' => 'object-fit: cover;', 'width' => $column->getMediaWidth(), 'height' => $column->getMediaHeight(), 'src' => $media]);
+
+        }elseif(in_array($info['extension'], ['mp4'])) {
+            $source  = html('source', ['src' => $media, 'type' => 'video/' . $info['extension']]);
+            return html('video', ['width' => $column->getMediaWidth(), 'height' => $column->getMediaHeight(), 'controls' => 'controls'], $source);
+        } else {
+            throw new \Exception('Extension pas trouvé : ' . $media);
         }
 
         $html = html('a', ['href' => $column->getBindedLink($row)], $column->getBindedLabel($row));
@@ -296,9 +376,9 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             $data = [];
 
             /**@var Column\Column $c */
-                $class = $c->getClasses();
+            $class = $c->getClasses();
             if (!empty($class)) {
-                $data['className'] = $class;
+                $data['className'] = trim($class);
             }
 
             // width
