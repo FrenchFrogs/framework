@@ -252,6 +252,10 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         $media =  $column->getBindedLink($row);
         $info = pathinfo($media);
 
+        if (empty($info['extension'])) {
+            return '';
+        }
+
         if (in_array($info['extension'], ['jpg', 'png', 'jpeg'])) {
             return html('img', ['style' => 'object-fit: cover;', 'width' => $column->getMediaWidth(), 'height' => $column->getMediaHeight(), 'src' => $media]);
 
