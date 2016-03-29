@@ -223,7 +223,12 @@ function h($name = null, $value = null, $conditional = null) {
  */
 function action_url($controller, $action = 'getIndex', $params = [], $query = [])
 {
-    $controller = substr($controller, 0,3) == 'App' ?  '\\' . $controller : $controller;
+//    $controller = substr($controller, 0,3) == 'App' ?  '\\' . $controller : $controller;
+
+    if ($controller[0] != '\\') {
+        $controller = '\\' . $controller;
+    }
+//    dd($controller);
     return URL::action($controller . '@' . $action, $params) . (empty($query) ? '' : ('?' . http_build_query($query)));
 }
 
@@ -371,5 +376,173 @@ function debug() {
  */
 function production(){
     return app()->environment() == 'production';
+}
+
+
+
+/**
+ * Log une erreur
+ *
+ * @param $message
+ * @param array $context
+ */
+function le($message, $context = [])
+{
+    return Log::error($message, $context);
+}
+
+
+/**
+ * Log un warning
+ *
+ * @param $message
+ * @param array $context
+ */
+function lw($message, $context = [])
+{
+    return Log::warning($message, $context);
+}
+
+
+/**
+ * Log une alerte
+ *
+ * @param $message
+ * @param array $context
+ * @return bool
+ */
+function la($message, $context = [])
+{
+    return Log::alert($message, $context);
+}
+
+/**
+ * Log une critique
+ *
+ * @param $message
+ * @param array $context
+ * @return bool
+ */
+function lc($message, $context = [])
+{
+    return Log::critical($message, $context);
+}
+
+
+/**
+ * Log une info
+ *
+ * @param $message
+ * @param array $context
+ * @return bool
+ */
+function li($message, $context = [])
+{
+    return Log::info($message, $context);
+}
+
+
+/**
+ * Format a number in french format
+ *
+ * @param $i
+ * @param int $decimal
+ * @return string
+ */
+function number_french($i, $decimal = 0) {
+    return number_format($i, $decimal, '.', ' ');
+}
+
+/**
+ * renvoie le characté est reel
+ *
+ * @param $u
+ * @return mixed|string
+ */
+function unichr($u) {
+    return mb_convert_encoding('&#' . intval($u) . ';', 'UTF-8', 'HTML-ENTITIES');
+}
+
+
+/**
+ * Extract meta data from url
+ *
+ * @param $url
+ * @return array
+ */
+function extract_meta_url($url) {
+
+    $data = [];
+    try {
+        $client = new \GuzzleHttp\Client();
+        $res = $client->get($url);
+
+        if ($res->getStatusCode() == 200) {
+            $content = $res->getBody()->getContents();
+            $data = [];
+
+            // charset detection
+            if (preg_match('#<meta.+charset=(?<charset>[\w\-]+).+/?>#', $content, $match)
+                || preg_match('#<meta.+charset="(?<charset>[^"]+)"#', $content, $match)) {
+                $charset = strtolower($match['charset']);
+                if ($charset == 'utf-8') {
+                    $content = utf8_decode($content);
+                }
+            }
+
+            // titre
+            if (preg_match('#<title>(?<title>.+)</title>#', $content, $match)) {
+                $title = '';
+                foreach(str_split($match['title']) as $c) {
+                    $title .= unichr(ord($c));
+                }
+
+                $data['source_title'] = html_entity_decode($title);
+
+                $emoticon = [';)', ':)', ':p',  '=D', 'B|'];
+
+                // hack formatage title HDN
+                $data['source_title'] = str_replace('– HDN – Histoires du net', ' ' . $emoticon[array_rand($emoticon)], $data['source_title'] );
+            }
+
+            // other meta
+            if (preg_match_all('#<meta[^>]+/?>#s', $content, $matches)) {
+
+                foreach($matches[0] as $meta) {
+
+                    if (preg_match('#property=.og:description.#', $meta)) {
+                        if (preg_match('#content="(?<description>[^>]+)"#s', $meta, $match)) {
+                            $description = '';
+                            foreach(str_split($match['description']) as $c) {
+                                $description .= unichr(ord($c));
+                            }
+                            $data['source_description'] = html_entity_decode($description);
+                        }
+                    } elseif (preg_match('#property=.og:image[^:]#', $meta)) {
+                        if (preg_match('#content="(?<image>.+)"#', $meta, $match)) {
+
+                            $image = '';
+                            foreach(str_split($match['image']) as $c) {
+                                $image .= unichr(ord($c));
+                            }
+
+                            $data['source_media'] = $image;
+
+                        }
+                    } elseif (empty($data['source_description']) && preg_match('#name=.description.#', $meta)) {
+                        if (preg_match('#content="(?<description>[^>]+)"#s', $meta, $match)) {
+                            $description = '';
+                            foreach(str_split($match['description']) as $c) {
+                                $description .= unichr(ord($c));
+                            }
+                            $data['source_description'] = html_entity_decode($description);
+                        }
+                    }
+                }
+            }
+        }
+    } catch (\Exception $e) {}
+
+    return $data;
 }
 
