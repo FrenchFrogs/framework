@@ -2,6 +2,16 @@
 
 use Illuminate\Database\Eloquent\Builder;
 
+
+/**
+ * Class Model
+ *
+ * @method static $this findOrNew() findOrNew($id)
+ * @method static $this find() find($id)
+ * @method static $this findOrFail() findOrFail($id)
+ *
+ * @package FrenchFrogs\Laravel\Database\Eloquent
+ */
 class Model extends \Illuminate\Database\Eloquent\Model
 {
     /**
@@ -17,7 +27,6 @@ class Model extends \Illuminate\Database\Eloquent\Model
      * @var bool
      */
     public $uuid = false;
-
 
     /**
      * Insert the given attributes and set the ID on the model.

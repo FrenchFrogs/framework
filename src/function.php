@@ -221,10 +221,10 @@ function h($name = null, $value = null, $conditional = null) {
  * @param array $params
  * @return string
  */
-function action_url($controller, $action = 'getIndex', $params = [])
+function action_url($controller, $action = 'getIndex', $params = [], $query = [])
 {
     $controller = substr($controller, 0,3) == 'App' ?  '\\' . $controller : $controller;
-    return URL::action($controller . '@' . $action, $params);
+    return URL::action($controller . '@' . $action, $params) . (empty($query) ? '' : ('?' . http_build_query($query)));
 }
 
 
