@@ -4,6 +4,7 @@
  * Overload Eloquent model for better use
  *
  * Class Business
+ *
  * @package FrenchFrogs\Business
  */
 abstract class Business
@@ -54,7 +55,7 @@ abstract class Business
      * factory
      *
      * @param $id
-     * @return Business
+     * @return $this
      */
     static public function get($id)
     {

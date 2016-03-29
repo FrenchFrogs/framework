@@ -116,6 +116,7 @@ class Configurator
         if ($this->has($index)) {
             return $this->config[$index];
         }
+
         return $default;
     }
 
@@ -125,17 +126,20 @@ class Configurator
      *
      * @param $index
      * @param null $default
-     * @return mixed
+     * @param array $params
+     *
+     * @return object
      * @throws \Exception
      */
-    public function build($index, $default = null)
+    public function build($index, $default = null, $params = [])
     {
         $class = $this->get($index, $default);
         if (!class_exists($class)) {
             throw new \Exception('Class doesn\'t exist for the index : ' .$index);
         }
 
-        return new $class;
+        $class = new \ReflectionClass($class);
+        return $class->newInstanceArgs($params);
     }
 
     /**
