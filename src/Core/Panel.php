@@ -30,7 +30,7 @@ trait Panel
      * Set default panel
      *
      * @param string $title
-     * @return \FrenchFrogs\Core\Panel
+     * @return $this
      */
     public function useDefaultPanel($title = '')
     {
