@@ -256,9 +256,10 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             return '';
         }
 
+        // Fancybox compatible Image
         if (in_array($info['extension'], ['jpg', 'png', 'jpeg'])) {
-            return html('img', ['style' => 'object-fit: cover;', 'width' => $column->getMediaWidth(), 'height' => $column->getMediaHeight(), 'src' => $media]);
-
+            $html = html('img', ['style' => 'object-fit: cover;', 'width' => $column->getMediaWidth(), 'height' => $column->getMediaHeight(), 'src' => $media]);
+            return html('a', ['href' => $media, 'class' => 'fancybox'], $html);
         }elseif(in_array($info['extension'], ['mp4'])) {
             $source  = html('source', ['src' => $media, 'type' => 'video/' . $info['extension']]);
             return html('video', ['width' => $column->getMediaWidth(), 'height' => $column->getMediaHeight(), 'controls' => 'controls'], $source);

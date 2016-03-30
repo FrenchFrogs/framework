@@ -397,6 +397,7 @@ class Inline extends Renderer\Renderer {
 
         //@todo prendre en compte les option et les size
         $element->addClass('btn btn-default');
+        $element->addAttribute('id', $element->getName());
         $html  = '<div class="form-group">';
         $html .= '<label class="col-md-3 control-label">&nbsp;</label>';
         $html .= '<div class="col-md-9">' . html('button', $element->getAttributes(), $element->getLabel()) . '</div>';
