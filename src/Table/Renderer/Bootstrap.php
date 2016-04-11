@@ -262,20 +262,25 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
     {
 
         $media =  $column->getBindedLink($row);
-        $info = pathinfo($media);
+        $extension = pathinfo($media, PATHINFO_EXTENSION);
 
-        if (empty($info['extension'])) {
+        if (empty($extension)) {
             return '';
         }
 
+        if (($pos = strpos($extension, '?')) !== false) {
+            $extension = substr($extension, 0, $pos);
+        }
+
         // Fancybox compatible Image
-        if (in_array($info['extension'], ['jpg', 'png', 'jpeg'])) {
+        if (in_array($extension, ['jpg', 'png', 'jpeg', 'gif'])) {
             $html = html('img', ['style' => 'object-fit: cover;', 'width' => $column->getMediaWidth(), 'height' => $column->getMediaHeight(), 'src' => $media]);
             return html('a', ['href' => $media, 'class' => 'fancybox'], $html);
-        }elseif(in_array($info['extension'], ['mp4'])) {
-            $source  = html('source', ['src' => $media, 'type' => 'video/' . $info['extension']]);
+        }elseif(in_array($extension, ['mp4'])) {
+            $source  = html('source', ['src' => $media, 'type' => 'video/' . $extension]);
             return html('video', ['width' => $column->getMediaWidth(), 'height' => $column->getMediaHeight(), 'controls' => 'controls'], $source);
         } else {
+            dd($extension);
             throw new \Exception('Extension pas trouvé : ' . $media);
         }
 

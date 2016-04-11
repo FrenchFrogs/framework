@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
  * @method static $this findOrNew() findOrNew($id)
  * @method static $this find() find($id)
  * @method static $this findOrFail() findOrFail($id)
+ * @method static $this firstOrCreate() firstOrCreate(array $array)
+ * @method static $this firstOrNew() firstOrNew(array $array)
  *
  * @package FrenchFrogs\Laravel\Database\Eloquent
  */
