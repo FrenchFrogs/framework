@@ -3,6 +3,10 @@
 
 class Text extends Column
 {
+
+    protected $tooltip = false;
+    protected $tooltip_position = "bottom";
+
     /**
      * Constructror
      *
@@ -48,5 +52,36 @@ class Text extends Column
         }
 
         return $render;
+    }
+
+    /**
+     * Add tooltip on the column
+     *
+     * @param $position
+     */
+    public function tooltip($position = "bottom")
+    {
+        $this->tooltip = true;
+        $this->tooltip_position = $position;
+    }
+
+    /**
+     * Check if column has tooltip
+     *
+     * @return bool
+     */
+    public function hasTooltip()
+    {
+        return $this->tooltip;
+    }
+
+    /**
+     * Get the tooltip position
+     *
+     * @return string
+     */
+    public function getTooltipPosition()
+    {
+        return $this->tooltip_position;
     }
 }

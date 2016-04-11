@@ -214,7 +214,19 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
      */
     public function text(Column\Text $column, array $row)
     {
-        return $column->getValue($row);
+        if($column->hasTooltip()){
+            $attributes = [
+                'data-placement' => $column->getTooltipPosition(),
+                'data-original-title' => $column->getValue($row),
+                'data-toggle' => 'tooltip'
+            ];
+
+            $html = html('div', $attributes, str_limit($column->getValue($row), 70));
+        } else {
+            $html =  $column->getValue($row);
+        }
+
+        return $html;
     }
 
 
