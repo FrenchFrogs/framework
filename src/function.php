@@ -459,10 +459,12 @@ function number_french($i, $decimal = 0) {
  * @param $u
  * @return mixed|string
  */
-function unichr($u) {
-    return mb_convert_encoding('&#' . intval($u) . ';', 'UTF-8', 'HTML-ENTITIES');
+if (!function_exists('ffunichr')) {
+    function ffunichr($u)
+    {
+        return mb_convert_encoding('&#' . intval($u) . ';', 'UTF-8', 'HTML-ENTITIES');
+    }
 }
-
 
 /**
  * Extract meta data from url
@@ -494,7 +496,7 @@ function extract_meta_url($url) {
             if (preg_match('#<title>(?<title>.+)</title>#', $content, $match)) {
                 $title = '';
                 foreach(str_split($match['title']) as $c) {
-                    $title .= unichr(ord($c));
+                    $title .= ffunichr(ord($c));
                 }
 
                 $data['source_title'] = html_entity_decode($title);
@@ -514,7 +516,7 @@ function extract_meta_url($url) {
                         if (preg_match('#content="(?<description>[^>]+)"#s', $meta, $match)) {
                             $description = '';
                             foreach(str_split($match['description']) as $c) {
-                                $description .= unichr(ord($c));
+                                $description .= ffunichr(ord($c));
                             }
                             $data['source_description'] = html_entity_decode($description);
                         }
@@ -523,7 +525,7 @@ function extract_meta_url($url) {
 
                             $image = '';
                             foreach(str_split($match['image']) as $c) {
-                                $image .= unichr(ord($c));
+                                $image .= ffunichr(ord($c));
                             }
 
                             $data['source_media'] = $image;
@@ -533,7 +535,7 @@ function extract_meta_url($url) {
                         if (preg_match('#content="(?<description>[^>]+)"#s', $meta, $match)) {
                             $description = '';
                             foreach(str_split($match['description']) as $c) {
-                                $description .= unichr(ord($c));
+                                $description .= ffunichr(ord($c));
                             }
                             $data['source_description'] = html_entity_decode($description);
                         }
