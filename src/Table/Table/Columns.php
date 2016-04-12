@@ -231,6 +231,21 @@ trait Columns
     }
 
     /**
+     * Add boolean switch
+     *
+     * @param $name
+     * @param string $label
+     * @return \FrenchFrogs\Table\Column\RemoteBoolean
+     */
+    public function addRemoteBoolean($name, $label = '', $function = null)
+    {
+        $c = new Column\RemoteBoolean($name, $label, $function);
+        $this->addColumn($c);
+
+        return $c;
+    }
+
+    /**
      * Add Boolean column to $columns container
      *
      * @param $name

@@ -21,6 +21,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         'button',
         'datatable',
         'boolean',
+        'remote_boolean',
         'container',
         'strainer',
         'strainerSelect',
@@ -40,6 +41,14 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
      *
      */
 
+    /**
+     * Render the table structure
+     * Main method
+     *
+     * @param \FrenchFrogs\Table\Table\Table $table
+     * @return mixed|string
+     * @throws \Exception
+     */
     public function table(Table\Table $table)
     {
 
@@ -75,14 +84,25 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             $head .= html('tr', ['class' => 'filter'], $strainer);
         }
 
-
         // Data
         $body = '';
         foreach($table->getRows() as $row) {
 
             $line = '';
             foreach($table->getColumns() as $name => $column) {
-                $line .= html('td', $column->getAttributes(), $column->render((array) $row)) . PHP_EOL;
+
+                $attributes = $column->getAttributes();
+                if ($table->hasIdField()) {
+
+                    if (!isset($row[$table->getIdField()])) {
+                        throw new \LogicException($table->getIdField() . ' column is not found');
+                    }
+
+                    //too soon for you
+//                    $attributes['data-id'] = sprintf('%s#%s', $row[$table->getIdField()], $name);
+                }
+
+                $line .= html('td', $attributes, $column->render((array) $row)) . PHP_EOL;
             }
 
             $body .= html('tr', [],$line );
@@ -146,6 +166,13 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
     }
 
 
+    /**
+     * Render a container
+     *
+     * @param \FrenchFrogs\Table\Column\Container $column
+     * @param array $row
+     * @return string
+     */
     public function container(Column\Container $column, array $row) {
 
         $html = '';
@@ -154,7 +181,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             $html .= $c->render($row) . PHP_EOL;
         }
 
-        return $html;
+        return $this->post($html, $column, $row);
     }
 
     /**
@@ -172,7 +199,39 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             $html .= '<i class="fa fa-check"></i>';
         }
 
-        return $html;
+        return $this->post($html, $column, $row);
+    }
+
+    /**
+     * render boolean switch
+     *
+     * @param \FrenchFrogs\Table\Column\BooleanSwitch $column
+     * @param array $row
+     * @return string
+     */
+    public function remote_boolean(Column\RemoteBoolean $column, array $row)
+    {
+
+        $table = $column->getTable();
+
+        // Attributes
+        $attributes = [
+            'class' => 'ff-remote-boolean',
+            'type' => 'checkbox',
+            'data-size' => 'small',
+            'value' => true,
+            'data-id' => $row[$column->getTable()->getIdField()],
+            'data-column' =>  $column->getName(),
+        ];
+
+        if(isset($row[$column->getName()]) && !empty($row[$column->getName()])) {
+            $attributes['checked'] = 'checked';
+        }
+
+
+        $html = html('input', $attributes);
+
+        return $this->post($html, $column, $row);
     }
 
 
@@ -189,7 +248,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         $html = '';
         $html .= '<i class="fa '. $column->getValue($row).'"></i>';
 
-        return $html;
+        return $this->post($html, $column, $row);
     }
 
     /**
@@ -201,7 +260,8 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
      */
     public function custom(Column\Custom $column, array $row)
     {
-        return call_user_func($column->getCustom(), $row);
+        $html = call_user_func($column->getCustom(), $row);
+        return $this->post($html, $column, $row);
     }
 
 
@@ -226,7 +286,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             $html =  $column->getValue($row);
         }
 
-        return $html;
+        return $this->post($html, $column, $row);
     }
 
 
@@ -248,7 +308,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         }
 
         $html = html('a', ['href' => $column->getBindedLink($row)], $column->getBindedLabel($row));
-        return $html;
+        return $this->post($html, $column, $row);
     }
 
     /**
@@ -285,10 +345,18 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         }
 
         $html = html('a', ['href' => $column->getBindedLink($row)], $column->getBindedLabel($row));
-        return $html;
+
+        return $this->post($html, $column, $row);
     }
 
 
+    /**
+     * Render a button
+     *
+     * @param \FrenchFrogs\Table\Column\Button $column
+     * @param array $row
+     * @return mixed
+     */
     public function button(Column\Button $column, array $row)
     {
 
@@ -333,7 +401,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
 
     /**
-     * Rendoer a code element
+     * Rendor a code element
      *
      * @param \FrenchFrogs\Table\Column\Code $column
      * @param array $row
@@ -341,7 +409,8 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
      */
     public function code(Column\Code $column, array $row)
     {
-        return html('code', [],$column->getValue($row));
+        $html = html('code', [],$column->getValue($row));
+        return $this->post($html, $column, $row);
     }
 
     /**
@@ -353,7 +422,8 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
      */
     public function pre(Column\Pre $column, array $row)
     {
-        return html('pre', [],$column->getValue($row));
+        $html = html('pre', [],$column->getValue($row));
+        return $this->post($html, $column, $row);
     }
 
 
@@ -374,7 +444,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             $table->addClass('datatable-remote');
             $table->save();
             $options += [
-                'ajax' => ['url' => route('datatable'), 'data' => ['token' => $table->getToken()]],
+                'ajax' => ['url' => route('datatable', ['token' => $table->getToken()])],
                 'processing' => true,
                 'serverSide' => true,
                 'pageLength' => $table->getItemsPerPage(),
@@ -519,6 +589,31 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         }
 
         return html('select', $element->getAttributes(), $options);
+    }
+
+
+
+    /**
+     * Render id data if specified
+     *
+     * @param $render
+     * @param \FrenchFrogs\Table\Column\Column $column
+     * @param array $row
+     * @return mixed
+     */
+    protected function post($render, Column\Column $column, array $row)
+    {
+//        $table = $column->getTable();
+//
+//        if ($table->hasIdField()) {
+//            if (!isset($row[$table->getIdField()])) {
+//                throw new \LogicException('"'.$table->getIdField().'" does not exists');
+//            }
+//
+//            $render = html('div', ['data_id' => sprintf('%s#%s', $row[$table->getIdField()], $column->getName())], $render);
+//        }
+
+        return $render;
     }
 }
 

@@ -31,15 +31,15 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
      * Datatable render
      * @param string $route
      */
-    public function bootDatatable($route = '/datatable')
+    public function bootDatatable($route = '/datatable/{token}')
     {
-        Route::get($route, function() {
+        Route::get($route, function($token) {
 
             try{
 
                 $request = request();
 
-                $table = FrenchFrogs\Table\Table\Table::load($request->get('token'));
+                $table = FrenchFrogs\Table\Table\Table::load($token);
 
                 $table->setItemsPerPage(Input::get('length'));
                 $table->setPageFromItemsOffset(Input::get('start'));
@@ -82,6 +82,15 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
             }
 
         })->name('datatable');
+
+
+        Route::post($route, function($token) {
+
+            $request = request();
+            $table = FrenchFrogs\Table\Table\Table::load($token);
+            return $table->getColumn($request->get('column'))->remoteProcess($request->get('id'), $request->get('value'));
+        });
+
     }
 
     /**

@@ -234,7 +234,7 @@ $.fn.extend({
 
         // UNIFORM
         if (jQuery.fn.uniform != undefined) {
-            jQuery(this).find("input[type=checkbox]:not(.toggle, .make-switch), input[type=radio]:not(.toggle, .star, .make-switch)").each(function () {
+            jQuery(this).find("input[type=checkbox]:not(.toggle, .make-switch), input[type=radio]:not(.toggle, .star, .make-switch, .ff-remote-boolean)").each(function () {
                 jQuery(this).uniform();
             });
         }
@@ -266,7 +266,18 @@ $.fn.extend({
         }
 
         // SWITCH
+        // SWITCH
         if(jQuery.fn.bootstrapSwitch !== undefined){
+            jQuery(this).find('input[type=checkbox].ff-remote-boolean').bootstrapSwitch({
+                onSwitchChange: function(event, state) {
+                    event.preventDefault();
+                    jQuery.post(jQuery(this).closest('.datatable-remote').DataTable().ajax.url(), {
+                        id : jQuery(this).data('id'),
+                        column : jQuery(this).data('column')
+                    }, function(e,f) {eval(e)});
+                }
+            });
+
             jQuery(this).find('input[type=checkbox].make-switch').bootstrapSwitch();
         }
 

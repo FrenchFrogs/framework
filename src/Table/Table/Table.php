@@ -57,6 +57,23 @@ class Table
      */
     protected $jsonField = [];
 
+    /**
+     * Contain the name of the id fiels in data
+     *
+     * @var
+     */
+    protected $idField;
+
+
+    /**
+     * Return TRUE if $idField is set
+     *
+     * @return bool
+     */
+    public function hasIdField()
+    {
+        return isset($this->idField);
+    }
 
     /**
      * Constructor
@@ -338,8 +355,7 @@ class Table
         $this->jsonField = $fields;
         return $this;
     }
-
-
+    
     /**
      * Getter for jsonField
      *
@@ -380,7 +396,39 @@ class Table
                 }
             }
         }
+        return $this;
+    }
 
+    /**
+     * Setter for $idField
+     *
+     * @param $field
+     * @return $this
+     */
+    public function setIdField($field)
+    {
+        $this->idField = $field;
+        return $this;
+    }
+
+    /**
+     * Getter for $idField
+     *
+     * @return mixed
+     */
+    public function getIdField()
+    {
+        return $this->idField;
+    }
+
+    /**
+     * Unset $idField
+     *
+     * @return $this
+     */
+    public function removeIdField()
+    {
+        unset($this->idField);
         return $this;
     }
 }

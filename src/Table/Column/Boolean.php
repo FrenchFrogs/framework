@@ -1,12 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: jhouvion
- * Date: 11/10/15
- * Time: 20:55
- */
-
-namespace FrenchFrogs\Table\Column;
+<?php namespace FrenchFrogs\Table\Column;
 
 
 class Boolean extends Text
@@ -26,7 +18,6 @@ class Boolean extends Text
     }
 
 
-
     /**
      *
      *
@@ -36,7 +27,6 @@ class Boolean extends Text
     {
         $render = '';
         try {
-
             $render = $this->getRenderer()->render('boolean', $this, $row);
         } catch(\Exception $e){
             dd($e->getMessage());
@@ -44,5 +34,4 @@ class Boolean extends Text
 
         return $render;
     }
-
 }
