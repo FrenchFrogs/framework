@@ -96,16 +96,13 @@ trait Strainerable
 
         // create the strainer
         $strainer = new Text($this, $callable, $attr);
-
-
+        
         //if a fields is set, we configure the strainer
         if (isset($field)) {
             $strainer->setField($field);
         }
 
         return $this->setStrainer($strainer);
-
-
     }
 
 

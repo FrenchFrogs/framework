@@ -78,7 +78,6 @@ class Text extends Strainer
      */
     public function call(\FrenchFrogs\Table\Table\Table $table, ...$params)
     {
-
         if ($this->hasCallable()) {
             call_user_func_array($this->callable, $params);
         } else {
@@ -88,7 +87,7 @@ class Text extends Strainer
                 throw new \Exception('Table source is not an instance of query builder');
             }
 
-            $table->getSource()->where($this->getField(), 'LIKE', $params[0] .  '%');
+            $table->getSource()->where($this->getField(), 'LIKE', '%' . $params[0] . '%');
         }
 
         return $this;

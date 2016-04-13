@@ -66,6 +66,22 @@ class Table
 
 
     /**
+     * Return TRUE if a column has a strainer
+     *
+     * @return bool
+     */
+    public function hasStrainer()
+    {
+        foreach($this->getColumns() as $column) {
+            if ( $column->hasStrainer()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
      * Return TRUE if $idField is set
      *
      * @return bool
