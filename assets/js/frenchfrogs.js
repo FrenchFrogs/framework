@@ -266,8 +266,11 @@ $.fn.extend({
         }
 
         // SWITCH
-        // SWITCH
         if(jQuery.fn.bootstrapSwitch !== undefined){
+
+            /**
+             * Table Remote Boolean
+             */
             jQuery(this).find('input[type=checkbox].ff-remote-boolean').bootstrapSwitch({
                 onSwitchChange: function(event, state) {
                     event.preventDefault();
@@ -280,6 +283,62 @@ $.fn.extend({
 
             jQuery(this).find('input[type=checkbox].make-switch').bootstrapSwitch();
         }
+
+
+        /**
+         * Table remote text
+         */
+        jQuery(this).find('div.ff-remote-text')
+            .dblclick(function(e) {
+
+                // if element is active, we disable action
+                if (jQuery(this).hasClass('ff-remote-active')){
+                    return jQuery(this);
+                }
+
+                // mark element as actiove
+                jQuery(this).addClass('ff-remote-active');
+
+                // hide span
+                var _that = jQuery(this).find('span').hide();
+
+                // input setting
+                jQuery(this).find('input')
+                    .on('ff.remote.text', function() {
+                        // disable input
+                        jQuery(this)
+                            .off('focusout')
+                            .off('ff.remote.text')
+                            .off('ff.remote.process');
+                        jQuery(this).hide().prev('span').show();
+                        jQuery(this).parent('.ff-remote-active').removeClass('ff-remote-active');
+                    })
+                    .on('ff.remote.process', function() {
+                        // process modifiction
+                        e.preventDefault();
+                        if (_that.html() != jQuery(this).val()) {
+                            _that.html(jQuery(this).val());
+                            jQuery.post(jQuery(this).closest('.datatable-remote').DataTable().ajax.url(), {
+                                id : jQuery(this).data('id'),
+                                column : jQuery(this).data('column'),
+                                value : jQuery(this).val()
+                            }, function(e,f) {eval(e)});
+                        }
+                        jQuery(this).trigger('ff.remote.text');
+                        return false;
+                    })
+                    .val(_that.html()) // set value
+                    .show()
+                    .focus()
+                    .focusout(function() {
+                        jQuery(this).trigger('ff.remote.text');
+                    }).keypress(function(e) {
+                    // enable process on enter key
+                    if(e.which == 13) {
+                        jQuery(this).trigger('ff.remote.process');
+                    }
+                });
+            });
 
         //DATATABLE DECORATION
         jQuery(this).find('table.table > thead > tr:last-child').children().css('border-bottom', '1px solid #ddd');

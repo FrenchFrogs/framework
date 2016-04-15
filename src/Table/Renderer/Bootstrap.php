@@ -22,6 +22,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         'datatable',
         'boolean',
         'remote_boolean',
+        'remote_text',
         'container',
         'strainer',
         'strainerSelect',
@@ -99,7 +100,12 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
                     }
 
                     //too soon for you
-//                    $attributes['data-id'] = sprintf('%s#%s', $row[$table->getIdField()], $name);
+//                  $attributes['data-id'] = sprintf('%s#%s', $row[$table->getIdField()], $name);
+                }
+
+                // remove class in colum because it set in column for datatable
+                if ($table->isDatatable()) {
+                    unset($attributes['class']);
                 }
 
                 $line .= html('td', $attributes, $column->render((array) $row)) . PHP_EOL;
@@ -274,8 +280,10 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
      */
     public function text(Column\Text $column, array $row)
     {
+
+        $attributes = $column->getAttributes();
         if($column->hasTooltip()){
-            $attributes = [
+            $attributes += [
                 'data-placement' => $column->getTooltipPosition(),
                 'data-original-title' => $column->getValue($row),
                 'data-toggle' => 'tooltip'
@@ -283,10 +291,32 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
             $html = html('div', $attributes, str_limit($column->getValue($row), 70));
         } else {
-            $html =  $column->getValue($row);
+            $html = html('span',$attributes, $column->getValue($row));
         }
 
         return $this->post($html, $column, $row);
+    }
+
+
+    /**
+     * Render a text remote
+     *
+     * @param \FrenchFrogs\Table\Column\RemoteText $column
+     * @param array $row
+     * @return mixed|string
+     */
+    public function remote_text(Column\RemoteText $column, array $row)
+    {
+
+        $html = $this->text($column, $row);
+        $html .= html('input', [
+            'type' => 'text',
+            'style' => 'width:100%;display:none;',
+            'data-id' => $row[$column->getTable()->getIdField()],
+            'data-column' =>  $column->getName()
+        ]);
+        $html = html('div', ['class' => 'ff-remote-text'], $html);
+        return $html;
     }
 
 

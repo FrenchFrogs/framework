@@ -245,6 +245,22 @@ trait Columns
         return $c;
     }
 
+
+    /**
+     * Add remote text
+     *
+     * @param $name
+     * @param string $label
+     * @return \FrenchFrogs\Table\Column\RemoteText
+     */
+    public function addRemoteText($name, $label = '', $function = null)
+    {
+        $c = new Column\RemoteText($name, $label, $function);
+        $this->addColumn($c);
+
+        return $c;
+    }
+
     /**
      * Add Boolean column to $columns container
      *

@@ -39,7 +39,7 @@ Trait Html
      */
     public function setClasses(array $classes)
     {
-        return $this->addAttribute('class', implode(' ', $classes));
+        return $this->addAttribute('class', trim(implode(' ', array_unique($classes))));
     }
 
     /**
@@ -52,7 +52,7 @@ Trait Html
     {
 
         if(!$this->hasClass($class)) {
-            $attr = $this->getAttribute('class');
+            $attr = trim($this->getAttribute('class'));
             $attr = explode(' ', $attr);
             $attr[] = $class;
             $this->setClasses($attr);
