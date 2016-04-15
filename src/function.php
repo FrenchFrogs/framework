@@ -472,79 +472,78 @@ if (!function_exists('ffunichr')) {
  * @param $url
  * @return array
  */
-function extract_meta_url($url) {
+if (!function_exists('extract_meta_url')) {
+    function extract_meta_url($url)
+    {
 
-    $data = [];
-    try {
-        $client = new \GuzzleHttp\Client();
-        $res = $client->get($url);
+        $data = [];
+        try {
+            $client = new \GuzzleHttp\Client();
+            $res = $client->get($url);
 
-        if ($res->getStatusCode() == 200) {
-            $content = $res->getBody()->getContents();
-            $data = [];
+            if ($res->getStatusCode() == 200) {
+                $content = $res->getBody()->getContents();
+                $data = [];
 
-            // charset detection
-            if (preg_match('#<meta.+charset=(?<charset>[\w\-]+).+/?>#', $content, $match)
-                || preg_match('#<meta.+charset="(?<charset>[^"]+)"#', $content, $match)) {
-                $charset = strtolower($match['charset']);
-                if ($charset == 'utf-8') {
-                    $content = utf8_decode($content);
-                }
-            }
-
-            // titre
-            if (preg_match('#<title>(?<title>.+)</title>#', $content, $match)) {
-                $title = '';
-                foreach(str_split($match['title']) as $c) {
-                    $title .= ffunichr(ord($c));
+                // charset detection
+                if (preg_match('#<meta.+charset=(?<charset>[\w\-]+).+/?>#', $content, $match)
+                    || preg_match('#<meta.+charset="(?<charset>[^"]+)"#', $content, $match)
+                ) {
+                    $charset = strtolower($match['charset']);
+                    if ($charset == 'utf-8') {
+                        $content = utf8_decode($content);
+                    }
                 }
 
-                $data['source_title'] = html_entity_decode($title);
+                // titre
+                if (preg_match('#<title>(?<title>.+)</title>#', $content, $match)) {
+                    $title = '';
+                    foreach (str_split($match['title']) as $c) {
+                        $title .= ffunichr(ord($c));
+                    }
 
-                $emoticon = [';)', ':)', ':p',  '=D', 'B|'];
+                    $data['source_title'] = html_entity_decode($title);
+                }
 
-                // hack formatage title HDN
-                $data['source_title'] = str_replace('– HDN – Histoires du net', ' ' . $emoticon[array_rand($emoticon)], $data['source_title'] );
-            }
+                // other meta
+                if (preg_match_all('#<meta[^>]+/?>#s', $content, $matches)) {
 
-            // other meta
-            if (preg_match_all('#<meta[^>]+/?>#s', $content, $matches)) {
+                    foreach ($matches[0] as $meta) {
 
-                foreach($matches[0] as $meta) {
-
-                    if (preg_match('#property=.og:description.#', $meta)) {
-                        if (preg_match('#content="(?<description>[^>]+)"#s', $meta, $match)) {
-                            $description = '';
-                            foreach(str_split($match['description']) as $c) {
-                                $description .= ffunichr(ord($c));
+                        if (preg_match('#property=.og:description.#', $meta)) {
+                            if (preg_match('#content="(?<description>[^"]+)"#s', $meta, $match)) {
+                                $description = '';
+                                foreach (str_split($match['description']) as $c) {
+                                    $description .= ffunichr(ord($c));
+                                }
+                                $data['source_description'] = html_entity_decode($description);
                             }
-                            $data['source_description'] = html_entity_decode($description);
-                        }
-                    } elseif (preg_match('#property=.og:image[^:]#', $meta)) {
-                        if (preg_match('#content="(?<image>.+)"#', $meta, $match)) {
+                        } elseif (preg_match('#property=.og:image[^:]#', $meta)) {
+                            if (preg_match('#content="(?<image>[^"]+)"#', $meta, $match)) {
 
-                            $image = '';
-                            foreach(str_split($match['image']) as $c) {
-                                $image .= ffunichr(ord($c));
+                                $image = '';
+                                foreach (str_split($match['image']) as $c) {
+                                    $image .= ffunichr(ord($c));
+                                }
+
+                                $data['source_media'] = $image;
                             }
-
-                            $data['source_media'] = $image;
-
-                        }
-                    } elseif (empty($data['source_description']) && preg_match('#name=.description.#', $meta)) {
-                        if (preg_match('#content="(?<description>[^>]+)"#s', $meta, $match)) {
-                            $description = '';
-                            foreach(str_split($match['description']) as $c) {
-                                $description .= ffunichr(ord($c));
+                        } elseif (empty($data['source_description']) && preg_match('#name=.description.#', $meta)) {
+                            if (preg_match('#content="(?<description>[^"]+)"#s', $meta, $match)) {
+                                $description = '';
+                                foreach (str_split($match['description']) as $c) {
+                                    $description .= ffunichr(ord($c));
+                                }
+                                $data['source_description'] = html_entity_decode($description);
                             }
-                            $data['source_description'] = html_entity_decode($description);
                         }
                     }
                 }
             }
+        } catch (\Exception $e) {
         }
-    } catch (\Exception $e) {}
 
-    return $data;
+        return $data;
+    }
 }
 
