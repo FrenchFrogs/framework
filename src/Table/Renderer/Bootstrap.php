@@ -23,6 +23,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         'boolean',
         'remote_boolean',
         'remote_text',
+        'remote_select',
         'container',
         'strainer',
         'strainerSelect',
@@ -319,6 +320,19 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         return $html;
     }
 
+    /**
+     * Render remote Select
+     *
+     * @param \FrenchFrogs\Table\Column\RemoteSelect $column
+     * @param array $row
+     * @return string
+     */
+    public function remote_select(Column\RemoteSelect $column, array $row)
+    {
+
+        return 'coucou';
+    }
+
 
     /**
      * Render link column
@@ -398,10 +412,8 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             $column->addClass(constant(  Style::class . '::' . $column->getSize()));
         }
 
-
         $column->addClass(Style::BUTTON_CLASS);
         $column->addAttribute('href',$column->getBindedLink($row));
-
 
         $label = '';
         if ($column->hasIcon()) {
@@ -425,6 +437,8 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         $column->addAttribute('title', $name);
 
         $html = html('a',$column->getAttributes(), $label );
+
+        $column->clearClasses()->center();
 
         return $html;
     }

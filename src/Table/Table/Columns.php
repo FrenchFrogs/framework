@@ -262,6 +262,21 @@ trait Columns
     }
 
     /**
+     * Add remote select
+     *
+     * @param $name
+     * @param string $label
+     * @return \FrenchFrogs\Table\Column\RemoteSelect
+     */
+    public function addRemoteSelect($name, $label = '', $option = [], $function = null)
+    {
+        $c = new Column\RemoteSelect($name, $label, $function);
+        $this->addColumn($c);
+
+        return $c;
+    }
+
+    /**
      * Add Boolean column to $columns container
      *
      * @param $name
