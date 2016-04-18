@@ -340,6 +340,31 @@ $.fn.extend({
                 });
             });
 
+
+        // TABLE REMOTE SELECT
+        jQuery(this).find('select.ff-remote-select').change(
+            function(e) {
+
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                // if element is active, we disable action
+                if (jQuery(this).hasClass('ff-remote-active')){
+                    return jQuery(this);
+                }
+
+                // mark element as actiove
+                jQuery(this).addClass('ff-remote-active');
+
+                jQuery.post(jQuery(this).closest('.datatable-remote').DataTable().ajax.url(), {
+                    id : jQuery(this).data('id'),
+                    column : jQuery(this).data('column'),
+                    value : jQuery(this).val()
+                }, function(e,f) {eval(e)});
+                console.log(this);
+            }
+        );
+
         //DATATABLE DECORATION
         jQuery(this).find('table.table > thead > tr:last-child').children().css('border-bottom', '1px solid #ddd');
     },

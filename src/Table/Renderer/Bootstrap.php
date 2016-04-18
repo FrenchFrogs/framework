@@ -312,7 +312,6 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         $html = $this->text($column, $row);
         $html .= html('input', [
             'type' => 'text',
-            'style' => 'width:100%;display:none;',
             'data-id' => $row[$column->getTable()->getIdField()],
             'data-column' =>  $column->getName()
         ]);
@@ -330,7 +329,23 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
     public function remote_select(Column\RemoteSelect $column, array $row)
     {
 
-        return 'coucou';
+        // OPTIONS
+        $options = '';
+        $elementValue = $row[$column->getIndex()];
+        foreach($column->getOptions() as $value => $key){
+            $attr = ['value' => $value];
+            if ($value == $elementValue){
+                $attr['selected'] = 'selected';
+            }
+            $options .= html('option', $attr, $key);
+        }
+
+        $html = html('select', [
+            'class' => 'ff-remote-select',
+            'data-id' => $row[$column->getTable()->getIdField()],
+            'data-column' =>  $column->getName()
+        ], $options);
+        return $html;
     }
 
 

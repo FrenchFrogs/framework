@@ -1,3 +1,14 @@
 .portlet > .portlet-title > .actions > .select2-container {
     margin-top:-12px;
 }
+
+
+.ff-remote-select {
+    width:100%;
+    min-width:100px;
+}
+
+.ff-remote-text > input {
+    width:100%;
+    display:none;
+}

@@ -20,6 +20,32 @@ class RemoteSelect extends Column
      */
     protected $options = [];
 
+
+    protected $index;
+
+    /**
+     * GEtter for $index
+     *
+     * @return mixed
+     */
+    public function getIndex()
+    {
+        return $this->index;
+    }
+
+    /**
+     * Setter $index
+     *
+     * @param $index
+     * @return mixed
+     *
+     */
+    public function setIndex($index)
+    {
+        $this->index = $index;
+        return $index;
+    }
+
     /**
      * Overload the constcteur
      *
@@ -28,11 +54,15 @@ class RemoteSelect extends Column
      * @param string $label
      * @param null $function
      */
-    public function __construct($name, $label = '', $options = [], $function = null )
+    public function __construct($name, $label = '', $index = null,  $options = [], $function = null )
     {
         $this->setName($name);
         $this->setLabel($label);
         $this->setOptions($options);
+
+        if (!is_null($index)) {
+            $this->setIndex($index);
+        }
 
         if (!is_null($function)) {
             $this->setRemoteProcess($function);

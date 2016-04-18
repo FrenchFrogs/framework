@@ -268,9 +268,9 @@ trait Columns
      * @param string $label
      * @return \FrenchFrogs\Table\Column\RemoteSelect
      */
-    public function addRemoteSelect($name, $label = '', $option = [], $function = null)
+    public function addRemoteSelect($name, $label = '', $index = null, $option = [], $function = null)
     {
-        $c = new Column\RemoteSelect($name, $label, $function);
+        $c = new Column\RemoteSelect($name, $label, $index, $option, $function);
         $this->addColumn($c);
 
         return $c;
