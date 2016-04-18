@@ -291,6 +291,8 @@ $.fn.extend({
         jQuery(this).find('div.ff-remote-text')
             .dblclick(function(e) {
 
+                e.preventDefault();
+
                 // if element is active, we disable action
                 if (jQuery(this).hasClass('ff-remote-active')){
                     return jQuery(this);

@@ -29,6 +29,18 @@ class RemoteText extends Text
     }
 
     /**
+     * Overload for empty value management
+     *
+     * @param $row
+     * @return mixed|string
+     */
+    public function getValue($row)
+    {
+        $value = parent::getValue($row);
+        return  empty($value)  ? '---'  : $value;
+    }
+
+    /**
      *
      *
      * @return string
