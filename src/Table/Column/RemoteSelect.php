@@ -78,7 +78,9 @@ class RemoteSelect extends Column
     {
         $render = '';
         try {
-            $render = $this->getRenderer()->render('remote_select', $this, $row);
+            if ($this->isVisible($row)) {
+                $render = $this->getRenderer()->render('remote_select', $this, $row);
+            }
         } catch(\Exception $e){
             dd($e->getMessage());
         }

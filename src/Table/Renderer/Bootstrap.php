@@ -283,6 +283,8 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
     {
 
         $attributes = $column->getAttributes();
+
+
         if($column->hasTooltip()){
             $attributes += [
                 'data-placement' => $column->getTooltipPosition(),
@@ -330,7 +332,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
     {
 
         // OPTIONS
-        $options = '';
+        $options = html('option', [], '--');
         $elementValue = $row[$column->getIndex()];
         foreach($column->getOptions() as $value => $key){
             $attr = ['value' => $value];
@@ -433,6 +435,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         $label = '';
         if ($column->hasIcon()) {
             $label .= html('i', ['class' => $column->getIcon()]);
+            $label .= PHP_EOL;
         }
 
         $name = $column->getBindedLabel($row);
@@ -451,7 +454,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
         $column->addAttribute('title', $name);
 
-        $html = html('a',$column->getAttributes(), $label );
+        $html = html('a', $column->getAttributes(), $label );
 
         $column->clearClasses()->center();
 

@@ -100,7 +100,22 @@ trait Columns
      */
     public function getColumn($name)
     {
-        return $this->columns[$name];
+
+        // check all the columns
+        foreach ($this->columns as $index => $column) {
+            if ($name == $index) {
+                return $column;
+            }
+
+            // recursivity
+            if (method_exists($column, 'hasColumn')) {
+               if ($column->hasColumn($name)) {
+                   return $column->getColumn($name);
+               }
+            }
+        }
+
+        return null;
     }
 
     /**

@@ -441,6 +441,18 @@ function li($message, $context = [])
     return Log::info($message, $context);
 }
 
+/**
+ * Log un debug
+ *
+ * @param $message
+ * @param array $context
+ * @return bool
+ */
+function ld($message, $context = [])
+{
+    return Log::debug($message, $context);
+}
+
 
 /**
  * Format a number in french format
@@ -544,6 +556,26 @@ if (!function_exists('extract_meta_url')) {
         }
 
         return $data;
+    }
+}
+
+/**
+ * Throw new Exception
+ *
+ * @param $message
+ * @param bool $quiet
+ * @throws \Exception
+ */
+if (!function_exists('exc')) {
+    function exc($message, $quiet = false) {
+
+        $e = new \Exception($message);
+        le($e->getMessage());
+        ld($e->getTraceAsString());
+
+        if (!$quiet) {
+            throw $e;
+        }
     }
 }
 

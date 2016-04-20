@@ -46,7 +46,9 @@ class Text extends Column
     {
         $render = '';
         try {
-            $render = $this->getRenderer()->render('text', $this, $row);
+            if ($this->isVisible($row)) {
+                $render = $this->getRenderer()->render('text', $this, $row);
+            }
         } catch(\Exception $e){
             dd($e->getMessage());
         }
