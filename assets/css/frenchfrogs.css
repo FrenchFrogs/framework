@@ -18,3 +18,8 @@
     white-space: normal;
 }
 
+/** fix remote boolean table */
+div.checker, div.checker span, div.checker input {
+    width: inherit;
+    height: inherit;
+}
