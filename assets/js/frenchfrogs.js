@@ -281,7 +281,7 @@ $.fn.extend({
                 }
             });
 
-            jQuery(this).find('input[type=checkbox].make-switch').bootstrapSwitch();
+            jQuery(this).find('input[type=checkbox].make-switch:not(.ff-remote-boolean)').bootstrapSwitch();
         }
 
 

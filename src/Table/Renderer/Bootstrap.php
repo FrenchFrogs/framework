@@ -223,7 +223,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
         // Attributes
         $attributes = [
-            'class' => 'ff-remote-boolean',
+            'class' => 'ff-remote-boolean make-switch',
             'type' => 'checkbox',
             'data-size' => 'small',
             'value' => true,

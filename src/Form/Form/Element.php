@@ -346,6 +346,14 @@ trait Element
     }
 
 
+    /**
+     * Add Boolean Element
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Boolean
+     */
     public function addBoolean($name, $label = '', $attr = [] )
     {
         $e = new \FrenchFrogs\Form\Element\Boolean($name, $label, $attr);
