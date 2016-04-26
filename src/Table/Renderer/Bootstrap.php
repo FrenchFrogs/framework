@@ -399,7 +399,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             return html('a', ['href' => $media, 'class' => 'fancybox'], $html);
         }elseif(in_array($extension, ['mp4'])) {
             $source  = html('source', ['src' => $media, 'type' => 'video/' . $extension]);
-            return html('video', ['width' => $column->getMediaWidth(), 'height' => $column->getMediaHeight(), 'controls' => 'controls'], $source);
+            return html('video', ['style' => sprintf('width:%spx;height:%spx', $column->getMediaWidth(), $column->getMediaHeight()), 'controls' => 'controls'], $source);
         } else {
             dd($extension);
             throw new \Exception('Extension pas trouvé : ' . $media);
