@@ -72,6 +72,8 @@ class Bootstrap extends Renderer
             $html = html('div', ['class' => Style::MODAL_CLASS,'role' => 'dialog'], $html);
         }
 
+        $html .= html('script', ['type' => 'text/javascript'],js('onload'));
+
         return $html;
     }
 

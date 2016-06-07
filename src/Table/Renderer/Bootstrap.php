@@ -514,10 +514,28 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             ];
         }
 
+        //param par default
+        $options += ['searching' => true];
+
+        //Param dom datatable
+        $dom = '';
+
+        //header dom
+        $dom .= '<"dataTables_wrapper no-footer"<"row"<"col-md-6 col-sm-12"l>';
         // is a search is set
         if ($table->hasSearch()) {
-            $options += ['searching' => true];
+            $dom .= '<"col-md-6 col-sm-12"f>';
         }
+        $dom .= '>';
+
+        //dom table
+        $dom .= '<"table-scrollable"t>';
+
+        //footer dom
+        $dom .= '<"row"<"col-md-5 col-sm-12"i><"col-md-7 col-sm-12"p>>';
+
+        //Set dom
+        $options += ['dom' => $dom];
 
 
         // columns mamangement
