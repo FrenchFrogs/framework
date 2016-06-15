@@ -20,6 +20,10 @@ class Text extends Strainer
         $element->setPlaceholder('All');
         $this->setRenderer($column->getTable()->getRenderer());
         $this->setElement($element);
+
+        if (!is_null($callable)) {
+            $this->setCallable($callable);
+        }
     }
 
 
