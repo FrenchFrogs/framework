@@ -89,6 +89,10 @@ class Conquer extends Renderer
                     $class = 'class="active"';
                 }
 
+                if ($p->hasPermission() && !\ruler()->hasPermission($p->getPermission())){
+                    continue;
+                }
+
                 $children .= '<li '.$class.'>'.html('a', ['href' => $p->getLink()], $p->getLabel()).'</li>';
             }
 
