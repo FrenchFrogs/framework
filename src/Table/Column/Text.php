@@ -1,7 +1,7 @@
 <?php namespace FrenchFrogs\Table\Column;
 
 
-class Text extends Column
+class Text extends Column implements Exportable
 {
 
     protected $tooltip = false;

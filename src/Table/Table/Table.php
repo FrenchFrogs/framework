@@ -1,7 +1,6 @@
 <?php namespace FrenchFrogs\Table\Table;
 
 
-use Doctrine\DBAL\Driver\Mysqli\MysqliConnection;
 use FrenchFrogs\Core;
 use FrenchFrogs\Table\Column;
 use FrenchFrogs\Table\Renderer;
@@ -26,6 +25,7 @@ class Table
     use Bootstrap;
     use Datatable;
     use Columns;
+    use Export;
 
     /**
      *
@@ -63,7 +63,16 @@ class Table
      * @var
      */
     protected $idField;
-
+    
+    /**
+     * Return TRUE if $is_download is TRUE
+     *
+     * @return bool
+     */
+    public function isDownload()
+    {
+        return (bool) $this->is_download;
+    }
 
     /**
      * Return TRUE if a column has a strainer

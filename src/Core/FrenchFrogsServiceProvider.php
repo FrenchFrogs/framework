@@ -7,7 +7,6 @@ use Response, Request, Route, Input, Blade, Auth;
 
 class FrenchFrogsServiceProvider  extends ServiceProvider
 {
-
     /**
      * Register bindings in the container.
      *
@@ -34,15 +33,7 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
     public function bootDatatable($route = '/datatable/{token}')
     {
 
-//        Route::get($route . '/export', function ($token) {
-//
-//        });
-
-
-        /**
-         * Gestion du raffraichissement ajax
-         *
-         */
+        // gestion de la navifgation Ajax
         Route::get($route, function($token) {
 
             try{
@@ -95,7 +86,19 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
 
 
         /**
-         * Gestion des champs remote
+         * Gestion de l'export CSV
+         */
+        Route::get($route . '/export', function($token) {
+            $table = FrenchFrogs\Table\Table\Table::load($token);
+            $table->setItemsPerPage(5000);
+            $table->toCsv($table->getFilename());
+            exit;
+        })->name('datatable-export');
+
+
+        /**
+         * gestion de l'edition en remote
+         *
          */
         Route::post($route, function($token) {
             $request = request();

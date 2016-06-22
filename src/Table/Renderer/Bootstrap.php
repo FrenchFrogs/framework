@@ -203,7 +203,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
     {
 
         $html = '';
-        if(isset($row[$column->getName()]) && !empty($row[$column->getName()])) {
+        if($column->getValue($row)) {
             $html .= '<i class="fa fa-check"></i>';
         }
 
@@ -284,7 +284,6 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
     {
 
         $attributes = $column->getAttributes();
-
 
         if($column->hasTooltip()){
             $attributes += [
@@ -551,7 +550,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         $dom = '';
 
         //header dom
-        $dom .= '<"dataTables_wrapper no-footer"<"row"<"col-md-6 col-sm-12"l>';
+        $dom .= '<"dataTables_wrapper no-footer"<"row"<"col-md-6 col-sm-12"lB>';
         // is a search is set
         if ($table->hasSearch()) {
             $dom .= '<"col-md-6 col-sm-12"f>';
@@ -611,6 +610,12 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
         if (!empty($columns)) {
             $options += ['columns' => $columns];
+        }
+
+        // buttons
+        if ($table->hasDatatableButtons())
+        {
+            $options += ['buttons' => $table->getDatatableButtons()];
         }
 
         // main order foir the table

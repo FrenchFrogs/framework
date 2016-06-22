@@ -33,6 +33,35 @@ class Javascript extends Container
     }
 
     /**
+     * Ecnode un paramètre js
+     *
+     * @param $var
+     * @return mixed
+     */
+    protected function encode($var)
+    {
+
+        $functions = [];
+
+        // bind toutes les functions
+        array_walk_recursive($var, function(&$item, $key) use (&$functions){
+            if (substr($item,0,8) == 'function') {
+                $index = '###___' . count($functions) . '___###';
+                $functions['"' . $index . '"'] = $item;
+                $item = $index;
+            }
+        });
+
+        // Encodage
+        $var = json_encode($var, JSON_PRETTY_PRINT );
+
+        // Rebind des functions
+        $var = str_replace(array_keys($functions), array_values($functions), $var);
+
+        return $var;
+    }
+
+    /**
      * Build a jquery call javascript code
      *
      * @param $selector
@@ -44,17 +73,18 @@ class Javascript extends Container
     {
         $attributes = [];
 
+
         foreach($params as $p) {
-            if (is_array($p)) {
-                $attributes[] = json_encode($p, JSON_PRETTY_PRINT );
-            } elseif (substr($p,0,8) == 'function') {
-                $attributes[] = str_replace('"', '\"', $p);
-            } else {
-                $attributes[] = '"'.str_replace('"', '\"', $p).'"';
-            }
+            $attributes[] = $this->encode($p);
         }
 
-        return sprintf('$("%s").%s(%s);', $selector, $function, implode(',', $attributes));
+        //n concatenation du json
+        $attributes =  implode(',', $attributes);
+
+        // gestion des functions
+        $attributes = preg_replace('#\"(function\([^\{]+{.*\})\",#', '$1,', $attributes);
+
+        return sprintf('$("%s").%s(%s);', $selector, $function, $attributes);
     }
 
     /**

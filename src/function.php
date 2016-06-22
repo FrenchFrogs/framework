@@ -2,6 +2,7 @@
 
 use FrenchFrogs\Core\Configurator;
 
+
 if (!function_exists('html')) {
     /**
      * Render an HTML tag

@@ -17,6 +17,16 @@ class Boolean extends Text
         $this->center();
     }
 
+    /**
+     * 
+     * @param $row
+     * @return bool
+     */
+    public function getValue($row)
+    {
+        return isset($row[$this->getName()]) && !empty($row[$this->getName()]);
+    }
+
 
     /**
      *

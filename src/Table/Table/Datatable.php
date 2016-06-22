@@ -54,6 +54,91 @@ trait Datatable
 
 
     /**
+     * Button for Datatable
+     *
+     * @see https://datatables.net/reference/button/
+     *
+     * @var array
+     */
+    protected $datatableButtons = [];
+
+
+    /**
+     * Ajoute un bouton
+     *
+     * @param $text
+     * @param $action
+     * @return $this
+     */
+    public function addDatatableButton($text, $action)
+    {
+        $this->datatableButtons[] = ['text' => $text, 'action' => $action];
+        return $this;
+    }
+
+    /**
+     * Ajoute un lien au button datatable
+     *
+     * @param $text
+     * @param $url
+     * @return $this
+     */
+    public function addDatatableButtonLink($text, $url)
+    {
+        $this->addDatatableButton( $text, 'function() {window.open("'.$url.'")}');
+        return $this;
+    }
+
+    /**
+     * Ajoute un Bouton d'export
+     *
+     * @param $text
+     * @param $url
+     * @return $this
+     */
+    public function addDatatableButtonExport($text = 'CSV')
+    {
+        $this->hasToken() ?: $this->generateToken();
+        $this->addDatatableButtonLink($text, route('datatable-export', ['token' => $this->getToken()]));
+        return $this;
+    }
+
+
+
+    /**
+     * Return TRUE si au moins un bouton est ajouté
+     *
+     * @return bool
+     */
+    public function hasDatatableButtons()
+    {
+        return is_array($this->datatableButtons) && count($this->datatableButtons) > 0;
+    }
+
+    /**
+     * Clear $buttons
+     *
+     * @return $this
+     */
+    public function clearDatatableButtons()
+    {
+        $this->datatableButtons = [];
+        return $this;
+    }
+
+
+    /**
+     * Getter for $datatabaseButtons
+     *
+     * @return array
+     */
+    public function getDatatableButtons()
+    {
+        return $this->datatableButtons;
+    }
+
+
+    /**
      * Setter for $search callable function
      *
      * @param $function
