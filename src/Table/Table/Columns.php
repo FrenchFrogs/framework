@@ -133,9 +133,7 @@ trait Columns
         return $column;
     }
 
-
-
-
+    
     /**
      * Add Text column to $columns container
      *
@@ -147,6 +145,21 @@ trait Columns
     public function addText($name, $label = '', $attr = [])
     {
         $c = new Column\Text($name, $label, $attr);
+        $this->addColumn($c);
+        return $c;
+    }
+
+    /**
+     * Add number column to $columns container
+     *
+     * @param $name
+     * @param string $label
+     * @param int $decimal
+     * @return \FrenchFrogs\Table\Column\Number
+     */
+    public function addNumber($name, $label = '', $decimal = 2)
+    {
+        $c = new Column\Number($name, $label, $decimal);
         $this->addColumn($c);
         return $c;
     }

@@ -31,7 +31,8 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         'strainerBoolean',
         'icon',
         'media',
-        'custom'
+        'custom',
+        'number'
     ];
 
 
@@ -298,6 +299,35 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         }
 
         return $this->post($html, $column, $row);
+    }
+
+    /**
+     *
+     *
+     * @param $row
+     * @return mixed|string
+     * @throws \Exception
+     */
+    public function getValue($row) {
+
+        $value = isset($row[$this->getName()]) ? $row[$this->getName()] : '';
+        if ($this->hasFilterer()) {
+            $value = $this->getFilterer()->filter($value);
+        }
+        return $value;
+    }
+
+
+    /**
+     * Render a number column
+     *
+     * @param Column\Number $column
+     * @param array $row
+     * @return mixed|string
+     */
+    public function number(Column\Number $column, array $row)
+    {
+       return $this->text($column, $row);
     }
 
 

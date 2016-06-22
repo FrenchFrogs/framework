@@ -23,7 +23,8 @@
         "laravel/framework": "5.*",
         "matthiasmullie/minify": "^1.3",
         "oyejorge/less.php": "~1.5",
-        "gossi/php-code-generator": "dev-master"
+        "gossi/php-code-generator": "dev-master",
+        "league/csv": "^8.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.3.*",

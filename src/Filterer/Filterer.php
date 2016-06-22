@@ -232,10 +232,21 @@ class Filterer
     public function dateFormat($value, $format = 'd/m/Y')
     {
         if (!empty($value)) {
-            $date = \DateTime::createFromFormat('Y-m-d',$value);
-            //Check que la value est compatible avec le format
-            if($date !== false  && !array_sum($date->getLastErrors())){
-                $value = $date->format($format);
+
+            // passage de la date en datetime
+            if (strlen($value) == 10) {
+                $value .= ' 00:00:00';
+            }
+
+            // gestion d'une date vide
+            if ($value == '0000-00-00 00:00:00') {
+                $value = '';
+            } else {
+                $date = \DateTime::createFromFormat('Y-m-d H:i:s',$value);
+                //Check que la value est compatible avec le format
+                if($date !== false  && !array_sum($date->getLastErrors())){
+                    $value = $date->format($format);
+                }
             }
         }
 
@@ -308,7 +319,7 @@ class Filterer
      */
     public function numfr($value, $dec = 0)
     {
-        return number_format($value, $dec, ',', ' ');
+        return is_null($value) ? '' : number_format($value, $dec, ',', ' ');
     }
 
 

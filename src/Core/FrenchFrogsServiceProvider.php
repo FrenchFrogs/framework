@@ -33,6 +33,16 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
      */
     public function bootDatatable($route = '/datatable/{token}')
     {
+
+//        Route::get($route . '/export', function ($token) {
+//
+//        });
+
+
+        /**
+         * Gestion du raffraichissement ajax
+         *
+         */
         Route::get($route, function($token) {
 
             try{
@@ -84,8 +94,10 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
         })->name('datatable');
 
 
+        /**
+         * Gestion des champs remote
+         */
         Route::post($route, function($token) {
-
             $request = request();
             $table = FrenchFrogs\Table\Table\Table::load($token);
             return $table->getColumn($request->get('column'))->remoteProcess($request->get('id'), $request->get('value'));
