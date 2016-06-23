@@ -682,6 +682,56 @@ class Inline extends Renderer\Renderer {
 
 
     /**
+     * Render a date range element
+     *
+     * @param Form\Element\DateRange $element
+     */
+    public function date_range(Form\Element\DateRange $element)
+    {
+
+
+        // CLASS
+        $class =  Style::FORM_GROUP_CLASS;
+
+        // ERROR
+        if($hasError = !$element->getValidator()->isValid()){
+
+            if(empty($element->getAttribute('data-placement'))){$element->addAttribute('data-placement','bottom');}
+            $message = '';
+            foreach($element->getValidator()->getErrors() as $error){
+                $message .= $error . ' ';
+            }
+            $element->addAttribute('data-original-title',$message);
+            $element->addAttribute('data-toggle', 'tooltip');
+            $class .= ' ' .Style::FORM_GROUP_ERROR;
+        }
+
+        // LABEL
+        $label = '';
+        if ($element->getForm()->hasLabel()) {
+            $label = '<label for="' . $element->getName() . '" class="col-md-3 control-label">' . $element->getLabel() . ($element->hasRule('required') ? ' *' : '') . '</label>';
+        }
+
+        $html = html('input', ['type' => 'text', 'class' => Style::FORM_ELEMENT_CONTROL, 'name' => $element->getFrom()]);
+        $html .= '<span class="input-group-addon"> => </span>';
+        $html .= html('input', ['type' => 'text', 'class' => Style::FORM_ELEMENT_CONTROL, 'name' => $element->getTo()]);
+        $html = html('div', [
+            'class' => 'input-group input-large date-picker daterange input-daterange',
+            'data-date-format' =>  configurator()->get('form.element.date.formatjs')
+        ], $html);
+
+        // DESCRIPTION
+        if ($element->hasDescription()) {
+            $html .= html('span', ['class' => 'help-block'], $element->getDescription());
+        }
+
+        // FINAL CONTAINER
+        $html = html('div', ['class' => 'col-md-9'], $html);
+        return html('div', compact('class'), $label . $html);
+    }
+
+
+    /**
      * Render a time element
      *
      * @param \FrenchFrogs\Form\Element\Time $element

@@ -230,11 +230,35 @@ trait Element
      * @param $name
      * @param string $label
      * @param array $attr
-     * @return \FrenchFrogs\Form\Element\Text
+     * @return \FrenchFrogs\Form\Element\Date
      */
     public function addDate($name, $label = '', $is_mandatory = true)
     {
         $e = new \FrenchFrogs\Form\Element\Date($name, $label);
+        $this->addElement($e);
+
+        if ($is_mandatory) {
+            $e->addRule('required');
+        } else {
+            $e->addFilter('nullable');
+        }
+
+        return $e;
+    }
+
+    /**
+     * Add 2 input for a date range element
+     *
+     * @param $name
+     * @param string $label
+     * @param string $from
+     * @param string $to
+     * @param bool $is_mandatory
+     * @return FrenchFrogs\Form\Element\DateRange
+     */
+    public function addDateRange($name, $label = '', $from = '', $to = '', $is_mandatory = true)
+    {
+        $e = new \FrenchFrogs\Form\Element\DateRange($name, $label, $from, $to);
         $this->addElement($e);
 
         if ($is_mandatory) {

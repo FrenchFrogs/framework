@@ -29,6 +29,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         'strainerSelect',
         'strainerText',
         'strainerBoolean',
+        'strainerDateRange',
         'icon',
         'media',
         'custom',
@@ -643,6 +644,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
         $element = $strainer->getElement();
         $element->addStyle('width', '100%');
+        $element->addClass(Style::FORM_ELEMENT_CONTROL);
 
         $options = '';
 
@@ -673,6 +675,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         $element = $strainer->getElement();
         $element->addStyle('width', '100%');
         $element->addClass('text-center');
+        $element->addClass(Style::FORM_ELEMENT_CONTROL);
 
         return html('input', $element->getAttributes());
     }
@@ -688,6 +691,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
         $element = $strainer->getElement();
         $element->addStyle('width', '100%');
+        $element->addClass(Style::FORM_ELEMENT_CONTROL);
 
         $options = '';
 
@@ -706,7 +710,25 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         return html('select', $element->getAttributes(), $options);
     }
 
+    /**
+     * Render a striner for a text element
+     *
+     * @param Column\Strainer\Text $strainer
+     * @return string
+     */
+    public function strainerDateRange(Column\Strainer\DateRange $strainer)
+    {
+        $element = $strainer->getElement();
 
+        $html = html('input', ['type' => 'text', 'class' => Style::FORM_ELEMENT_CONTROL, 'name' => $element->getFrom()]);
+        $html .= '<span class="input-group-addon">-</span>';
+        $html .= html('input', ['type' => 'text', 'class' => Style::FORM_ELEMENT_CONTROL, 'name' => $element->getTo()]);
+        return html('div', [
+            'name' => $element->getName(),
+            'class' => 'input-group date-picker daterange input-daterange text-center',
+            'data-date-format' =>  configurator()->get('form.element.date.formatjs')
+        ], $html);
+    }
 
     /**
      * Render id data if specified

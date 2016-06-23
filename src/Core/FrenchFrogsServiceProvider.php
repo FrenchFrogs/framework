@@ -38,7 +38,9 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
 
             try{
 
+
                 $request = request();
+
 
                 $table = FrenchFrogs\Table\Table\Table::load($token);
 
@@ -53,6 +55,7 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
                 }
 
                 $search = $request->get('search');
+
                 if (!empty($search['value']) ) {
                     $table->search($search['value']);
                 }

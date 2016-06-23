@@ -124,6 +124,33 @@ trait Strainerable
         // create the strainer
         $strainer = new Boolean($this, $callable, $attr);
 
+        //if a fields is set, we configure the strainer
+        if (isset($field)) {
+            $strainer->setField($field);
+        }
+
+        return $this->setStrainer($strainer);
+    }
+
+
+    /**
+     * Set a strainer as date from to
+     *
+     * @param null $callable
+     * @param array $attr
+     * @return $this
+     */
+    public function setStrainerDateRange($callable = null, $attr = [])
+    {
+
+        // if callable is a string , it's a field
+        if (is_string($callable)) {
+            $field = $callable;
+            $callable = null;
+        }
+
+        // create the strainer
+        $strainer = new DateRange($this, $callable, $attr);
 
         //if a fields is set, we configure the strainer
         if (isset($field)) {
@@ -131,8 +158,6 @@ trait Strainerable
         }
 
         return $this->setStrainer($strainer);
-
-
     }
 
 }

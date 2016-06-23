@@ -37,6 +37,7 @@ class Conquer extends Inline
         'password',
         'file',
         'date',
+        'date_range',
         'boolean',
         'select2',
         'time',

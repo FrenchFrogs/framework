@@ -1,5 +1,6 @@
 <?php namespace FrenchFrogs\Table\Column\Strainer;
 
+use FrenchFrogs\Form\Element\Element;
 use FrenchFrogs\Form\Element\Text as FormText;
 use FrenchFrogs\Table\Column\Column;
 
@@ -9,7 +10,7 @@ class Text extends Strainer
     /**
      *
      *
-     * @var Select
+     * @var Element
      */
     protected $element;
 
@@ -26,7 +27,7 @@ class Text extends Strainer
     /**
      * Setter for $element attribute
      *
-     * @param FormText $element
+     * @param Element $element
      * @return $this
      */
     public function setElement(FormText $element)
@@ -39,7 +40,7 @@ class Text extends Strainer
     /**
      * Getter for $element attribute
      *
-     * @return FormText
+     * @return Element
      */
     public function getElement()
     {
