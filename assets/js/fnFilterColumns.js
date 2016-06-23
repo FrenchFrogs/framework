@@ -25,10 +25,8 @@ jQuery.fn.dataTableExt.oApi.fnFilterColumns = function (oSettings) {
 
             jQuery(this).datepicker().on('changeDate', function(e) {
                 jQuery.fn.dataTableExt.iApiIndex = i;
-
-                // Récupération du format
-                format = $(this).data('date-format');
-                _that.api().columns( $(this).attr('name') + ':name').search(e.format(0,format) + '#' + e.format(1,format)).draw();
+                search = $($(this).find('input').get(0)).val() + '#' + $($(this).find('input').get(1)).val();
+                _that.api().columns( $(this).attr('name') + ':name').search(search).draw();
             });
 
         });
