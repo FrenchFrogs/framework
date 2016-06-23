@@ -96,7 +96,7 @@ trait Datatable
      * @param $url
      * @return $this
      */
-    public function addDatatableButtonExport($text = 'CSV')
+    public function addDatatableButtonExport($text = 'Export CSV')
     {
         $this->hasToken() ?: $this->generateToken();
         $this->addDatatableButtonLink($text, route('datatable-export', ['token' => $this->getToken()]));

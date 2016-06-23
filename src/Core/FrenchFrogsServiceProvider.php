@@ -91,8 +91,7 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
         Route::get($route . '/export', function($token) {
             $table = FrenchFrogs\Table\Table\Table::load($token);
             $table->setItemsPerPage(5000);
-            $table->toCsv($table->getFilename());
-            exit;
+            $table->toCsv();
         })->name('datatable-export');
 
 
