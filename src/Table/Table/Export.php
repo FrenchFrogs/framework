@@ -28,6 +28,55 @@ trait Export
 
 
     /**
+     * Callback pour la appeler avant l'export
+     *
+     * C'est dans cette methode que l'on va ajuster les colonnes présente dans l'export
+     *
+     * @var Callable
+     */
+    protected $export;
+
+
+    /**
+     * Setter pour $export
+     *
+     * @param $function Callable
+     * @return $this
+     * @throws \Exception
+     */
+    public function setExport($function)
+    {
+        if (!is_callable($function)) {
+            exc('Le callback d\'export nèst pas une fonction valable');
+        }
+
+        $this->export = $function;
+        return $this;
+    }
+
+    /**
+     * Getter for $export
+     *
+     * @return Callable
+     */
+    public function getExport()
+    {
+        return $this->export;
+    }
+
+    /**
+     * Return TRUE if $export is set
+     *
+     * @return bool
+     */
+    public function hasExport()
+    {
+        return isset($this->export);
+    }
+
+
+
+    /**
      * Setter pour $exportFileName
      *
      * @param $name
@@ -85,6 +134,13 @@ trait Export
 
         // render export
         $this->setRenderer(new Csv());
+
+        // appel du collback
+        if ($this->hasExport()){
+            call_user_func($this->export, $this);
+        }
+        
+        // rendu
         $this->render();
 
         // restore renderer
