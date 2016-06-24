@@ -43,6 +43,9 @@ class Javascript extends Container
 
         $functions = [];
 
+        // on force un niveau supérieur
+        $var = [$var];
+
         // bind toutes les functions
         array_walk_recursive($var, function(&$item, $key) use (&$functions){
             if (substr($item,0,8) == 'function') {
@@ -53,7 +56,7 @@ class Javascript extends Container
         });
 
         // Encodage
-        $var = json_encode($var, JSON_PRETTY_PRINT );
+        $var = json_encode($var[0], JSON_PRETTY_PRINT );
 
         // Rebind des functions
         $var = str_replace(array_keys($functions), array_values($functions), $var);
