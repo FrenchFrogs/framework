@@ -1,6 +1,8 @@
 <?php namespace FrenchFrogs\Table\Column\Strainer;
 
 
+use Illuminate\Database\Query\Expression;
+
 trait Strainerable
 {
 
@@ -116,7 +118,7 @@ trait Strainerable
     public function setStrainerBoolean($callable = null, $attr = [])
     {
         // if callable is a string , it's a field
-        if (is_string($callable)) {
+        if (is_string($callable) || $callable instanceof Expression) {
             $field = $callable;
             $callable = null;
         }
