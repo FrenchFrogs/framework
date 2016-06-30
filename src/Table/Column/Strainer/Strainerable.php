@@ -70,7 +70,7 @@ trait Strainerable
     {
 
         // if callable is a string , it's a field
-        if (is_string($callable)) {
+        if (is_string($callable) || $callable instanceof Expression) {
             $field = $callable;
             $callable = null;
         }
@@ -91,7 +91,7 @@ trait Strainerable
     public function setStrainerText($callable = null, $attr = [])
     {
         // if callable is a string , it's a field
-        if (is_string($callable)) {
+        if (is_string($callable) || $callable instanceof Expression) {
             $field = $callable;
             $callable = null;
         }
@@ -146,7 +146,7 @@ trait Strainerable
     {
 
         // if callable is a string , it's a field
-        if (is_string($callable)) {
+        if (is_string($callable) || $callable instanceof Expression) {
             $field = $callable;
             $callable = null;
         }
