@@ -25,6 +25,7 @@ class Conquer extends Inline
         'email',
         'hidden',
         'label',
+        'label_date',
         'link',
         'image',
         'button',

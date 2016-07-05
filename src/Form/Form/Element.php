@@ -487,6 +487,22 @@ trait Element
         return $e;
     }
 
+    /**
+     * Add label date element (read-only element)
+     *
+     * @param $name
+     * @param string $label
+     * @param array $attr
+     * @return \FrenchFrogs\Form\Element\Label
+     */
+    public function addLabelDate($name, $label = '')
+    {
+        $e = new \FrenchFrogs\Form\Element\LabelDate($name, $label);
+        $this->addElement($e);
+
+        return $e;
+    }
+
 
     /**
      * Add label element (read-only element)

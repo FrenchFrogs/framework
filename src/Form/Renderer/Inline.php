@@ -333,6 +333,21 @@ class Inline extends Renderer\Renderer {
         return html('div', compact('class'), $html);
     }
 
+    /**
+     * Render Label Date
+     *
+     * @param \FrenchFrogs\Form\Element\LabelDate $element
+     * @return string
+     */
+    public function label_date(Form\Element\LabelDate $element)
+    {
+        $html = '<label class="col-md-3 control-label">' . $element->getLabel() . '</label>';
+        $html .= '<div class="col-md-9"><p class="form-control-static">' . $element->getDisplayValue() . '</p></div>';
+
+        $class =  Style::FORM_GROUP_CLASS . ' row';
+        return html('div', compact('class'), $html);
+    }
+
 
     /**
      * Render Label iunput
