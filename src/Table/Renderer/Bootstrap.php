@@ -562,8 +562,10 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         $dom .= '<"table-scrollable"t>';
 
         //footer dom
-        $dom .= '<"row"<"col-md-5 col-sm-12"i><"col-md-7 col-sm-12"p>>';
-
+        if ($table->hasFooter()) {
+            $dom .= '<"row"<"col-md-5 col-sm-12"i><"col-md-7 col-sm-12"p>>';
+        }
+        
         //Set dom
         $options += ['dom' => $dom];
 
