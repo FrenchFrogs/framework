@@ -117,27 +117,24 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             $body .= html('tr', [],$line );
         }
 
+		// Footer
+		$footer = '';
+
         if ($table->isDatatable()) {
-            $table->disableFooter();
             $this->render('datatable', $table);
-        }
+        } elseif ($table->hasFooter()) {
+			$current = $table->getPage();
+			$footer .= sprintf('<li class="disabled"><span>&laquo;</span></li>');
+			for ($i = 1; $i <= min(10, $table->getPagesTotal()); $i++) {
+				$footer .= html('li', ['class' => $current == $i ? 'active' : null], sprintf('<a href="%s">%s</a>', $table->getPageUrl($i), $i));
+			}
 
-        // Footer
-        $footer = '';
-
-        if ($table->hasFooter()) {
-            $current = $table->getPage();
-            $footer .= sprintf('<li class="disabled"><span>&laquo;</span></li>');
-            for ($i = 1; $i <= min(10, $table->getPagesTotal()); $i++) {
-                $footer .= html('li', ['class' => $current == $i ? 'active' : null], sprintf('<a href="%s">%s</a>', $table->getPageUrl($i), $i));
-            }
-
-            $footer .= sprintf('<li><a href="%s" rel="next">&raquo;</a></li>', '#');
-            $footer = html('ul', ['class' => 'pagination'], $footer);
-            $footer = html('td', ['colspan' => count($headers)], $footer);
-            $footer = html('tr', [], $footer);
-            $footer = html('tfoot', ['class' => 'text-center'], $footer);
-        }
+			$footer .= sprintf('<li><a href="%s" rel="next">&raquo;</a></li>', '#');
+			$footer = html('ul', ['class' => 'pagination'], $footer);
+			$footer = html('td', ['colspan' => count($headers)], $footer);
+			$footer = html('tr', [], $footer);
+			$footer = html('tfoot', ['class' => 'text-center'], $footer);
+		}
 
 
         // Bootstrap class management
@@ -563,6 +560,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
 
         //footer dom
         if ($table->hasFooter()) {
+
             $dom .= '<"row"<"col-md-5 col-sm-12"i><"col-md-7 col-sm-12"p>>';
         }
         
