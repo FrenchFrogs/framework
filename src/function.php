@@ -224,12 +224,10 @@ function h($name = null, $value = null, $conditional = null) {
  */
 function action_url($controller, $action = 'getIndex', $params = [], $query = [])
 {
-//    $controller = substr($controller, 0,3) == 'App' ?  '\\' . $controller : $controller;
 
     if ($controller[0] != '\\') {
         $controller = '\\' . $controller;
     }
-//    dd($controller);
     return URL::action($controller . '@' . $action, $params) . (empty($query) ? '' : ('?' . http_build_query($query)));
 }
 

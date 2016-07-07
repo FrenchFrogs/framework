@@ -154,7 +154,11 @@ class Link extends Text
     public function getBindedLink($row = [])
     {
         $bind = array_intersect_key($row, array_fill_keys($this->getBinds(), ''));
-        return vsprintf($this->getLink(),$bind);
+
+        // patch pour les paramètre bindé en query
+        $link = str_replace('%25', '%', $this->getLink());
+
+        return vsprintf($link, $bind);
     }
 
     /**

@@ -641,7 +641,6 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
      */
     public function strainerSelect(Column\Strainer\Select $strainer)
     {
-
         $element = $strainer->getElement();
         $element->addStyle('width', '100%');
         $element->addClass(Style::FORM_ELEMENT_CONTROL);
