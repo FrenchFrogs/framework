@@ -62,7 +62,11 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
         $hasStrainer = false;
         foreach($table->getColumns() as $column) {
             /** @var Column\Column $column */
-            $head .= html('th', ['class' => 'text-center'], $column->getLabel());
+			$label = $column->getLabel();
+			if ($column->hasDescription()) {
+				$label .= ' <i class="fa fa-question-circle" data-toggle="tooltip" title="'.$column->getDescription().'"></i>';
+			}
+            $head .= html('th', ['class' => 'text-center'], $label);
             $headers[] = $column->getName();
             $hasStrainer = $hasStrainer || $column->hasStrainer();
         }

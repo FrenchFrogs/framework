@@ -72,6 +72,14 @@ abstract class Column
 
 
     /**
+     * Description de la colonne
+     *
+     * @var
+     */
+    protected $description;
+
+
+    /**
      * Setter for $width attribute
      *
      * @param $width
@@ -459,5 +467,48 @@ abstract class Column
     {
         $callable = !is_bool($this->visible) && !is_string($this->visible) && is_callable($this->visible);
         return (bool) ($callable ? call_user_func($this->visible, $this, $row) : $this->visible);
+    }
+
+
+
+    /**
+     * Setter for $description
+     *
+     * @param $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * getter for $description
+     *
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Return TRUE is $description is set
+     *
+     * @return bool
+     */
+    public function hasDescription()
+    {
+        return isset($this->description);
+    }
+
+    /**
+     * Unset $description
+     *
+     * @return $this
+     */
+    public function removeDescription()
+    {
+        unset($this->description);
+        return $this;
     }
 }
