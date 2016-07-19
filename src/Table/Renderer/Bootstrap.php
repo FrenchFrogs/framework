@@ -598,6 +598,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             $data['name'] = $c->getName();
 
             if ($data['searchable'] && !is_null($value = $c->getStrainer()->getValue())) {
+				$value = is_bool($value) ? intval($value) : $value;
                 $search[] = $value;
             } else {
                 $search[] = null;
