@@ -157,22 +157,8 @@ class Link extends Text
 
         // patch pour les paramètre bindé en query
         $link = str_replace('%25', '%', $this->getLink());
-
         return vsprintf($link, $bind);
     }
-
-    /**
-     * Return the binded Label
-     *
-     * @param array $row
-     * @return string
-     */
-    public function getBindedLabel($row = [])
-    {
-        $bind = isset($row[$this->getName()]) ? $row[$this->getName()] : false;
-        return sprintf($this->getLabel(), $bind);
-    }
-
 
     /**
      *

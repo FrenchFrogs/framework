@@ -103,6 +103,17 @@ trait Datatable
         return $this;
     }
 
+    /**
+     * Reset les filtres
+     *
+     * @param string $text
+     * @return $this
+     */
+    public function addDatatableButtonReset($text = 'Reset')
+    {
+        $this->addDatatableButton($text, 'function() {jQuery("table#'.$this->getAttribute('id').'").dataTable().fnClearFilters();}');
+        return $this;
+    }
 
 
     /**

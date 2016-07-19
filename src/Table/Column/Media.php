@@ -44,6 +44,19 @@ class Media extends Link
     }
 
     /**
+     * Return the binded Label
+     *
+     * @param array $row
+     * @return string
+     */
+    public function getBindedLabel($row = [])
+    {
+        $bind = isset($row[$this->getName()]) ? $row[$this->getName()] : false;
+        return sprintf($this->getLabel(), $bind);
+    }
+
+
+    /**
      * SETTER for $media_height
      *
      * @param $width

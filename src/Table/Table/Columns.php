@@ -332,7 +332,7 @@ trait Columns
      * @param array $attr
      * @return \FrenchFrogs\Table\Column\Link
      */
-    public function addLink($name, $label = '%s', $link = '#', $binds = [], $attr = [] )
+    public function addLink($name, $label = '', $link = '#', $binds = [], $attr = [] )
     {
         $c = new Column\Link($name, $label, $link, $binds, $attr);
         $this->addColumn($c);

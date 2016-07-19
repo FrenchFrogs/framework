@@ -399,7 +399,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             $column->addClass('callback-remote');
         }
 
-        $html = html('a', ['href' => $column->getBindedLink($row)], $column->getBindedLabel($row));
+        $html = html('a', ['href' => $column->getBindedLink($row)], $column->getValue($row));
         return $this->post($html, $column, $row);
     }
 

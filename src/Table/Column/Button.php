@@ -22,7 +22,18 @@ class Button extends Link
         $this->setSizeAsExtraSmall();
     }
 
-
+    /**
+     * Return the binded Label
+     *
+     * @param array $row
+     * @return string
+     */
+    public function getBindedLabel($row = [])
+    {
+        $bind = isset($row[$this->getName()]) ? $row[$this->getName()] : false;
+        return sprintf($this->getLabel(), $bind);
+    }
+	
     /**
      *
      *
