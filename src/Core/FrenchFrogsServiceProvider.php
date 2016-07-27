@@ -7,6 +7,22 @@ use Response, Request, Route, Input, Blade, Auth;
 
 class FrenchFrogsServiceProvider  extends ServiceProvider
 {
+
+
+    /**
+     * Boot principale du service
+     *
+     */
+    public function boot()
+    {
+        $this->bootBlade();
+        $this->bootDatatable();
+        $this->bootModal();
+        $this->bootMail();
+        $this->bootValidator();
+        $this->publish();
+    }
+
     /**
      * Register bindings in the container.
      *
@@ -19,6 +35,24 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
         }
     }
 
+    /**
+     * Ajoute de nouveau validateur
+     *
+     */
+    public function bootValidator()
+    {
+
+        // notExists (database) renvoie true si l'entrée n'existe pas
+        \Validator::extend('not_exists', function($attribute, $value, $parameters)
+        {
+            $row = \DB::table($parameters[0])->where($parameters[1], '=', $value)->first();
+            return empty($row);
+        });
+    }
+
+    /**
+     * Affichage de nombre formaté
+     */
     public function bootBlade()
     {
         Blade::directive('number', function($expression, $decimals = 0) {
@@ -37,29 +71,30 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
         Route::get($route, function($token) {
 
             try{
-
-
                 $request = request();
 
-
+                // chargement de l'objet
                 $table = FrenchFrogs\Table\Table\Table::load($token);
 
+                // configuration de la navigation
                 $table->setItemsPerPage(Input::get('length'));
                 $table->setPageFromItemsOffset(Input::get('start'));
                 $table->setRenderer(new FrenchFrogs\Table\Renderer\Remote());
 
+                // gestion des reccherches
                 foreach(request()->get('columns') as $c) {
                     if ($c['searchable'] == "true" && $c['search']['value'] != '') {
                         $table->getColumn($c['name'])->getStrainer()->call($table, $c['search']['value']);
                     }
                 }
 
+                // gestion de la recherche globale
                 $search = $request->get('search');
-
                 if (!empty($search['value']) ) {
                     $table->search($search['value']);
                 }
 
+                // gestion du tri
                 $order = $request->get('order');
                 if (!empty($order)) {
 
@@ -73,6 +108,7 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
                     }
                 }
 
+                // recuperation des données
                 $data = [];
                 foreach($table->render() as $row){
                     $data[] = array_values($row);
@@ -99,7 +135,7 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
 
 
         /**
-         * gestion de l'edition en remote
+         * Gestion de l'edition en remote
          *
          */
         Route::post($route, function($token) {
@@ -112,6 +148,9 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
 
     /**
      * Modal Manager
+     *
+     * Gestion des reponse ajax qui s'affiche dans une modal
+     *
      */
     public function bootModal()
     {
@@ -132,6 +171,12 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
         });
     }
 
+    /**
+     * Permet d'utiliser la reponse pour envoyer un mail
+     *
+     * Cela permet de gere un email comme une page web.
+     *
+     */
     public function bootMail()
     {
         /**
@@ -186,21 +231,14 @@ class FrenchFrogsServiceProvider  extends ServiceProvider
 
     /**
      * Publish asset frenchfrogs
+     *
+     * @deprecated J'aimerai vraiement m'en passer, j'y reflechirais plus tard
+     *
      */
     public function publish(){
         // Asset management
         $this->publishes([
             __DIR__.'/../../assets' => base_path('resources/assets'),
         ], 'frenchfrogs');
-    }
-
-
-    public function boot()
-    {
-        $this->bootBlade();
-        $this->bootDatatable();
-        $this->bootModal();
-        $this->bootMail();
-        $this->publish();
     }
 }
