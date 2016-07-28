@@ -113,7 +113,7 @@ trait Strainerable
      *
      * @param null $callable
      * @param array $attr
-     * @return Strainerable
+     * @return $this
      */
     public function setStrainerBoolean($callable = null, $attr = [])
     {
