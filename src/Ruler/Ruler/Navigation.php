@@ -31,7 +31,7 @@ trait Navigation
     /**
      * Getter for $pages container
      *
-     * @return array
+     * @return Page[]
      */
     public function getPages()
     {
