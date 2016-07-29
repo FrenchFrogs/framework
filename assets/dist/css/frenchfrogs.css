@@ -6,6 +6,11 @@ table.dataTable.table-condensed thead > tr > th {
     padding-right: 0px;
 }
 
+table.dataTable {
+    border-bottom:1px solid #ddd
+}
+
+
 div.dataTables_wrapper {
     margin: 0px 15px;
 }
