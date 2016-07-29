@@ -183,7 +183,7 @@ class Css extends Container
                 // set $file
                 $result .= html('link',
                     [
-                        'href' => str_replace(public_path(), '', $target) . '?v=' . \uuid('hex'),
+                        'href' => str_replace(public_path(), '', $target),
                         'rel' => 'stylesheet',
                         'type' => 'text/css',
                     ]
