@@ -234,8 +234,6 @@ class Javascript extends Container
         return $this;
     }
 
-
-
     /**
      *
      *
@@ -266,7 +264,7 @@ class Javascript extends Container
                             $hash .= md5($c);
 
                             // url case
-                        } elseif (preg_match('#^https?//.+$#', $c)) {
+                        } elseif (preg_match('#^https?://.+$#', $c)) {
                             $contents[] = ['remote', $c];
                             $hash .= md5($c);
 
@@ -288,7 +286,6 @@ class Javascript extends Container
                     $target .= '/';
                 }
                 $target .= md5($hash) . '.js';
-
 
                 // add css to minifier
                 if (!file_exists($target)) {

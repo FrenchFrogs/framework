@@ -68,9 +68,9 @@ class Bootstrap extends Renderer
             $action->addClass(constant(  Style::class . '::' . $action->getOption()));
         }
 
-        if ($action->hasSize()) {
-            $action->addClass(constant(  Style::class . '::' . $action->getSize()));
-        }
+        // SIZE
+        $action->hasSize() ?: $action->setSizeAsSmall();
+        $action->addClass(constant(  Style::class . '::' . $action->getSize()));
 
         $action->addClass(Style::BUTTON_CLASS);
 

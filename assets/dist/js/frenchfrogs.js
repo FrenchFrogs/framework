@@ -15,7 +15,7 @@ $.fn.extend({
             deferRender : false,
             language: {
                 processing: "Traitement en cours...",
-                search: "Rechercher&nbsp;:",
+                search: "Rechercher :",
                 lengthMenu: "Afficher _MENU_ &eacute;l&eacute;ments",
                 info: "_START_ &agrave; _END_ | _TOTAL_ &eacute;l&eacute;ments",
                 infoEmpty: "0 &agrave; 0 | 0 &eacute;l&eacute;ments",
@@ -38,11 +38,14 @@ $.fn.extend({
                 }
             },
 
+            buttons : [],
+
             orderCellsTop: true,
             order : [],
             searching : false,
             ordering: true,
-            pagingType: "bootstrap_extended", // pagination type(bootstrap, bootstrap_full_number or bootstrap_extended)
+            retrieve : true,
+            pagingType: "full_numbers", // pagination type(bootstrap, bootstrap_full_number or bootstrap_extended)
             autoWidth: false, // disable fixed width and enable fluid table
             processing: false, // enable/disable display message box on record load
             serverSide: false, // enable/disable server side ajax loading
@@ -54,7 +57,7 @@ $.fn.extend({
 
     // INITAILISATION
     initialize : function() {
-        console.log('initialize : ' + this.selector);
+        console.log('initialize GO : ' + this.selector);
 
         // MODAL
         jQuery(this).find('.modal-remote').each(function() {
@@ -63,7 +66,7 @@ $.fn.extend({
                 e.preventDefault();
 
                 var target = jQuery(this).data('target');
-                var size  = jQuery(this).data('size');
+                var size  = jQuery(this).data('data-size');
                 $url = jQuery(this).attr('href');
 
                 $data = {};
@@ -83,16 +86,19 @@ $.fn.extend({
             });
         });
 
+
         // FORM
         if (jQuery.fn.ajaxForm != undefined) {
+
             // FORM REMOTE
             jQuery(this).find('.form-remote').ajaxForm({
-                context: this,
-                beforeSubmit: function (formData, jqForm) {
-                    jQuery('#'+jqForm[0].id).find("input[type='submit']")
+
+                beforeSubmit: function () {
+                    jQuery(this).find("input[type='submit']")
                         .attr("disabled", "disabled")
                         .attr("value", "En cours ...");
                 },
+
                 success : function(html) {
                     jQuery('.modal-content')
                         .empty()
@@ -104,8 +110,8 @@ $.fn.extend({
             // FORM CALLBACK
             jQuery(this).find('.form-callback').ajaxForm({
 
-                beforeSubmit: function (formData, jqForm) {
-                    jQuery('#'+jqForm[0].id).find("input[type='submit']")
+                beforeSubmit: function () {
+                    jQuery(this).find("input[type='submit']")
                         .attr("disabled", "disabled")
                         .attr("value", "En cours ...");
                 },
@@ -203,11 +209,11 @@ $.fn.extend({
             });
         }
 
-        // // LIAISON SELECT
+
+        // LIAISON SELECT
         jQuery('.select-remote').each(function(){
             var $that = $(this);
             selector = jQuery(this).data('parent-selector');
-
             jQuery(selector).change(function (e) {
                 url = $that.data('parent-url') + '?value=' + jQuery(this).val();
                 jQuery.getJSON(url, function(a) {
@@ -222,6 +228,21 @@ $.fn.extend({
             }).change();
         });
 
+        // UNIFORM
+        if (jQuery.fn.uniform != undefined) {
+            jQuery(this).find("input[type=checkbox]:not(.toggle, .make-switch), input[type=radio]:not(.toggle, .star, .make-switch)").each(function () {
+                jQuery(this).uniform();
+            });
+        }
+
+        // DATEPICKER
+        if (jQuery.fn.datepicker != undefined) {
+            jQuery(this).find('.date-picker').datepicker({
+                autoclose: true
+            });
+            jQuery(this).find('.date-picker').each(function() {console.log(this);});
+        }
+
         // TIMEPICKER
         if (jQuery.fn.timepicker != undefined) {
             jQuery(this).find(".timepicker-24").timepicker({
@@ -232,37 +253,20 @@ $.fn.extend({
             });
         }
 
-        // UNIFORM
-        if (jQuery.fn.uniform != undefined) {
-            jQuery(this).find("input[type=checkbox]:not(.toggle, .make-switch), input[type=radio]:not(.toggle, .star, .make-switch, .ff-remote-boolean)").each(function () {
-                jQuery(this).uniform();
-            });
-        }
-
-        // DATEPICKER
-        if (jQuery.fn.datepicker != undefined) {
-            jQuery(this).find('.date-picker').datepicker({
-                autoclose: true
-            });
-        }
-
         // TOOLTIP
         if (jQuery.fn.tooltip != undefined) {
 
-            jQuery('[data-toggle~="tooltip"]').tooltip();
+            jQuery('[data-toggle="tooltip"]').tooltip({container: 'body'});
 
             jQuery(this).find('.ff-tooltip-left').tooltip({
+                container: 'body',
                 placement: 'left'
             });
 
             jQuery(this).find('.ff-tooltip-bottom').tooltip({
+                container: 'body',
                 placement: 'left'
             });
-        }
-
-        //POPOVER
-        if (jQuery.fn.popover != undefined) {
-            jQuery(this).find('[data-toggle~=popover]:not([data-toggle~=tooltip])').popover();
         }
 
         // SWITCH
@@ -290,8 +294,6 @@ $.fn.extend({
          */
         jQuery(this).find('div.ff-remote-text')
             .dblclick(function(e) {
-
-                e.preventDefault();
 
                 // if element is active, we disable action
                 if (jQuery(this).hasClass('ff-remote-active')){
@@ -335,13 +337,12 @@ $.fn.extend({
                     .focusout(function() {
                         jQuery(this).trigger('ff.remote.text');
                     }).keypress(function(e) {
-                    // enable process on enter key
-                    if(e.which == 13) {
-                        jQuery(this).trigger('ff.remote.process');
-                    }
-                });
-            });
-
+                        // enable process on enter key
+                        if(e.which == 13) {
+                            jQuery(this).trigger('ff.remote.process');
+                        }
+                    });
+        });
 
         // TABLE REMOTE SELECT
         jQuery(this).find('select.ff-remote-select').change(
@@ -363,12 +364,11 @@ $.fn.extend({
                     column : jQuery(this).data('column'),
                     value : jQuery(this).val()
                 }, function(e,f) {eval(e)});
-                console.log(this);
             }
         );
 
         //DATATABLE DECORATION
-        jQuery(this).find('table.table > thead > tr:last-child').children().css('border-bottom', '1px solid #ddd');
+       jQuery(this).find('table.table > thead > tr:last-child').children().css('border-bottom', '1px solid #ddd');
     },
 
     /** Populate a form in javascript */
@@ -406,4 +406,5 @@ $.fn.extend({
             $(this).removeClass('disabled');
         });
     }
+
 });

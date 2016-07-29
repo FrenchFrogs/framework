@@ -64,7 +64,7 @@ class Bootstrap extends \FrenchFrogs\Renderer\Renderer
             /** @var Column\Column $column */
 			$label = $column->getLabel();
 			if ($column->hasDescription()) {
-				$label .= ' <i class="fa fa-question-circle" data-toggle="tooltip" title="'.$column->getDescription().'"></i>';
+				//$label .= '<i class="fa fa-question-circle" data-toggle="tooltip" title="'.$column->getDescription().'"></i>';
 			}
             $head .= html('th', ['class' => 'text-center'], $label);
             $headers[] = $column->getName();

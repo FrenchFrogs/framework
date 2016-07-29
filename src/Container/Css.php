@@ -145,7 +145,7 @@ class Css extends Container
 
 
                 // add css to minifier
-                if (!file_exists($target)) {
+//                if (!file_exists($target)) {
 
                     $minifier = new MiniCss();
 
@@ -155,21 +155,35 @@ class Css extends Container
                         list($t, $c) = $content;
 
                         // we get remote file content
-                        if ($t == 'remote') {
-                            $c = file_get_contents($c);
+                        if (in_array($t, ['remote', 'local'])) {
+
+                            $ct = file_get_contents($c);
+
+                            // formatage du path de fichier
+                            $c = str_replace('//', '/', $c);
+                            $c = str_replace(public_path(), '', $c);
+
+                            if (preg_match_all('#url\(["\']?(?<url>[^\)]+)["\']?\)#', $ct, $matches)) {
+                                foreach ($matches['url'] as $url) {
+                                    if (preg_match('#^(data:|http)#', $url)) {
+                                        continue;
+                                    }
+                                    $ct = str_replace($url, dirname($c) . DIRECTORY_SEPARATOR . $url, $ct);
+                                }
+                            }
                         }
 
-                        $minifier->add($c);
+                        $minifier->add($ct);
                     }
 
                     // minify
                     $minifier->minify($target);
-                }
+//                }
 
                 // set $file
                 $result .= html('link',
                     [
-                        'href' => str_replace(public_path(), '', $target),
+                        'href' => str_replace(public_path(), '', $target) . '?v=' . \uuid('hex'),
                         'rel' => 'stylesheet',
                         'type' => 'text/css',
                     ]
@@ -212,7 +226,6 @@ class Css extends Container
             if (debug()) {
                 $result .= $e->getMessage() . ' : ' . PHP_EOL . $e->getTraceAsString() . PHP_EOL;
             }
-
             $result .= '-->';
         }
 

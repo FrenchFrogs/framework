@@ -24,11 +24,12 @@ class AdminLTE extends Renderer
      */
     public function navigation(Ruler\Ruler\Ruler $rule)
     {
+        $content = '';
         foreach ($rule->getPages() as $page) {
             if ($page->hasPermission() && !$rule->hasPermission($page->getPermission())){
                 continue;
             }
-            $content = $this->render('page', $page);
+            $content .= $this->render('page', $page);
         }
 
         $content = '<ul class="sidebar-menu">
