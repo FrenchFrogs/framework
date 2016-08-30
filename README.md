@@ -6,6 +6,9 @@
 [![Latest Unstable Version](https://poser.pugx.org/frenchfrogs/framework/v/unstable)](https://packagist.org/packages/frenchfrogs/framework) 
 [![License](https://poser.pugx.org/frenchfrogs/framework/license)](https://packagist.org/packages/frenchfrogs/framework)
 
+#Je ne maintiens plus ce package, j'ai migré https://github.com/cotcotquedec/frenchfrogs
+
+
 Framework - Classes de FrenchFrogs
 
 #Concept
